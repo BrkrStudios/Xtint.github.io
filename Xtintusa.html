@@ -745,6 +745,354 @@
             background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBudW1PY3RhdmVzPSIxMCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9IjEiLz48L3N2Zz4=');
         }
 
+        /* About Section */
+.about {
+    padding: 120px 40px;
+    background: var(--dark);
+    position: relative;
+}
+
+.about-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 60px;
+}
+
+.about-image-container {
+    position: relative;
+    height: 600px; /* Increased from 500px */
+    overflow: hidden;
+    background: var(--gray);
+}
+
+.about-image-container::before {
+    content: 'XTINT';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: 140px;
+    font-weight: 900;
+    color: rgba(0, 255, 136, 0.05);
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.about-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Changed from 'cover' to 'contain' */
+    object-position: center; /* Center the image */
+    transition: all 0.5s ease;
+}
+
+.about-image:hover {
+    transform: scale(1.02); /* Reduced from 1.05 to prevent cutting off on zoom */
+}
+
+.about-text {
+    position: relative;
+}
+
+.founder-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.about-text h3 {
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.about-text h3 span {
+    color: var(--accent);
+}
+
+.about-text p {
+    color: var(--light-gray);
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.about-text p strong {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+    padding-top: 50px;
+    border-top: 1px solid var(--gray);
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.stat-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--light-gray);
+}
+
+/* Films Section */
+.films {
+    padding: 120px 40px;
+    background: #001a0d; /* Dark greenish background */
+    position: relative;
+    overflow: hidden;
+}
+
+.films::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.05), transparent 50%);
+    pointer-events: none;
+}
+
+.films-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.films-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 80px;
+}
+
+.films-intro p {
+    color: var(--light-gray);
+    font-size: 18px;
+    line-height: 1.8;
+    margin-top: 30px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.brand-badge::before {
+    content: '✓';
+    font-size: 18px;
+}
+
+.films-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.film-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 255, 136, 0.1);
+    padding: 50px 40px;
+    position: relative;
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+.film-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.05), transparent);
+    transition: left 0.6s ease;
+}
+
+.film-card:hover::before {
+    left: 100%;
+}
+
+.film-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.film-type {
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.film-card h3 {
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 30px;
+    line-height: 1;
+}
+
+.film-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.spec-label {
+    color: var(--light-gray);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.spec-value {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--accent);
+}
+
+.film-features {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.film-features ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.film-features li {
+    color: var(--light-gray);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.film-features li::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.films-cta {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.film-pricing-btn {
+    display: inline-block;
+    padding: 18px 50px;
+    background: var(--accent);
+    color: var(--black);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.film-pricing-btn::after {
+    content: '→';
+    position: absolute;
+    right: 30px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.film-pricing-btn:hover {
+    background: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+    padding-right: 65px;
+}
+
+.film-pricing-btn:hover::after {
+    opacity: 1;
+    right: 35px;
+}
+
+.film-pricing-btn:active {
+    transform: translateY(0);
+}
+
+
+
+.premium-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: var(--black);
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .hero {
@@ -779,6 +1127,41 @@
             .nav-menu {
                 display: none;
             }
+            
+            .about-content {
+                 grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .about-image-container {
+        height: 500px; /* Slightly taller for mobile */
+    }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .films-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+            }
+            
+            .film-card {
+                padding: 40px 30px;
+            }
+            
+            .film-card h3 {
+                font-size: 28px;
+            }
+            
+            .films-intro {
+                margin-bottom: 40px;
+            }
+            
+            .brand-badge {
+                font-size: 11px;
+                padding: 10px 20px;
+            }
+
         }
     </style>
 </head>
@@ -791,6 +1174,8 @@
         <div class="nav-container">
             <div class="logo">XTint.</div>
             <ul class="nav-menu">
+                <ul class="nav-menu">
+                <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#gallery">Work</a></li>
@@ -840,6 +1225,47 @@
             <span class="ticker-item">★ CERAMIC TECHNOLOGY</span>
         </div>
     </div>
+
+    <!-- About Section -->
+<section class="about" id="about">
+    <div class="about-container">
+        <div class="section-header">
+            <p class="section-number">01 — ABOUT</p>
+            <h2 class="section-title">The<br>Story</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-image-container">
+                <img src="IMG_1559.jpeg" alt="Xander Angulo" class="about-image">
+            </div>
+            <div class="about-text">
+                <div class="founder-badge">Founder & Lead Installer</div>
+                <h3>I'm <span>Xander Angulo</span></h3>
+                <p>As someone who's had <strong>over 20+ tint setups per vehicle</strong>, I've seen it all. I've experienced the overpriced quotes, the mediocre work, and the lack of transparency in this industry. That's when I realized something had to change.</p>
+                
+                <p><strong>Tint shouldn't cost you an arm and a leg.</strong> It's meant to keep you protected from harmful UV rays, reduce heat, enhance privacy, and improve your driving or living experience. But somehow, it became an overpriced luxury instead of an accessible necessity.</p>
+                
+                <p>Here at <strong>XTint</strong>, I stand by my work. Every installation is done with precision, care, and the highest quality materials. <strong>No one else will do it as good for our prices.</strong> That's not arrogance, that's a promise.</p>
+                
+                <p>Whether it's your daily driver, your dream car, or your home, you deserve premium protection without the premium price tag. Let me show you what real quality looks like.</p>
+                
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Setups Per Vehicle</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Quality Guarantee</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5.0</div>
+                        <div class="stat-label">Customer Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- Services Section -->
     <section class="services" id="services">
@@ -911,38 +1337,38 @@
         </div>
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x800/1c1c1c/666666?text=Tesla+Model+S" alt="Tesla Model S">
+                <img src="IMG_2494.JPG" alt="Tesla Model S">
                 <div class="gallery-overlay">
-                    <h4>Tesla Model S</h4>
-                    <p>20% Ceramic All Around</p>
+                    <h4>Honda Civic Sport</h4>
+                    <p>50% windshield, 35% Front, 5% Back</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=BMW+M3" alt="BMW M3">
+                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=BMW+M3" alt="Coming Soon">
                 <div class="gallery-overlay">
-                    <h4>BMW M3</h4>
-                    <p>5% Rear / 35% Front</p>
+                    <h4>Coming Soon</h4>
+                    <p>Coming Soon</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=Mercedes+AMG" alt="Mercedes AMG">
+                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=Mercedes+AMG" alt="Coming Soon">
                 <div class="gallery-overlay">
-                    <h4>Mercedes AMG</h4>
-                    <p>Full Chrome Delete</p>
+                    <h4>Coming Soon</h4>
+                    <p>Coming Soon</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/1200x400/1c1c1c/666666?text=Porsche+911" alt="Porsche 911">
+                <img src="IMG_7833.JPG" alt="Porsche 911">
                 <div class="gallery-overlay">
                     <h4>Porsche 911</h4>
-                    <p>PPF Full Front</p>
+                    <p>15% all around</p>
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=Range+Rover" alt="Range Rover">
+                <img src="IMG_1365.jpeg" alt="Range Rover">
                 <div class="gallery-overlay">
-                    <h4>Range Rover</h4>
-                    <p>15% All Windows</p>
+                    <h4>Kia K4</h4>
+                    <p>5% all around</p>
                 </div>
             </div>
         </div>
@@ -961,7 +1387,7 @@
                         <div class="testimonial-rating">5.0</div>
                         <div>
                             <p class="testimonial-text">"Exceptional service from start to finish. A new house is being built next to mine, the darkness is so nice."</p>
-                            <p class="testimonial-author">— Danni Sullivan, Residential</p>
+                            <p class="testimonial-author">— Danni, Residential</p>
                         </div>
                     </div>
                 </div>
@@ -969,8 +1395,8 @@
                     <div class="testimonial-content">
                         <div class="testimonial-rating">5.0</div>
                         <div>
-                            <p class="testimonial-text">"They came to my office and had my BMW looking incredible in under an hour. The ceramic tint quality is outstanding. Highly recommend their services."</p>
-                            <p class="testimonial-author">— Sarah Williams, BMW M4</p>
+                            <p class="testimonial-text">"Ive been using my living room as a theater, wanted a darker experience during the day, the added privacy of my neighboors not snooping is a big jump."</p>
+                            <p class="testimonial-author">— Darrian, Residential</p>
                         </div>
                     </div>
                 </div>
@@ -978,8 +1404,8 @@
                     <div class="testimonial-content">
                         <div class="testimonial-rating">5.0</div>
                         <div>
-                            <p class="testimonial-text">"Professional, punctual, and the PPF installation is flawless. The fact they come to you makes this the best detailing service in Houston."</p>
-                            <p class="testimonial-author">— James Rodriguez, Porsche 911</p>
+                            <p class="testimonial-text">"Professional, punctual."</p>
+                            <p class="testimonial-author">— James Rodriguez, Residential</p>
                         </div>
                     </div>
                 </div>
@@ -991,6 +1417,74 @@
             </div>
         </div>
     </section>
+
+<!-- Films Section -->
+<!-- Films Section -->
+<section class="films" id="films">
+    <div class="films-container">
+        <div class="section-header">
+            <p class="section-number">05 — FILMS</p>
+            <h2 class="section-title">Premium<br>Protection</h2>
+        </div>
+        
+        <div class="films-intro">
+            <div class="brand-badge">Trusted Partner: GeoShield</div>
+            <p>For our Ceramic Film, we exclusively use GeoShield films—industry-leading technology that delivers unmatched performance, durability, and clarity. Quality matters, and we stand by every installation.</p>
+        </div>
+
+        <div class="films-grid">
+            <!-- Regular Film -->
+            <div class="film-card">
+                <div class="film-type">Standard Protection</div>
+                <h3>Regular<br>Film</h3>
+                <div class="film-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Heat Rejection</span>
+                        <span class="spec-value">54%</span>
+                    </div>
+                </div>
+                <div class="film-features">
+                    <ul>
+                        <li>UV Protection</li>
+                        <li>Enhanced Privacy</li>
+                        <li>Fade Reduction</li>
+                        <li>Glare Control</li>
+                        <li>Lifetime Warranty</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ceramic Film -->
+            <div class="film-card">
+                <div class="premium-badge">Recommended</div>
+                <div class="film-type">Elite Protection</div>
+                <h3>Ceramic<br>Film</h3>
+                <div class="film-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Heat Rejection</span>
+                        <span class="spec-value">84%</span>
+                    </div>
+                </div>
+                <div class="film-features">
+                    <ul>
+                        <li>Advanced Ceramic Technology</li>
+                        <li>Maximum Heat Reduction</li>
+                        <li>99% UV Protection</li>
+                        <li>Superior Clarity</li>
+                        <li>Non-Metallic (No Signal Interference)</li>
+                        <li>Lifetime Warranty</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Single Pricing Button -->
+        <div class="films-cta">
+            <a href="XtintPricing.html" class="film-pricing-btn">View Full Pricing</a>
+        </div>
+    </div>
+</section>
+
 
     <!-- Contact Section -->
     <section class="contact" id="contact">

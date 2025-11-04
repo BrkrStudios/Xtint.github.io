@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XTint Quote Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: transparent;
+            border: 1px solid #00ff88;
+            color: #00ff88;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-bottom: 40px;
+        }
+
+        .back-button:hover {
+            background-color: #00ff88;
+            color: #000000;
+        }
+
+        .header {
+            margin-bottom: 50px;
+        }
+
+        .brand {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            color: #00ff88;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+
+        .quote-builder {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .builder-section {
+            background-color: #111111;
+            border: 1px solid #222222;
+            padding: 30px;
+        }
+
+        .section-label {
+            color: #00ff88;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #999999;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            background-color: #000000;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        .film-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .film-option {
+            background-color: #000000;
+            border: 2px solid #333333;
+            padding: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .film-option.active {
+            border-color: #00ff88;
+            background-color: #001a0d;
+        }
+
+        .film-option:hover {
+            border-color: #00ff88;
+        }
+
+        .film-name {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .film-heat {
+            color: #00ff88;
+            font-size: 0.85rem;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #000000;
+            border: 1px solid #222222;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .service-item:hover {
+            border-color: #00ff88;
+        }
+
+        .service-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #00ff88;
+        }
+
+        .service-name {
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        .service-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .price-input {
+            width: 100px;
+            background-color: #111111;
+            border: 1px solid #333333;
+            color: #00ff88;
+            padding: 8px 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .discount-section {
+            background-color: #001a0d;
+            border: 1px solid #00ff88;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .discount-input {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .discount-input input {
+            width: 80px;
+        }
+
+        .quote-summary {
+            background-color: #111111;
+            border: 2px solid #00ff88;
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #222222;
+            font-size: 1rem;
+        }
+
+        .summary-line.total {
+            border-bottom: none;
+            padding-top: 20px;
+            margin-top: 10px;
+            border-top: 2px solid #00ff88;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .summary-line .label {
+            color: #999999;
+        }
+
+        .summary-line .value {
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .summary-line.total .label,
+        .summary-line.total .value {
+            color: #00ff88;
+        }
+
+        .customer-info-display {
+            background-color: #000000;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 3px solid #00ff88;
+        }
+
+        .customer-info-display p {
+            margin-bottom: 8px;
+            color: #cccccc;
+        }
+
+        .customer-info-display strong {
+            color: #00ff88;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #00ff88;
+            color: #000000;
+        }
+
+        .btn-primary:hover {
+            background-color: #00cc6e;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        .btn-secondary:hover {
+            background-color: #00ff88;
+            color: #000000;
+        }
+
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            background-color: #000000;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 15px;
+            font-size: 0.95rem;
+            font-family: 'Arial', sans-serif;
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        @media (max-width: 968px) {
+            .quote-builder {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .quote-summary {
+                position: static;
+            }
+        }
+
+        @media print {
+            .back-button,
+            .builder-section,
+            .action-buttons {
+                display: none;
+            }
+
+            .quote-builder {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="Xtintusa.html" class="back-button">
+            <span>←</span>
+            <span>Back to Home</span>
+        </a>
+
+        <div class="header">
+            <div class="brand">XTint.</div>
+            <div class="tagline">Custom Quote Generator</div>
+        </div>
+
+        <h1 class="section-title">BUILD QUOTE</h1>
+
+        <div class="quote-builder">
+            <!-- Left Column: Quote Builder -->
+            <div>
+                <!-- Customer Information -->
+                <div class="builder-section">
+                    <div class="section-label">01 — Customer Information</div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Customer Name</label>
+                        <input type="text" id="customerName" placeholder="John Doe">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Vehicle</label>
+                        <input type="text" id="customerVehicle" placeholder="2024 Tesla Model 3">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Phone Number (Optional)</label>
+                        <input type="text" id="customerPhone" placeholder="(832) 555-1234">
+                    </div>
+                </div>
+
+                <!-- Film Selection -->
+                <div class="builder-section">
+                    <div class="section-label">02 — Film Type</div>
+                    <div class="film-selector">
+                        <div class="film-option active" onclick="selectFilm('regular')">
+                            <div class="film-name">Regular Film</div>
+                            <div class="film-heat">54% Heat Rejection</div>
+                        </div>
+                        <div class="film-option" onclick="selectFilm('ceramic')">
+                            <div class="film-name">Ceramic Film</div>
+                            <div class="film-heat">84% Heat Rejection</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="filmType" value="regular">
+                </div>
+
+                <!-- Services Selection -->
+                <div class="builder-section">
+                    <div class="section-label">03 — Select Services</div>
+                    
+                    <div class="service-item">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="frontWindows" onchange="updateTotal()">
+                            <label for="frontWindows" class="service-name">Front Windows (2)</label>
+                        </div>
+                        <div class="service-price">
+                            $<input type="number" class="price-input" id="priceFront" value="85" onchange="updateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="backWindows" onchange="updateTotal()">
+                            <label for="backWindows" class="service-name">Back Windows + Rear Glass</label>
+                        </div>
+                        <div class="service-price">
+                            $<input type="number" class="price-input" id="priceBack" value="140" onchange="updateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="fullWindshield" onchange="updateTotal()">
+                            <label for="fullWindshield" class="service-name">Full Windshield</label>
+                        </div>
+                        <div class="service-price">
+                            $<input type="number" class="price-input" id="priceWindshield" value="110" onchange="updateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="sunvisor" onchange="updateTotal()">
+                            <label for="sunvisor" class="service-name">Sunvisor Strip</label>
+                        </div>
+                        <div class="service-price">
+                            $<input type="number" class="price-input" id="priceSunvisor" value="35" onchange="updateTotal()">
+                        </div>
+                    </div>
+
+                    <div class="service-item">
+                        <div class="service-checkbox">
+                            <input type="checkbox" id="removal" onchange="updateTotal()">
+                            <label for="removal" class="service-name">Tint Removal</label>
+                        </div>
+                        <div class="service-price">
+                            $<input type="number" class="price-input" id="priceRemoval" value="50" onchange="updateTotal()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Discount Section -->
+                <div class="discount-section">
+                    <div class="section-label">04 — Discount (Optional)</div>
+                    <div class="discount-input">
+                        <input type="number" id="discountPercent" placeholder="0" min="0" max="100" onchange="updateTotal()">
+                        <span>% OFF</span>
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="builder-section notes-section">
+                    <div class="section-label">05 — Additional Notes</div>
+                    <textarea id="quoteNotes" placeholder="Add any special notes, package details, or custom agreements..."></textarea>
+                </div>
+            </div>
+
+            <!-- Right Column: Quote Summary -->
+            <div>
+                <div class="quote-summary">
+                    <div class="section-label">Quote Summary</div>
+                    
+                    <div class="customer-info-display">
+                        <p><strong>Customer:</strong> <span id="displayName">—</span></p>
+                        <p><strong>Vehicle:</strong> <span id="displayVehicle">—</span></p>
+                        <p><strong>Film Type:</strong> <span id="displayFilm">Regular Film (54% Heat Rejection)</span></p>
+                    </div>
+
+                    <div id="selectedServices">
+                        <p style="color: #666; text-align: center; padding: 20px;">No services selected</p>
+                    </div>
+
+                    <div class="summary-line">
+                        <span class="label">Subtotal</span>
+                        <span class="value" id="subtotalAmount">$0.00</span>
+                    </div>
+
+                    <div class="summary-line" id="discountLine" style="display: none;">
+                        <span class="label">Discount (<span id="discountPercentDisplay">0</span>%)</span>
+                        <span class="value" style="color: #00ff88;">-$<span id="discountAmount">0.00</span></span>
+                    </div>
+
+                    <div class="summary-line total">
+                        <span class="label">TOTAL</span>
+                        <span class="value" id="totalAmount">$0.00</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="generateQuote()">Print Quote</button>
+                        <button class="btn btn-secondary" onclick="resetQuote()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    let quoteCounter = parseInt(localStorage.getItem('quoteCounter') || '0');
+
+    function selectFilm(type) {
+        const options = document.querySelectorAll('.film-option');
+        options.forEach(opt => opt.classList.remove('active'));
+        
+        if (type === 'regular') {
+            options[0].classList.add('active');
+            document.getElementById('displayFilm').textContent = 'Regular Film (54% Heat Rejection)';
+        } else {
+            options[1].classList.add('active');
+            document.getElementById('displayFilm').textContent = 'Ceramic Film (84% Heat Rejection)';
+        }
+        
+        document.getElementById('filmType').value = type;
+    }
+
+    document.getElementById('customerName').addEventListener('input', function() {
+        document.getElementById('displayName').textContent = this.value || '—';
+    });
+
+    document.getElementById('customerVehicle').addEventListener('input', function() {
+        document.getElementById('displayVehicle').textContent = this.value || '—';
+    });
+
+    function updateTotal() {
+        let subtotal = 0;
+        const services = [];
+
+        if (document.getElementById('frontWindows').checked) {
+            const price = parseFloat(document.getElementById('priceFront').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Front Windows (2)', price: price });
+        }
+
+        if (document.getElementById('backWindows').checked) {
+            const price = parseFloat(document.getElementById('priceBack').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Back Windows + Rear Glass', price: price });
+        }
+
+        if (document.getElementById('fullWindshield').checked) {
+            const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Full Windshield', price: price });
+        }
+
+        if (document.getElementById('sunvisor').checked) {
+            const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Sunvisor Strip', price: price });
+        }
+
+        if (document.getElementById('removal').checked) {
+            const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Tint Removal', price: price });
+        }
+
+        const servicesContainer = document.getElementById('selectedServices');
+        if (services.length === 0) {
+            servicesContainer.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">No services selected</p>';
+        } else {
+            servicesContainer.innerHTML = services.map(s => 
+                `<div class="summary-line">
+                    <span class="label">${s.name}</span>
+                    <span class="value">$${s.price.toFixed(2)}</span>
+                </div>`
+            ).join('');
+        }
+
+        const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+        const discountAmount = (subtotal * discountPercent) / 100;
+        const total = subtotal - discountAmount;
+
+        document.getElementById('subtotalAmount').textContent = `$${subtotal.toFixed(2)}`;
+        
+        if (discountPercent > 0) {
+            document.getElementById('discountLine').style.display = 'flex';
+            document.getElementById('discountPercentDisplay').textContent = discountPercent;
+            document.getElementById('discountAmount').textContent = discountAmount.toFixed(2);
+        } else {
+            document.getElementById('discountLine').style.display = 'none';
+        }
+
+        document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function generateQuote() {
+        quoteCounter++;
+        localStorage.setItem('quoteCounter', quoteCounter.toString());
+
+        const customerName = document.getElementById('customerName').value || 'N/A';
+        const customerVehicle = document.getElementById('customerVehicle').value || 'N/A';
+        const customerPhone = document.getElementById('customerPhone').value || 'N/A';
+        const filmType = document.getElementById('displayFilm').textContent;
+        const notes = document.getElementById('quoteNotes').value;
+        
+        const services = [];
+        let subtotal = 0;
+
+        if (document.getElementById('frontWindows').checked) {
+            const price = parseFloat(document.getElementById('priceFront').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Front Windows (2)', price: price });
+        }
+
+        if (document.getElementById('backWindows').checked) {
+            const price = parseFloat(document.getElementById('priceBack').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Back Windows + Rear Glass', price: price });
+        }
+
+        if (document.getElementById('fullWindshield').checked) {
+            const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Full Windshield', price: price });
+        }
+
+        if (document.getElementById('sunvisor').checked) {
+            const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Sunvisor Strip', price: price });
+        }
+
+        if (document.getElementById('removal').checked) {
+            const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
+            subtotal += price;
+            services.push({ name: 'Tint Removal', price: price });
+        }
+
+        const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
+        const discountAmount = (subtotal * discountPercent) / 100;
+        const total = subtotal - discountAmount;
+
+        const today = new Date();
+        const dateString = today.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
+        const servicesHTML = services.map(s => 
+            `<div class="line-item"><span class="item-name">${s.name}</span><span class="item-price">$${s.price.toFixed(2)}</span></div>`
+        ).join('');
+
+        const discountHTML = discountPercent > 0 ? 
+            `<div class="total-line discount"><span>Discount (${discountPercent}%)</span><span>-$${discountAmount.toFixed(2)}</span></div>` : '';
+
+        const notesHTML = notes ? 
+            `<div class="notes-section"><div class="section-title">Additional Notes</div><div class="notes-content">${notes}</div></div>` : '';
+
+        const quoteHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XTint Quote #${quoteCounter}</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background-color:#000;color:#fff;font-family:Arial,sans-serif;padding:60px 40px}.quote-container{max-width:800px;margin:0 auto;background-color:#111;border:2px solid #00ff88;padding:50px}.header{text-align:center;margin-bottom:40px;padding-bottom:30px;border-bottom:2px solid #222}.brand{font-size:3rem;font-weight:bold;color:#fff;margin-bottom:10px}.tagline{color:#00ff88;font-size:.9rem;text-transform:uppercase;letter-spacing:2px}.quote-number{background-color:#00ff88;color:#000;padding:10px 20px;display:inline-block;font-weight:bold;font-size:1.1rem;text-transform:uppercase;letter-spacing:2px;margin-top:20px}.section{margin-bottom:40px}.section-title{color:#00ff88;font-size:.85rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;font-weight:bold}.info-grid{display:grid;grid-template-columns:150px 1fr;gap:15px 30px;background-color:#000;padding:25px;border:1px solid #222}.info-label{color:#999;font-size:.9rem;text-transform:uppercase;letter-spacing:1px}.info-value{color:#fff;font-size:1rem;font-weight:bold}.services-list{background-color:#000;border:1px solid #222;padding:25px}.line-item{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #222}.line-item:last-child{border-bottom:none}.item-name{color:#ccc;font-size:1rem}.item-price{color:#fff;font-size:1.1rem;font-weight:bold}.totals-section{background-color:#000;border:1px solid #222;padding:25px;margin-top:20px}.total-line{display:flex;justify-content:space-between;padding:12px 0;font-size:1rem}.total-line.discount{color:#00ff88}.total-line.final{margin-top:15px;padding-top:20px;border-top:2px solid #00ff88;font-size:1.8rem;font-weight:bold;color:#00ff88}.notes-section{background-color:#001a0d;border:1px solid #00ff88;padding:25px;margin-top:30px}.notes-content{color:#ccc;line-height:1.6;white-space:pre-wrap}.footer{text-align:center;margin-top:50px;padding-top:30px;border-top:1px solid #222}.contact-info{color:#999;font-size:.9rem;line-height:1.8}.contact-info strong{color:#00ff88}.date{text-align:right;color:#666;font-size:.85rem;margin-top:30px}</style>
+</head>
+<body>
+<div class="quote-container">
+<div class="header">
+<div class="brand">XTint.</div>
+<div class="tagline">Residential & Automotive Services • Houston TX</div>
+<div class="quote-number">Quote #${quoteCounter}</div>
+</div>
+<div class="section">
+<div class="section-title">Customer Information</div>
+<div class="info-grid">
+<div class="info-label">Name:</div><div class="info-value">${customerName}</div>
+<div class="info-label">Vehicle:</div><div class="info-value">${customerVehicle}</div>
+<div class="info-label">Phone:</div><div class="info-value">${customerPhone}</div>
+<div class="info-label">Film Type:</div><div class="info-value">${filmType}</div>
+</div>
+</div>
+<div class="section">
+<div class="section-title">Services</div>
+<div class="services-list">${servicesHTML || '<p style="color:#666">No services selected</p>'}</div>
+</div>
+<div class="totals-section">
+<div class="total-line"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+${discountHTML}
+<div class="total-line final"><span>TOTAL</span><span>$${total.toFixed(2)}</span></div>
+</div>
+${notesHTML}
+<div class="footer">
+<div class="contact-info"><strong>Contact:</strong> (832) 776-5717<br><strong>Email:</strong> xanderanguloINQ@gmail.com<br><strong>Location:</strong> Houston, TX<br><strong>Hours:</strong> Mon-Sun 7AM-8:30PM</div>
+</div>
+<div class="date">Generated on ${dateString}</div>
+</div>
+</body>
+</html>`;
+
+        const blob = new Blob([quoteHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Quote${quoteCounter}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(quoteHTML);
+        printWindow.document.close();
+    }
+
+    function resetQuote() {
+        // Clear customer info
+        document.getElementById('customerName').value = '';
+        document.getElementById('customerVehicle').value = '';
+        document.getElementById('customerPhone').value = '';
+        document.getElementById('displayName').textContent = '—';
+        document.getElementById('displayVehicle').textContent = '—';
+        
+        // Uncheck all services
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        
+        // Reset prices to defaults
+        document.getElementById('priceFront').value = '85';
+        document.getElementById('priceBack').value = '140';
+        document.getElementById('priceWindshield').value = '110';
+        document.getElementById('priceSunvisor').value = '35';
+        document.getElementById('priceRemoval').value = '50';
+        
+        // Clear discount and notes
+        document.getElementById('discountPercent').value = '';
+        document.getElementById('quoteNotes').value = '';
+        
+        // Reset film to regular
+        selectFilm('regular');
+        
+        // Update totals
+        updateTotal();
+    }
+
+    updateTotal();
+</script>
+</body>
+</html>

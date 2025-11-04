@@ -68,12 +68,50 @@
             margin-bottom: 30px;
         }
 
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        .toggle-switch {
+            display: inline-flex;
+            background-color: #111111;
+            border: 2px solid #00ff88;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .toggle-option {
+            padding: 15px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background-color: transparent;
+            color: #00ff88;
+        }
+
+        .toggle-option.active {
+            background-color: #00ff88;
+            color: #000000;
+        }
+
+        .toggle-option:hover:not(.active) {
+            background-color: #001a0d;
+        }
+
         .section-title {
             font-size: 3rem;
             font-weight: bold;
             color: #ffffff;
             margin-bottom: 40px;
             text-transform: uppercase;
+            text-align: center;
         }
 
         .info-box {
@@ -167,6 +205,33 @@
             font-weight: bold;
         }
 
+        /* Hidden class for toggle */
+        .hidden {
+            display: none;
+        }
+
+        /* Residential specific styles */
+        .pricing-example {
+            background-color: #000000;
+            border-left: 3px solid #00ff88;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .pricing-example-title {
+            color: #00ff88;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-calculation {
+            color: #cccccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
         @media (max-width: 768px) {
             .section-title {
                 font-size: 2rem;
@@ -174,6 +239,11 @@
             
             .price-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .toggle-option {
+                padding: 12px 25px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -190,92 +260,179 @@
             <div class="tagline">Residential & Automotive Services • Houston TX</div>
         </div>
 
-        <h1 class="section-title">PRICING</h1>
-
-
-        <div class="info-box">
-            <div class="info-label">FILM QUALITY</div>
-            <div class="info-content">All films are premium ceramic technology (GeoShield)</div>
-        </div>
-
-        <div class="info-box">
-            <div class="info-label">TEXAS LEGAL LIMITS</div>
-            <div class="info-content">
-                Windshield: 70% or above<br>
-                Front 2 Windows: 25% or above<br>
-                Back Windows: Any percentage
+        <!-- Toggle Switch -->
+        <div class="toggle-container">
+            <div class="toggle-switch">
+                <button class="toggle-option active" onclick="showPricing('automotive')">Automotive</button>
+                <button class="toggle-option" onclick="showPricing('residential')">Residential</button>
             </div>
         </div>
 
-        
+        <h1 class="section-title" id="pricingTitle">AUTOMOTIVE PRICING</h1>
 
-        
+        <!-- AUTOMOTIVE PRICING -->
+        <div id="automotivePricing">
+            <div class="info-box">
+                <div class="info-label">Rough Prices</div>
+                <div class="info-content">The prices below are averages for vehicles, for an actual quote including discounts please Text/Call</div>
+            </div>
 
-        <div class="info-box">
-            <div class="info-label">AVAILABLE PERCENTAGES</div>
-            <div class="percentages">
-                <div class="percentage-badge">5%</div>
-                <div class="percentage-badge">15%</div>
-                <div class="percentage-badge">35%</div>
-                <div class="percentage-badge">50%</div>
-                <div class="percentage-badge">75%</div>
+            <div class="info-box">
+                <div class="info-label">TEXAS LEGAL LIMITS</div>
+                <div class="info-content">
+                    Windshield: 70% or above<br>
+                    Front 2 Windows: 25% or above<br>
+                    Back Windows: Any percentage
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">AVAILABLE PERCENTAGES</div>
+                <div class="percentages">
+                    <div class="percentage-badge">5%</div>
+                    <div class="percentage-badge">15%</div>
+                    <div class="percentage-badge">35%</div>
+                    <div class="percentage-badge">50%</div>
+                    <div class="percentage-badge">75%</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                ✓ FREE UBER SERVICE UP TO 5 MILES FROM WORK POINT (TO AND FROM)
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="price-grid">
+                <div class="price-card">
+                    <div class="price-card-title">Front Windows</div>
+                    <div class="price">$85</div>
+                    <div class="price-detail">2 front windows (About $45 a window)</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Full Package</div>
+                    <div class="price">$225</div>
+                    <div class="price-detail">Sedans<br>4 doors + back glass</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Back Windows</div>
+                    <div class="price">$140</div>
+                    <div class="price-detail">Rear windows only + Back Windshield</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Sunvisor Strip</div>
+                    <div class="price">$35</div>
+                    <div class="price-detail">Aka Eyebrow tint</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Full Windshield</div>
+                    <div class="price">$110</div>
+                    <div class="price-detail">Only available in:<br>35%, 50%, or 75% (Legal)</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Tint Removal</div>
+                    <div class="price">$10-100</div>
+                    <div class="price-detail">Price varies based on condition</div>
+                </div>
             </div>
         </div>
 
-              <div class="highlight-box">
-            ✓ FREE UBER SERVICE UP TO 5 MILES FROM WORK POINT (TO AND FROM)
+        <!-- RESIDENTIAL PRICING -->
+        <div id="residentialPricing" class="hidden">
+            <div class="info-box">
+                <div class="info-label">How We Price</div>
+                <div class="info-content">Residential window tinting is priced per square foot. Measure your window's width and height to estimate your cost.</div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">AVAILABLE PERCENTAGES</div>
+                <div class="percentages">
+                    <div class="percentage-badge">5%</div>
+                    <div class="percentage-badge">15%</div>
+                    <div class="percentage-badge">35%</div>
+                    <div class="percentage-badge">50%</div>
+                    <div class="percentage-badge">75%</div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                ✓ DISCOUNTS AVAILABLE WHEN DOING MULTIPLE WINDOWS
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="price-grid">
+                <div class="price-card">
+                    <div class="price-card-title">Regular Film</div>
+                    <div class="price">$4.20</div>
+                    <div class="price-detail">Per Square Foot</div>
+                    
+                    <div class="pricing-example">
+                        <div class="pricing-example-title">Example Calculation</div>
+                        <div class="pricing-calculation">
+                            36" x 6ft window<br>
+                            (3ft × 6ft = 18 sq ft)<br>
+                            18 sq ft × $4.20 = <strong style="color: #00ff88;">$75.60</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card-title">Ceramic Film</div>
+                    <div class="price">$7.50</div>
+                    <div class="price-detail">Per Square Foot</div>
+                    
+                    <div class="pricing-example">
+                        <div class="pricing-example-title">Example Calculation</div>
+                        <div class="pricing-calculation">
+                            36" x 6ft window<br>
+                            (3ft × 6ft = 18 sq ft)<br>
+                            18 sq ft × $7.50 = <strong style="color: #00ff88;">$135.00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <div class="info-label">Need Help Calculating?</div>
+                <div class="info-content">
+                    <strong style="color: #00ff88;">How to measure:</strong><br><br>
+                    1. Measure the width of your window in inches<br>
+                    2. Measure the height of your window in inches<br>
+                    3. Multiply width × height ÷ 144 = square feet<br>
+                    4. Multiply square feet by price per sq ft<br><br>
+                    <strong style="color: #00ff88;">Still unsure?</strong> Text or call us for a free quote!
+                </div>
+            </div>
         </div>
-
-            <!-- <div class="highlight-box">
-            ✓ In the event of a tint violation ticket, Xtint will provide a one-time complimentary replacement with a legal film option.
-        </div> -->
-
-        <div class="divider"></div>
-
-        <div class="price-grid">
-            <div class="price-card">
-                <div class="price-card-title">Front Windows</div>
-                <div class="price">$85</div>
-                <div class="price-detail">2 front windows ($45 a window) </div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Sedans Full Package</div>
-                <div class="price">$225</div>
-                <div class="price-detail">Sedans<br>4 doors + back glass</div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Trucks & SUVS Full Package</div>
-                <div class="price">$285</div>
-                <div class="price-detail">Trucks & SUVs<br>4 doors + back glass</div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Back Windows</div>
-                <div class="price">$140</div>
-                <div class="price-detail">Rear windows only + Back Windshield</div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Sunvisor Strip</div>
-                <div class="price">$35</div>
-                <div class="price-detail">Aka Eyebrow tint</div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Full Windshield</div>
-                <div class="price">$110</div>
-                <div class="price-detail">Only available in:<br>30%, 50%, or 75%</div>
-            </div>
-
-            <div class="price-card">
-                <div class="price-card-title">Tint Removal</div>
-                <div class="price">$10-100</div>
-                <div class="price-detail">Price varies based on condition</div>
-            </div>
-        </div>
-
     </div>
+
+    <script>
+        function showPricing(type) {
+            const automotiveSection = document.getElementById('automotivePricing');
+            const residentialSection = document.getElementById('residentialPricing');
+            const title = document.getElementById('pricingTitle');
+            const buttons = document.querySelectorAll('.toggle-option');
+
+            if (type === 'automotive') {
+                automotiveSection.classList.remove('hidden');
+                residentialSection.classList.add('hidden');
+                title.textContent = 'AUTOMOTIVE PRICING';
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                automotiveSection.classList.add('hidden');
+                residentialSection.classList.remove('hidden');
+                title.textContent = 'RESIDENTIAL PRICING';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
