@@ -105,6 +105,43 @@
             background-color: #001a0d;
         }
 
+        /* Film Type Toggle (smaller) */
+        .film-toggle-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .film-toggle-switch {
+            display: inline-flex;
+            background-color: #111111;
+            border: 1px solid #00ff88;
+            border-radius: 0;
+            overflow: hidden;
+        }
+
+        .film-toggle-option {
+            padding: 10px 30px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background-color: transparent;
+            color: #00ff88;
+        }
+
+        .film-toggle-option.active {
+            background-color: #00ff88;
+            color: #000000;
+        }
+
+        .film-toggle-option:hover:not(.active) {
+            background-color: #001a0d;
+        }
+
         .section-title {
             font-size: 3rem;
             font-weight: bold;
@@ -195,6 +232,7 @@
             flex-wrap: wrap;
             gap: 15px;
             margin-top: 15px;
+            align-items: center;
         }
 
         .percentage-badge {
@@ -203,6 +241,26 @@
             padding: 10px 20px;
             font-size: 1.2rem;
             font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .percentage-badge.ceramic-only {
+            background-color: #1a1a2e;
+            color: #4a9eff;
+            border: 1px solid #4a9eff;
+            opacity: 0.7;
+        }
+
+        .ceramic-note {
+            font-size: 0.75rem;
+            color: #4a9eff;
+            font-style: italic;
+            display: none;
+            margin-left: 10px;
+        }
+
+        .ceramic-note.show {
+            display: inline;
         }
 
         /* Hidden class for toggle */
@@ -245,6 +303,17 @@
                 padding: 12px 25px;
                 font-size: 0.9rem;
             }
+
+            .film-toggle-option {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+            }
+
+            .ceramic-note {
+                display: block;
+                margin-left: 0;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -260,7 +329,7 @@
             <div class="tagline">Residential & Automotive Services • Houston TX</div>
         </div>
 
-        <!-- Toggle Switch -->
+        <!-- Main Toggle Switch -->
         <div class="toggle-container">
             <div class="toggle-switch">
                 <button class="toggle-option active" onclick="showPricing('automotive')">Automotive</button>
@@ -272,6 +341,14 @@
 
         <!-- AUTOMOTIVE PRICING -->
         <div id="automotivePricing">
+            <!-- Film Type Toggle for Automotive -->
+            <div class="film-toggle-container">
+                <div class="film-toggle-switch">
+                    <button class="film-toggle-option active" onclick="showAutomotiveFilm('regular')">Regular</button>
+                    <button class="film-toggle-option" onclick="showAutomotiveFilm('ceramic')">Ceramic</button>
+                </div>
+            </div>
+
             <div class="info-box">
                 <div class="info-label">Rough Prices</div>
                 <div class="info-content">The prices below are averages for vehicles, for an actual quote including discounts please Text/Call</div>
@@ -289,11 +366,12 @@
             <div class="info-box">
                 <div class="info-label">AVAILABLE PERCENTAGES</div>
                 <div class="percentages">
-                    <div class="percentage-badge">5%</div>
-                    <div class="percentage-badge">15%</div>
-                    <div class="percentage-badge">35%</div>
-                    <div class="percentage-badge">50%</div>
-                    <div class="percentage-badge">75%</div>
+                    <div class="percentage-badge" id="perc5">5%</div>
+                    <div class="percentage-badge" id="perc15">15%</div>
+                    <div class="percentage-badge" id="perc35">35%</div>
+                    <div class="percentage-badge ceramic-only" id="perc50">50%</div>
+                    <div class="percentage-badge ceramic-only" id="perc75">75%</div>
+                    <span class="ceramic-note show" id="ceramicNote">* Ceramic only</span>
                 </div>
             </div>
 
@@ -306,19 +384,19 @@
             <div class="price-grid">
                 <div class="price-card">
                     <div class="price-card-title">Front Windows</div>
-                    <div class="price">$85</div>
-                    <div class="price-detail">2 front windows (About $45 a window)</div>
+                    <div class="price" id="frontPrice">$79</div>
+                    <div class="price-detail">2 front windows (About $40-55 a window)</div>
                 </div>
 
                 <div class="price-card">
                     <div class="price-card-title">Full Package</div>
-                    <div class="price">$225</div>
+                    <div class="price" id="fullPrice">$189</div>
                     <div class="price-detail">Sedans<br>4 doors + back glass</div>
                 </div>
 
                 <div class="price-card">
                     <div class="price-card-title">Back Windows</div>
-                    <div class="price">$140</div>
+                    <div class="price" id="backPrice">$109</div>
                     <div class="price-detail">Rear windows only + Back Windshield</div>
                 </div>
 
@@ -331,7 +409,7 @@
                 <div class="price-card">
                     <div class="price-card-title">Full Windshield</div>
                     <div class="price">$110</div>
-                    <div class="price-detail">Only available in:<br>35%, 50%, or 75% (Legal)</div>
+                    <div class="price-detail">Ceramic only<br>35%, 50%, or 75% (Legal)</div>
                 </div>
 
                 <div class="price-card">
@@ -427,6 +505,48 @@
                 automotiveSection.classList.add('hidden');
                 residentialSection.classList.remove('hidden');
                 title.textContent = 'RESIDENTIAL PRICING';
+                buttons[0].classList.remove('active');
+                buttons[1].classList.add('active');
+            }
+        }
+
+        function showAutomotiveFilm(type) {
+            const frontPrice = document.getElementById('frontPrice');
+            const fullPrice = document.getElementById('fullPrice');
+            const backPrice = document.getElementById('backPrice');
+            const buttons = document.querySelectorAll('.film-toggle-option');
+            
+            // Percentage badges
+            const perc50 = document.getElementById('perc50');
+            const perc75 = document.getElementById('perc75');
+            const ceramicNote = document.getElementById('ceramicNote');
+
+            if (type === 'regular') {
+                // Update prices
+                frontPrice.textContent = '$79';
+                fullPrice.textContent = '$189';
+                backPrice.textContent = '$109';
+                
+                // Style 50% and 75% as ceramic-only
+                perc50.classList.add('ceramic-only');
+                perc75.classList.add('ceramic-only');
+                ceramicNote.classList.add('show');
+                
+                // Update toggle buttons
+                buttons[0].classList.add('active');
+                buttons[1].classList.remove('active');
+            } else {
+                // Update prices
+                frontPrice.textContent = '$109';
+                fullPrice.textContent = '$259';
+                backPrice.textContent = '$139';
+                
+                // Remove ceramic-only styling - all percentages available
+                perc50.classList.remove('ceramic-only');
+                perc75.classList.remove('ceramic-only');
+                ceramicNote.classList.remove('show');
+                
+                // Update toggle buttons
                 buttons[0].classList.remove('active');
                 buttons[1].classList.add('active');
             }
