@@ -64,10 +64,20 @@
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            color: var(--white);
+    display: flex;
+    align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 32px;
+            }
         }
 
         .nav-menu {
@@ -209,24 +219,10 @@
             position: relative;
         }
 
-        .hero-image::before {
-            content: 'MOBILE SERVICE';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 120px;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.02);
-            white-space: nowrap;
-            z-index: 1;
-        }
-
         .hero-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%) contrast(1.2);
             opacity: 0.7;
         }
 
@@ -780,7 +776,7 @@
 
 .about-image-container {
     position: relative;
-    height: 600px; /* Increased from 500px */
+    height: 600px;
     overflow: hidden;
     background: var(--gray);
 }
@@ -801,13 +797,13 @@
 .about-image {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Changed from 'cover' to 'contain' */
-    object-position: center; /* Center the image */
+    object-fit: contain;
+    object-position: center;
     transition: all 0.5s ease;
 }
 
 .about-image:hover {
-    transform: scale(1.02); /* Reduced from 1.05 to prevent cutting off on zoom */
+    transform: scale(1.02);
 }
 
 .about-text {
@@ -882,7 +878,7 @@
 /* Films Section */
 .films {
     padding: 120px 40px;
-    background: #001a0d; /* Dark greenish background */
+    background: #001a0d;
     position: relative;
     overflow: hidden;
 }
@@ -1053,46 +1049,6 @@
     margin-top: 60px;
 }
 
-.film-pricing-btn {
-    display: inline-block;
-    padding: 18px 50px;
-    background: var(--accent);
-    color: var(--black);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.film-pricing-btn::after {
-    content: '→';
-    position: absolute;
-    right: 30px;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.film-pricing-btn:hover {
-    background: var(--white);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
-    padding-right: 65px;
-}
-
-.film-pricing-btn:hover::after {
-    opacity: 1;
-    right: 35px;
-}
-
-.film-pricing-btn:active {
-    transform: translateY(0);
-}
-
-
-
 .premium-badge {
     position: absolute;
     top: 20px;
@@ -1106,7 +1062,199 @@
     letter-spacing: 1px;
 }
 
+/* Quote Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--black);
+    padding: 0;
+    border: 2px solid var(--accent);
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--white);
+    font-size: 32px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 1;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: var(--accent);
+}
+
+.formcarry-container {
+    box-sizing: border-box;
+    padding: 50px 40px 40px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.01em;
+    color: var(--white);
+
+    --fc-border-color: var(--gray);
+    --fc-normal-text-color: var(--white);
+    --fc-normal-placeholder-color: var(--light-gray);
+    --fc-primary-color-hue: 142;
+    --fc-error-color-hue: 356;
+    --fc-primary-hsl: var(--fc-primary-color-hue), 100%, 50%;
+    --fc-error-hsl: var(--fc-error-color-hue), 100%, 54%;
+    --fc-field-hover-bg-color: var(--dark);
+    --fc-border-hover-color: var(--medium-gray);
+    --fc-field-hover-text-color: var(--light-gray);
+    --fc-border-active-color: var(--accent);
+}
+
+.formcarry-container * {
+    box-sizing: border-box;
+}
+
+.formcarry-container h3 {
+    font-size: 28px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    color: var(--white);
+}
+
+.formcarry-container .subtitle {
+    color: var(--light-gray);
+    font-size: 14px;
+    margin-bottom: 30px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.formcarry-container label {
+    display: block;
+    cursor: pointer;
+    color: var(--white);
+    font-weight: 500;
+}
+
+.formcarry-container .formcarry-block:not(:first-child) {
+    margin-top: 20px;
+}
+
+.formcarry-container input,
+.formcarry-container select {
+    margin-top: 8px;
+    width: 100%;
+    height: 42px;
+    border: 1px solid var(--fc-border-color);
+    color: var(--fc-normal-text-color);
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: var(--dark);
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    transition: 125ms all;
+}
+
+.formcarry-container input::placeholder,
+.formcarry-container select::placeholder {
+    color: var(--fc-normal-placeholder-color);
+}
+
+.formcarry-container input:hover,
+.formcarry-container select:hover {
+    border-color: var(--fc-border-hover-color);
+    background-color: var(--fc-field-hover-bg-color);
+}
+
+.formcarry-container input:focus,
+.formcarry-container select:focus {
+    background-color: var(--black);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+    outline: none;
+    padding: 8px 11px;
+}
+
+.formcarry-container select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.9997 14.5001L8.46387 10.9642L9.64303 9.78589L11.9997 12.1434L14.3564 9.78589L15.5355 10.9642L11.9997 14.5001Z' fill='%2300ff88'/%3E%3C/svg%3E%0A");
+    background-size: 24px 24px;
+    background-position: calc(100% - 12px) center;
+    background-repeat: no-repeat;
+}
+
+.formcarry-container button {
+    font-family: "Inter", sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    height: 42px;
+    width: 100%;
+    border: 0;
+    border-radius: 6px;
+    background-color: var(--accent);
+    color: var(--black);
+    cursor: pointer;
+    transition: 125ms all;
+    margin-top: 10px;
+}
+
+.formcarry-container button:hover {
+    background: var(--white);
+    transform: translateY(-2px);
+}
+
+.formcarry-container button:focus {
+    box-shadow: 0px 0px 0px 3px rgba(0, 255, 136, 0.2);
+}
+
+.formcarry-container button:active {
+    transform: translateY(0);
+}
+
         /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .films-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero {
                 grid-template-columns: 1fr;
@@ -1146,7 +1294,7 @@
                 gap: 40px;
             }
             .about-image-container {
-        height: 500px; /* Slightly taller for mobile */
+        height: 500px;
     }
 
             .about-stats {
@@ -1175,6 +1323,28 @@
                 padding: 10px 20px;
             }
 
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .formcarry-container {
+                padding: 40px 20px 30px;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .hero-cta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -1185,13 +1355,14 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <div class="logo">XTint.</div>
+            <div class="logo">
+            <img src="logo1.png" alt="XTint Logo">
+            </div>
             <ul class="nav-menu">
-                <ul class="nav-menu">
-                <li><a href="#about">About</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#process">Process</a></li>
                 <li><a href="#gallery">Work</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -1229,7 +1400,6 @@
             <span class="ticker-item">★ SAME DAY SERVICE</span>
             <span class="ticker-item">★ BUISNESS INSTALLATION</span>
             <span class="ticker-item">★ CERAMIC TECHNOLOGY</span>
-            <!-- Duplicate for seamless loop -->
             <span class="ticker-item">★ 5+ VEHICLES SERVICED</span>
             <span class="ticker-item">★ 5.0 GOOGLE RATING</span>
             <span class="ticker-item">★ LIFETIME WARRANTY</span>
@@ -1238,47 +1408,6 @@
             <span class="ticker-item">★ CERAMIC TECHNOLOGY</span>
         </div>
     </div>
-
-    <!-- About Section -->
-<section class="about" id="about">
-    <div class="about-container">
-        <div class="section-header">
-            <p class="section-number">01 — ABOUT</p>
-            <h2 class="section-title">The<br>Story</h2>
-        </div>
-        <div class="about-content">
-            <div class="about-image-container">
-                <img src="IMG_1559.jpeg" alt="Xander Angulo" class="about-image">
-            </div>
-            <div class="about-text">
-                <div class="founder-badge">Founder & Lead Installer</div>
-                <h3>I'm <span>Xander Angulo</span></h3>
-                <p>As someone who's had <strong>over 20+ tint setups per vehicle</strong>, I've seen it all. I've experienced the overpriced quotes, the mediocre work, and the lack of transparency in this industry. That's when I realized something had to change.</p>
-                
-                <p><strong>Tint shouldn't cost you an arm and a leg.</strong> It's meant to keep you protected from harmful UV rays, reduce heat, enhance privacy, and improve your driving or living experience. But somehow, it became an overpriced luxury instead of an accessible necessity.</p>
-                
-                <p>Here at <strong>XTint</strong>, I stand by my work. Every installation is done with precision, care, and the highest quality materials. <strong>No one else will do it as good for our prices.</strong> That's not arrogance, that's a promise.</p>
-                
-                <p>Whether it's your daily driver, your dream car, or your home, you deserve premium protection without the premium price tag. Let me show you what real quality looks like.</p>
-                
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">20+</div>
-                        <div class="stat-label">Setups Per Vehicle</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <div class="stat-label">Quality Guarantee</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">5.0</div>
-                        <div class="stat-label">Customer Rating</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
     <!-- Services Section -->
     <section class="services" id="services">
@@ -1364,10 +1493,10 @@
                 </div>
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=Mercedes+AMG" alt="Coming Soon">
+                <img src="IMG_3375.jpeg" alt="Honda Civic">
                 <div class="gallery-overlay">
-                    <h4>Coming Soon</h4>
-                    <p>Coming Soon</p>
+                    <h4>Honda Civic</h4>
+                    <p>35% windshield, 5% all around</p>
                 </div>
             </div>
             <div class="gallery-item">
@@ -1432,7 +1561,6 @@
     </section>
 
 <!-- Films Section -->
-<!-- Films Section -->
 <section class="films" id="films">
     <div class="films-container">
         <div class="section-header">
@@ -1491,15 +1619,98 @@
             </div>
         </div>
         
-        <!-- Single Pricing Button -->
         <div class="films-cta">
-            <a href="XtintPricing.html" class="film-pricing-btn">View Full Pricing</a>
+            <button class="btn-primary" onclick="openQuoteModal()">Get a Quote</button>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Modal -->
+<div id="quoteModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuoteModal()">&times;</span>
+        <section class="formcarry-container">
+            <h3>Get Your Quote</h3>
+            <p class="subtitle">All quotes are answered as fast as possible</p>
+            <form action="https://formcarry.com/s/lDJki5Kbs4H" method="POST">
+                
+                <div class="formcarry-block">
+                    <label for="fc-name">Full Name</label>
+                    <input type="text" name="name" id="fc-name" placeholder="Your full name" required />
+                </div>
+                
+                <div class="formcarry-block">
+                    <label for="fc-phone">Phone Number</label>
+                    <input type="tel" name="phone" id="fc-phone" placeholder="(555) 123-4567" required />
+                </div>
+                
+                <div class="formcarry-block">
+                    <label for="fc-brand">Car Brand</label>
+                    <input type="text" name="brand" id="fc-brand" placeholder="e.g., Toyota, Honda, BMW" required />
+                </div>
+                
+                <div class="formcarry-block">
+                    <label for="fc-year">Year</label>
+                    <input type="text" name="year" id="fc-year" placeholder="e.g., 2023" required />
+                </div>
+                
+                <div class="formcarry-block">
+                    <label for="fc-model">Make/Model</label>
+                    <input type="text" name="model" id="fc-model" placeholder="e.g., Camry, Civic, X5" required />
+                </div>
+                
+                <div class="formcarry-block">  
+                    <button type="submit">Submit Quote Request</button>
+                </div>
+            
+            </form>
+        </section>
+    </div>
+</div>
+
+  <!-- About Section -->
+<section class="about" id="about">
+    <div class="about-container">
+        <div class="section-header">
+            <p class="section-number">06 — ABOUT</p>
+            <h2 class="section-title">The<br>Story</h2>
+        </div>
+        <div class="about-content">
+            <div class="about-image-container">
+                <img src="IMG_1559.jpeg" alt="Xander Angulo" class="about-image">
+            </div>
+            <div class="about-text">
+                <div class="founder-badge">Founder & Lead Installer</div>
+                <h3>I'm <span>Xander Angulo</span></h3>
+                <p>As someone who's had <strong>over 20+ tint setups per vehicle</strong>, I've seen it all. I've experienced the overpriced quotes, the mediocre work, and the lack of transparency in this industry. That's when I realized something had to change.</p>
+                
+                <p><strong>Tint shouldn't cost you an arm and a leg.</strong> It's meant to keep you protected from harmful UV rays, reduce heat, enhance privacy, and improve your driving or living experience. But somehow, it became an overpriced luxury instead of an accessible necessity.</p>
+                
+                <p>Here at <strong>XTint</strong>, I stand by my work. Every installation is done with precision, care, and the highest quality materials. <strong>No one else will do it as good for our prices.</strong> That's not arrogance, that's a promise.</p>
+                
+                <p>Whether it's your daily driver, your dream car, or your home, you deserve premium protection without the premium price tag. Let me show you what real quality looks like.</p>
+                
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">20+</div>
+                        <div class="stat-label">Setups Per Vehicle</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Quality Guarantee</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5.0</div>
+                        <div class="stat-label">Customer Rating</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 
-    <!-- Contact Section -->
+<!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="contact-content">
             <div class="contact-left">
@@ -1509,8 +1720,12 @@
                     <a href="tel:832-776-5717" class="btn-primary" style="background: var(--black); color: var(--white);">
                         Call Or Text Now
                     </a>
+                    <button class="btn-secondary" onclick="openQuoteModal()" style="background: transparent; color: var(--black); border: 1px solid var(--black);">
+                        Get a Quote
+                    </button>
                 </div>
             </div>
+            
             <div class="contact-info">
                 <div class="contact-item">
                     <span>📍</span>
@@ -1518,7 +1733,7 @@
                 </div>
                 <div class="contact-item">
                     <span>📞</span>
-                    <a href="tel:832-359-2035">832-776-5717</a>
+                    <a href="tel:832-776-5717">832-776-5717</a>
                 </div>
                 <div class="contact-item">
                     <span>✉️</span>
@@ -1526,17 +1741,17 @@
                 </div>
                 <div class="contact-item">
                     <span>🕐</span>
-                    <span>Mon-Sun 7AM-8:30PM*</span>
+                    <span>Mon-Sun 7AM-8:30PM</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+   <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-brand">
-                <h3>XTint.</h3>
+                <img src="logo1.png" alt="XTint Logo" style="height: 32px; width: auto; margin-bottom: 20px;">
                 <p>A new start to Houston's premier mobile window tinting service.</p>
             </div>
             <div class="footer-column">
@@ -1563,6 +1778,7 @@
             <p>Houston, Texas</p>
         </div>
     </footer>
+        
 
     <script>
         // Timeline animation
@@ -1645,6 +1861,32 @@
 
         fadeElements.forEach(el => {
             fadeObserver.observe(el);
+        });
+
+        // Modal Functions
+        function openQuoteModal() {
+            document.getElementById('quoteModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuoteModal() {
+            document.getElementById('quoteModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('quoteModal');
+            if (event.target == modal) {
+                closeQuoteModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeQuoteModal();
+            }
         });
     </script>
 </body>

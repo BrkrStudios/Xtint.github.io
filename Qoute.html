@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XTint Quote Generator</title>
+    <title>XTint Quote & Invoice Generator</title>
     <style>
         * {
             margin: 0;
@@ -346,6 +346,83 @@
             border-color: #00ff88;
         }
 
+        .window-item {
+            background-color: #000000;
+            border: 1px solid #222222;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .window-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .window-number {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .remove-window {
+            background: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .remove-window:hover {
+            background: #ff4444;
+            color: #000000;
+        }
+
+        .window-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .window-full {
+            grid-column: 1 / -1;
+        }
+
+        .dimension-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .calc-display {
+            background-color: #001a0d;
+            border: 1px solid #00ff88;
+            padding: 10px 15px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .calc-label {
+            color: #999999;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .calc-value {
+            color: #00ff88;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
         @media (max-width: 968px) {
             .quote-builder {
                 grid-template-columns: 1fr;
@@ -386,10 +463,48 @@
 
         <div class="header">
             <div class="brand">XTint.</div>
-            <div class="tagline">Custom Quote Generator</div>
+            <div class="tagline">Custom Quote & Invoice Generator</div>
         </div>
 
-        <h1 class="section-title">BUILD QUOTE</h1>
+        <h1 class="section-title" id="mainTitle">BUILD QUOTE</h1>
+
+        <!-- Document Type and Service Type Selection -->
+        <div class="builder-section" style="margin-bottom: 30px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
+                <div>
+                    <div class="section-label">Document Type</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="film-option active" onclick="selectDocType('quote')">
+                            <div class="film-name">Quote</div>
+                        </div>
+                        <div class="film-option" onclick="selectDocType('invoice')">
+                            <div class="film-name">Invoice</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="docType" value="quote">
+                </div>
+                <div>
+                    <div class="section-label">Service Type</div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div class="film-option active" onclick="selectServiceType('automotive')">
+                            <div class="film-name">Automotive</div>
+                        </div>
+                        <div class="film-option" onclick="selectServiceType('residential')">
+                            <div class="film-name">Residential</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="serviceType" value="automotive">
+                </div>
+            </div>
+            
+            <!-- Invoice Number Field (only shows for invoices) -->
+            <div id="invoiceNumberSection" style="display: none;">
+                <div class="input-group">
+                    <label class="input-label">Invoice Number (Optional - Will use auto-generated if blank)</label>
+                    <input type="text" id="invoiceNumber" placeholder="INV-2025-001">
+                </div>
+            </div>
+        </div>
 
         <div class="quote-builder">
             <!-- Left Column: Quote Builder -->
@@ -404,13 +519,18 @@
                     </div>
 
                     <div class="input-group">
-                        <label class="input-label">Vehicle</label>
+                        <label class="input-label" id="vehicleLabel">Vehicle</label>
                         <input type="text" id="customerVehicle" placeholder="2024 Tesla Model 3">
                     </div>
 
                     <div class="input-group">
                         <label class="input-label">Phone Number (Optional)</label>
                         <input type="text" id="customerPhone" placeholder="(832) 555-1234">
+                    </div>
+
+                    <div class="input-group" id="warrantySection" style="display: none;">
+                        <label class="input-label">Warranty Number (Optional)</label>
+                        <input type="text" id="warrantyNumber" placeholder="WAR-2025-001">
                     </div>
                 </div>
 
@@ -430,8 +550,8 @@
                     <input type="hidden" id="filmType" value="regular">
                 </div>
 
-                <!-- Services Selection -->
-                <div class="builder-section">
+                <!-- Automotive Services -->
+                <div class="builder-section" id="automotiveServices">
                     <div class="section-label">03 — Select Services</div>
                     
                     <div class="service-item">
@@ -439,8 +559,14 @@
                             <input type="checkbox" id="frontWindows" onchange="updateTotal()">
                             <label for="frontWindows" class="service-name">Front Windows (2)</label>
                         </div>
-                        <div class="service-price">
-                            $<input type="number" class="price-input" id="priceFront" value="85" onchange="updateTotal()">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="percent-field" style="display: flex; gap: 5px; align-items: center;">
+                                <input type="number" placeholder="%" class="price-input" id="percentFront" value="35" style="width: 60px;" onchange="updateTotal()">
+                                <span style="color: #666;">%</span>
+                            </div>
+                            <div class="service-price">
+                                $<input type="number" class="price-input" id="priceFront" value="85" onchange="updateTotal()">
+                            </div>
                         </div>
                     </div>
 
@@ -449,8 +575,14 @@
                             <input type="checkbox" id="backWindows" onchange="updateTotal()">
                             <label for="backWindows" class="service-name">Back Windows + Rear Glass</label>
                         </div>
-                        <div class="service-price">
-                            $<input type="number" class="price-input" id="priceBack" value="140" onchange="updateTotal()">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="percent-field" style="display: flex; gap: 5px; align-items: center;">
+                                <input type="number" placeholder="%" class="price-input" id="percentBack" value="20" style="width: 60px;" onchange="updateTotal()">
+                                <span style="color: #666;">%</span>
+                            </div>
+                            <div class="service-price">
+                                $<input type="number" class="price-input" id="priceBack" value="140" onchange="updateTotal()">
+                            </div>
                         </div>
                     </div>
 
@@ -459,8 +591,14 @@
                             <input type="checkbox" id="fullWindshield" onchange="updateTotal()">
                             <label for="fullWindshield" class="service-name">Full Windshield</label>
                         </div>
-                        <div class="service-price">
-                            $<input type="number" class="price-input" id="priceWindshield" value="110" onchange="updateTotal()">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="percent-field" style="display: flex; gap: 5px; align-items: center;">
+                                <input type="number" placeholder="%" class="price-input" id="percentWindshield" value="70" style="width: 60px;" onchange="updateTotal()">
+                                <span style="color: #666;">%</span>
+                            </div>
+                            <div class="service-price">
+                                $<input type="number" class="price-input" id="priceWindshield" value="110" onchange="updateTotal()">
+                            </div>
                         </div>
                     </div>
 
@@ -469,8 +607,14 @@
                             <input type="checkbox" id="sunvisor" onchange="updateTotal()">
                             <label for="sunvisor" class="service-name">Sunvisor Strip</label>
                         </div>
-                        <div class="service-price">
-                            $<input type="number" class="price-input" id="priceSunvisor" value="35" onchange="updateTotal()">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div class="percent-field" style="display: flex; gap: 5px; align-items: center;">
+                                <input type="number" placeholder="%" class="price-input" id="percentSunvisor" value="5" style="width: 60px;" onchange="updateTotal()">
+                                <span style="color: #666;">%</span>
+                            </div>
+                            <div class="service-price">
+                                $<input type="number" class="price-input" id="priceSunvisor" value="35" onchange="updateTotal()">
+                            </div>
                         </div>
                     </div>
 
@@ -481,6 +625,29 @@
                         </div>
                         <div class="service-price">
                             $<input type="number" class="price-input" id="priceRemoval" value="50" onchange="updateTotal()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Residential Services -->
+                <div class="builder-section" id="residentialServices" style="display: none;">
+                    <div class="section-label">03 — Window Details</div>
+                    
+                    <div id="windowsList"></div>
+                    
+                    <button class="btn btn-secondary" onclick="addWindow()" style="width: 100%; margin-top: 15px;">
+                        + Add Window
+                    </button>
+
+                    <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid #222;">
+                        <div class="service-item">
+                            <div class="service-checkbox">
+                                <input type="checkbox" id="residentialRemoval" onchange="updateTotal()">
+                                <label for="residentialRemoval" class="service-name">Tint Removal</label>
+                            </div>
+                            <div class="service-price">
+                                $<input type="number" class="price-input" id="priceResidentialRemoval" value="75" onchange="updateTotal()">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -508,7 +675,7 @@
                     
                     <div class="customer-info-display">
                         <p><strong>Customer:</strong> <span id="displayName">—</span></p>
-                        <p><strong>Vehicle:</strong> <span id="displayVehicle">—</span></p>
+                        <p><strong><span id="displayVehicleLabel">Vehicle</span>:</strong> <span id="displayVehicle">—</span></p>
                         <p><strong>Film Type:</strong> <span id="displayFilm">Regular Film (54% Heat Rejection)</span></p>
                     </div>
 
@@ -532,7 +699,7 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn btn-primary" onclick="generateQuote()">Print Quote</button>
+                        <button class="btn btn-primary" id="generateBtn" onclick="generateQuote()">Generate Quote</button>
                         <button class="btn btn-secondary" onclick="resetQuote()">Reset</button>
                     </div>
                 </div>
@@ -542,16 +709,191 @@
 
 <script>
     let quoteCounter = parseInt(localStorage.getItem('quoteCounter') || '0');
+    let invoiceCounter = parseInt(localStorage.getItem('invoiceCounter') || '0');
+    let windowCounter = 0;
+    let windows = [];
+
+    function selectDocType(type) {
+        const allOptions = document.querySelectorAll('.film-option');
+        allOptions[0].classList.remove('active');
+        allOptions[1].classList.remove('active');
+        
+        if (type === 'quote') {
+            allOptions[0].classList.add('active');
+            document.getElementById('mainTitle').textContent = 'BUILD QUOTE';
+            document.getElementById('generateBtn').textContent = 'Generate Quote';
+            // Hide percent fields for automotive
+            document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
+                field.style.display = 'none';
+            });
+            // Hide invoice-specific fields
+            document.getElementById('invoiceNumberSection').style.display = 'none';
+            document.getElementById('warrantySection').style.display = 'none';
+        } else {
+            allOptions[1].classList.add('active');
+            document.getElementById('mainTitle').textContent = 'BUILD INVOICE';
+            document.getElementById('generateBtn').textContent = 'Generate Invoice';
+            // Show percent fields for automotive
+            document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
+                field.style.display = 'flex';
+            });
+            // Show invoice-specific fields
+            document.getElementById('invoiceNumberSection').style.display = 'block';
+            document.getElementById('warrantySection').style.display = 'block';
+        }
+        
+        document.getElementById('docType').value = type;
+        updateTotal();
+    }
+
+    function selectServiceType(type) {
+        const allOptions = document.querySelectorAll('.film-option');
+        allOptions[2].classList.remove('active');
+        allOptions[3].classList.remove('active');
+        
+        if (type === 'automotive') {
+            allOptions[2].classList.add('active');
+            document.getElementById('automotiveServices').style.display = 'block';
+            document.getElementById('residentialServices').style.display = 'none';
+            document.getElementById('vehicleLabel').textContent = 'VEHICLE';
+            document.getElementById('displayVehicleLabel').textContent = 'Vehicle';
+        } else {
+            allOptions[3].classList.add('active');
+            document.getElementById('automotiveServices').style.display = 'none';
+            document.getElementById('residentialServices').style.display = 'block';
+            document.getElementById('vehicleLabel').textContent = 'PROPERTY ADDRESS';
+            document.getElementById('displayVehicleLabel').textContent = 'Property';
+        }
+        
+        document.getElementById('serviceType').value = type;
+        updateTotal();
+    }
+
+    function addWindow() {
+        windowCounter++;
+        const windowId = `window_${windowCounter}`;
+        
+        windows.push({
+            id: windowId,
+            name: '',
+            quantity: 1,
+            percent: 20,
+            width: 0,
+            height: 0,
+            sqft: 0,
+            pricePerSqft: 0,
+            totalPrice: 0
+        });
+
+        const windowHTML = `
+            <div class="window-item" id="${windowId}">
+                <div class="window-header">
+                    <div class="window-number">Window ${windowCounter}</div>
+                    <button class="remove-window" onclick="removeWindow('${windowId}')">Remove</button>
+                </div>
+                
+                <div class="window-grid">
+                    <div class="input-group window-full">
+                        <label class="input-label">Window/Room Name</label>
+                        <input type="text" class="window-name" placeholder="e.g., Danni and Darrian's Window" 
+                               onchange="updateWindowCalc('${windowId}')">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Quantity</label>
+                        <input type="number" class="window-qty" value="1" min="1" 
+                               onchange="updateWindowCalc('${windowId}')">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Tint %</label>
+                        <input type="number" class="window-percent" value="20" min="0" max="100"
+                               onchange="updateWindowCalc('${windowId}')">
+                    </div>
+                    
+                    <div class="input-group window-full">
+                        <label class="input-label">Dimensions</label>
+                        <div class="dimension-group">
+                            <input type="number" class="window-width" placeholder="Width (in)" step="0.1" 
+                                   onchange="updateWindowCalc('${windowId}')">
+                            <input type="number" class="window-height" placeholder="Height (ft)" step="0.1" 
+                                   onchange="updateWindowCalc('${windowId}')">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Price per Sq Ft</label>
+                        <input type="number" class="window-price-sqft" value="0" step="0.01" 
+                               onchange="updateWindowCalc('${windowId}')">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Total Price Override</label>
+                        <input type="number" class="window-total" placeholder="Optional" step="0.01" 
+                               onchange="updateWindowCalc('${windowId}')">
+                    </div>
+                </div>
+                
+                <div class="calc-display">
+                    <div class="calc-label">Calculated Total</div>
+                    <div class="calc-value"><span class="window-sqft">0</span> sq ft × <span class="window-qty-display">1</span> windows = $<span class="window-calc-total">0.00</span></div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('windowsList').insertAdjacentHTML('beforeend', windowHTML);
+        updateTotal();
+    }
+
+    function removeWindow(windowId) {
+        document.getElementById(windowId).remove();
+        windows = windows.filter(w => w.id !== windowId);
+        updateTotal();
+    }
+
+    function updateWindowCalc(windowId) {
+        const windowEl = document.getElementById(windowId);
+        const name = windowEl.querySelector('.window-name').value;
+        const qty = parseFloat(windowEl.querySelector('.window-qty').value) || 0;
+        const percent = parseFloat(windowEl.querySelector('.window-percent').value) || 0;
+        const width = parseFloat(windowEl.querySelector('.window-width').value) || 0;
+        const height = parseFloat(windowEl.querySelector('.window-height').value) || 0;
+        const pricePerSqft = parseFloat(windowEl.querySelector('.window-price-sqft').value) || 0;
+        const totalOverride = parseFloat(windowEl.querySelector('.window-total').value) || 0;
+        
+        const sqft = (width / 12) * height;
+        const calcPrice = sqft * qty * pricePerSqft;
+        const finalPrice = totalOverride > 0 ? totalOverride : calcPrice;
+        
+        windowEl.querySelector('.window-sqft').textContent = sqft.toFixed(2);
+        windowEl.querySelector('.window-qty-display').textContent = qty;
+        windowEl.querySelector('.window-calc-total').textContent = finalPrice.toFixed(2);
+        
+        const window = windows.find(w => w.id === windowId);
+        if (window) {
+            window.name = name;
+            window.quantity = qty;
+            window.percent = percent;
+            window.width = width;
+            window.height = height;
+            window.sqft = sqft;
+            window.pricePerSqft = pricePerSqft;
+            window.totalPrice = finalPrice;
+        }
+        
+        updateTotal();
+    }
 
     function selectFilm(type) {
-        const options = document.querySelectorAll('.film-option');
-        options.forEach(opt => opt.classList.remove('active'));
+        const allOptions = document.querySelectorAll('.film-option');
+        allOptions[4].classList.remove('active');
+        allOptions[5].classList.remove('active');
         
         if (type === 'regular') {
-            options[0].classList.add('active');
+            allOptions[4].classList.add('active');
             document.getElementById('displayFilm').textContent = 'Regular Film (54% Heat Rejection)';
         } else {
-            options[1].classList.add('active');
+            allOptions[5].classList.add('active');
             document.getElementById('displayFilm').textContent = 'Ceramic Film (84% Heat Rejection)';
         }
         
@@ -569,35 +911,67 @@
     function updateTotal() {
         let subtotal = 0;
         const services = [];
+        const serviceType = document.getElementById('serviceType').value;
+        const docType = document.getElementById('docType').value;
 
-        if (document.getElementById('frontWindows').checked) {
-            const price = parseFloat(document.getElementById('priceFront').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Front Windows (2)', price: price });
-        }
+        if (serviceType === 'automotive') {
+            if (document.getElementById('frontWindows').checked) {
+                const price = parseFloat(document.getElementById('priceFront').value) || 0;
+                const percent = parseFloat(document.getElementById('percentFront').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Front Windows (2) - ${percent}%` : 'Front Windows (2)';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('backWindows').checked) {
-            const price = parseFloat(document.getElementById('priceBack').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Back Windows + Rear Glass', price: price });
-        }
+            if (document.getElementById('backWindows').checked) {
+                const price = parseFloat(document.getElementById('priceBack').value) || 0;
+                const percent = parseFloat(document.getElementById('percentBack').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Back Windows + Rear Glass - ${percent}%` : 'Back Windows + Rear Glass';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('fullWindshield').checked) {
-            const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Full Windshield', price: price });
-        }
+            if (document.getElementById('fullWindshield').checked) {
+                const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
+                const percent = parseFloat(document.getElementById('percentWindshield').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Full Windshield - ${percent}%` : 'Full Windshield';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('sunvisor').checked) {
-            const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Sunvisor Strip', price: price });
-        }
+            if (document.getElementById('sunvisor').checked) {
+                const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
+                const percent = parseFloat(document.getElementById('percentSunvisor').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Sunvisor Strip - ${percent}%` : 'Sunvisor Strip';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('removal').checked) {
-            const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Tint Removal', price: price });
+            if (document.getElementById('removal').checked) {
+                const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
+                subtotal += price;
+                services.push({ name: 'Tint Removal', price: price });
+            }
+        } else {
+            windows.forEach(window => {
+                if (window.totalPrice > 0) {
+                    const displayName = window.name || 'Unnamed Window';
+                    const details = docType === 'invoice'
+                        ? `${window.quantity} × ${window.sqft.toFixed(2)} sq ft - ${window.percent}%`
+                        : `${window.quantity} × ${window.sqft.toFixed(2)} sq ft`;
+                    subtotal += window.totalPrice;
+                    services.push({ 
+                        name: `${displayName} (${details})`, 
+                        price: window.totalPrice 
+                    });
+                }
+            });
+
+            if (document.getElementById('residentialRemoval').checked) {
+                const price = parseFloat(document.getElementById('priceResidentialRemoval').value) || 0;
+                subtotal += price;
+                services.push({ name: 'Tint Removal', price: price });
+            }
         }
 
         const servicesContainer = document.getElementById('selectedServices');
@@ -607,7 +981,7 @@
             servicesContainer.innerHTML = services.map(s => 
                 `<div class="summary-line">
                     <span class="label">${s.name}</span>
-                    <span class="value">$${s.price.toFixed(2)}</span>
+                    <span class="value">${s.price.toFixed(2)}</span>
                 </div>`
             ).join('');
         }
@@ -616,7 +990,7 @@
         const discountAmount = (subtotal * discountPercent) / 100;
         const total = subtotal - discountAmount;
 
-        document.getElementById('subtotalAmount').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('subtotalAmount').textContent = `${subtotal.toFixed(2)}`;
         
         if (discountPercent > 0) {
             document.getElementById('discountLine').style.display = 'flex';
@@ -626,50 +1000,108 @@
             document.getElementById('discountLine').style.display = 'none';
         }
 
-        document.getElementById('totalAmount').textContent = `$${total.toFixed(2)}`;
+        document.getElementById('totalAmount').textContent = `${total.toFixed(2)}`;
     }
 
     function generateQuote() {
-        quoteCounter++;
-        localStorage.setItem('quoteCounter', quoteCounter.toString());
+        const docType = document.getElementById('docType').value;
+        const serviceType = document.getElementById('serviceType').value;
+        
+        let counter;
+        let displayCounter;
+        
+        if (docType === 'quote') {
+            quoteCounter++;
+            localStorage.setItem('quoteCounter', quoteCounter.toString());
+            counter = quoteCounter;
+            displayCounter = counter;
+        } else {
+            // For invoices, use custom invoice number if provided
+            const customInvoiceNum = document.getElementById('invoiceNumber').value.trim();
+            if (customInvoiceNum) {
+                displayCounter = customInvoiceNum;
+                counter = invoiceCounter + 1; // Still increment for file naming
+            } else {
+                invoiceCounter++;
+                localStorage.setItem('invoiceCounter', invoiceCounter.toString());
+                counter = invoiceCounter;
+                displayCounter = counter;
+            }
+            if (!customInvoiceNum) {
+                localStorage.setItem('invoiceCounter', counter.toString());
+            }
+        }
+        
+        const docTitle = docType === 'quote' ? 'Quote' : 'Invoice';
 
         const customerName = document.getElementById('customerName').value || 'N/A';
         const customerVehicle = document.getElementById('customerVehicle').value || 'N/A';
         const customerPhone = document.getElementById('customerPhone').value || 'N/A';
+        const warrantyNumber = document.getElementById('warrantyNumber').value || 'N/A';
         const filmType = document.getElementById('displayFilm').textContent;
         const notes = document.getElementById('quoteNotes').value;
         
         const services = [];
         let subtotal = 0;
 
-        if (document.getElementById('frontWindows').checked) {
-            const price = parseFloat(document.getElementById('priceFront').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Front Windows (2)', price: price });
-        }
+        if (serviceType === 'automotive') {
+            if (document.getElementById('frontWindows').checked) {
+                const price = parseFloat(document.getElementById('priceFront').value) || 0;
+                const percent = parseFloat(document.getElementById('percentFront').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Front Windows (2) - ${percent}% Tint` : 'Front Windows (2)';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('backWindows').checked) {
-            const price = parseFloat(document.getElementById('priceBack').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Back Windows + Rear Glass', price: price });
-        }
+            if (document.getElementById('backWindows').checked) {
+                const price = parseFloat(document.getElementById('priceBack').value) || 0;
+                const percent = parseFloat(document.getElementById('percentBack').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Back Windows + Rear Glass - ${percent}% Tint` : 'Back Windows + Rear Glass';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('fullWindshield').checked) {
-            const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Full Windshield', price: price });
-        }
+            if (document.getElementById('fullWindshield').checked) {
+                const price = parseFloat(document.getElementById('priceWindshield').value) || 0;
+                const percent = parseFloat(document.getElementById('percentWindshield').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Full Windshield - ${percent}% Tint` : 'Full Windshield';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('sunvisor').checked) {
-            const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Sunvisor Strip', price: price });
-        }
+            if (document.getElementById('sunvisor').checked) {
+                const price = parseFloat(document.getElementById('priceSunvisor').value) || 0;
+                const percent = parseFloat(document.getElementById('percentSunvisor').value) || 0;
+                subtotal += price;
+                const serviceName = docType === 'invoice' ? `Sunvisor Strip - ${percent}% Tint` : 'Sunvisor Strip';
+                services.push({ name: serviceName, price: price });
+            }
 
-        if (document.getElementById('removal').checked) {
-            const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
-            subtotal += price;
-            services.push({ name: 'Tint Removal', price: price });
+            if (document.getElementById('removal').checked) {
+                const price = parseFloat(document.getElementById('priceRemoval').value) || 0;
+                subtotal += price;
+                services.push({ name: 'Tint Removal', price: price });
+            }
+        } else {
+            windows.forEach(window => {
+                if (window.totalPrice > 0) {
+                    const displayName = window.name || 'Unnamed Window';
+                    const details = docType === 'invoice' 
+                        ? `${window.quantity} windows × ${window.sqft.toFixed(2)} sq ft each - ${window.percent}% Tint`
+                        : `${window.quantity} windows × ${window.sqft.toFixed(2)} sq ft each`;
+                    subtotal += window.totalPrice;
+                    services.push({ 
+                        name: `${displayName} (${details})`, 
+                        price: window.totalPrice 
+                    });
+                }
+            });
+
+            if (document.getElementById('residentialRemoval').checked) {
+                const price = parseFloat(document.getElementById('priceResidentialRemoval').value) || 0;
+                subtotal += price;
+                services.push({ name: 'Tint Removal', price: price });
+            }
         }
 
         const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
@@ -683,8 +1115,16 @@
             day: 'numeric' 
         });
 
+        const vehicleLabel = serviceType === 'automotive' ? 'Vehicle' : 'Property';
+        const serviceTypeLabel = serviceType === 'automotive' ? 'Automotive' : 'Residential';
+
+        // Build warranty row for invoices
+        const warrantyRow = docType === 'invoice' && warrantyNumber !== 'N/A' 
+            ? `<div class="info-label">Warranty:</div><div class="info-value">${warrantyNumber}</div>` 
+            : '';
+
         const servicesHTML = services.map(s => 
-            `<div class="line-item"><span class="item-name">${s.name}</span><span class="item-price">$${s.price.toFixed(2)}</span></div>`
+            `<div class="line-item"><span class="item-name">${s.name}</span><span class="item-price">${s.price.toFixed(2)}</span></div>`
         ).join('');
 
         const discountHTML = discountPercent > 0 ? 
@@ -698,23 +1138,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XTint Quote #${quoteCounter}</title>
+<title>XTint ${docTitle} #${displayCounter}</title>
 <style>*{margin:0;padding:0;box-sizing:border-box}body{background-color:#000;color:#fff;font-family:Arial,sans-serif;padding:60px 40px}.quote-container{max-width:800px;margin:0 auto;background-color:#111;border:2px solid #00ff88;padding:50px}.header{text-align:center;margin-bottom:40px;padding-bottom:30px;border-bottom:2px solid #222}.brand{font-size:3rem;font-weight:bold;color:#fff;margin-bottom:10px}.tagline{color:#00ff88;font-size:.9rem;text-transform:uppercase;letter-spacing:2px}.quote-number{background-color:#00ff88;color:#000;padding:10px 20px;display:inline-block;font-weight:bold;font-size:1.1rem;text-transform:uppercase;letter-spacing:2px;margin-top:20px}.section{margin-bottom:40px}.section-title{color:#00ff88;font-size:.85rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:15px;font-weight:bold}.info-grid{display:grid;grid-template-columns:150px 1fr;gap:15px 30px;background-color:#000;padding:25px;border:1px solid #222}.info-label{color:#999;font-size:.9rem;text-transform:uppercase;letter-spacing:1px}.info-value{color:#fff;font-size:1rem;font-weight:bold}.services-list{background-color:#000;border:1px solid #222;padding:25px}.line-item{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid #222}.line-item:last-child{border-bottom:none}.item-name{color:#ccc;font-size:1rem}.item-price{color:#fff;font-size:1.1rem;font-weight:bold}.totals-section{background-color:#000;border:1px solid #222;padding:25px;margin-top:20px}.total-line{display:flex;justify-content:space-between;padding:12px 0;font-size:1rem}.total-line.discount{color:#00ff88}.total-line.final{margin-top:15px;padding-top:20px;border-top:2px solid #00ff88;font-size:1.8rem;font-weight:bold;color:#00ff88}.notes-section{background-color:#001a0d;border:1px solid #00ff88;padding:25px;margin-top:30px}.notes-content{color:#ccc;line-height:1.6;white-space:pre-wrap}.footer{text-align:center;margin-top:50px;padding-top:30px;border-top:1px solid #222}.contact-info{color:#999;font-size:.9rem;line-height:1.8}.contact-info strong{color:#00ff88}.date{text-align:right;color:#666;font-size:.85rem;margin-top:30px}</style>
 </head>
 <body>
 <div class="quote-container">
 <div class="header">
 <div class="brand">XTint.</div>
-<div class="tagline">Residential & Automotive Services • Houston TX</div>
-<div class="quote-number">Quote #${quoteCounter}</div>
+<div class="tagline">${serviceTypeLabel} Tinting Services • Houston TX</div>
+<div class="quote-number">${docTitle} #${displayCounter}</div>
 </div>
 <div class="section">
 <div class="section-title">Customer Information</div>
 <div class="info-grid">
 <div class="info-label">Name:</div><div class="info-value">${customerName}</div>
-<div class="info-label">Vehicle:</div><div class="info-value">${customerVehicle}</div>
+<div class="info-label">${vehicleLabel}:</div><div class="info-value">${customerVehicle}</div>
 <div class="info-label">Phone:</div><div class="info-value">${customerPhone}</div>
 <div class="info-label">Film Type:</div><div class="info-value">${filmType}</div>
+<div class="info-label">Service Type:</div><div class="info-value">${serviceTypeLabel}</div>
+${warrantyRow}
 </div>
 </div>
 <div class="section">
@@ -722,9 +1164,9 @@
 <div class="services-list">${servicesHTML || '<p style="color:#666">No services selected</p>'}</div>
 </div>
 <div class="totals-section">
-<div class="total-line"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
+<div class="total-line"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
 ${discountHTML}
-<div class="total-line final"><span>TOTAL</span><span>$${total.toFixed(2)}</span></div>
+<div class="total-line final"><span>TOTAL</span><span>${total.toFixed(2)}</span></div>
 </div>
 ${notesHTML}
 <div class="footer">
@@ -739,7 +1181,7 @@ ${notesHTML}
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Quote${quoteCounter}.html`;
+        a.download = `${docTitle}${displayCounter}.html`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -751,35 +1193,48 @@ ${notesHTML}
     }
 
     function resetQuote() {
-        // Clear customer info
         document.getElementById('customerName').value = '';
         document.getElementById('customerVehicle').value = '';
         document.getElementById('customerPhone').value = '';
+        document.getElementById('invoiceNumber').value = '';
+        document.getElementById('warrantyNumber').value = '';
         document.getElementById('displayName').textContent = '—';
         document.getElementById('displayVehicle').textContent = '—';
         
-        // Uncheck all services
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         
-        // Reset prices to defaults
         document.getElementById('priceFront').value = '85';
         document.getElementById('priceBack').value = '140';
         document.getElementById('priceWindshield').value = '110';
         document.getElementById('priceSunvisor').value = '35';
         document.getElementById('priceRemoval').value = '50';
+        document.getElementById('priceResidentialRemoval').value = '75';
         
-        // Clear discount and notes
+        document.getElementById('percentFront').value = '35';
+        document.getElementById('percentBack').value = '20';
+        document.getElementById('percentWindshield').value = '70';
+        document.getElementById('percentSunvisor').value = '5';
+        
+        document.getElementById('windowsList').innerHTML = '';
+        windows = [];
+        windowCounter = 0;
+        
         document.getElementById('discountPercent').value = '';
         document.getElementById('quoteNotes').value = '';
         
-        // Reset film to regular
         selectFilm('regular');
+        selectDocType('quote');
+        selectServiceType('automotive');
         
-        // Update totals
         updateTotal();
     }
 
     updateTotal();
+    
+    // Hide percent fields on initial load (starts as Quote)
+    document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
+        field.style.display = 'none';
+    });
 </script>
 </body>
 </html>
