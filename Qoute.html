@@ -476,7 +476,7 @@
 
         <div class="header">
             <div class="brand">
-                <img src="logo1.png" alt="XTint Logo">
+                <img src="logo1.png" alt="XTint Logo" id="logoImage">
             </div>
             <div class="tagline">Custom Quote & Invoice Generator</div>
         </div>
@@ -512,11 +512,11 @@
                 </div>
             </div>
             
-            <!-- Invoice Number Field (only shows for invoices) -->
-            <div id="invoiceNumberSection" style="display: none;">
+            <!-- Quote/Invoice Number Field -->
+            <div id="customNumberSection">
                 <div class="input-group">
-                    <label class="input-label">Invoice Number (Optional - Will use auto-generated if blank)</label>
-                    <input type="text" id="invoiceNumber" placeholder="INV-2025-001">
+                    <label class="input-label" id="customNumberLabel">Quote Number (Optional - Will use auto-generated if blank)</label>
+                    <input type="text" id="customNumber" placeholder="QUOTE-2025-001">
                 </div>
             </div>
         </div>
@@ -728,6 +728,21 @@
     let windowCounter = 0;
     let windows = [];
 
+    // Function to capture logo as base64
+    async function getImageAsBase64() {
+        return new Promise((resolve) => {
+            const img = document.getElementById('logoImage');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            ctx.drawImage(img, 0, 0);
+            
+            resolve(canvas.toDataURL('image/png'));
+        });
+    }
+
     function selectDocType(type) {
         const allOptions = document.querySelectorAll('.film-option');
         allOptions[0].classList.remove('active');
@@ -737,23 +752,21 @@
             allOptions[0].classList.add('active');
             document.getElementById('mainTitle').textContent = 'BUILD QUOTE';
             document.getElementById('generateBtn').textContent = 'Generate Quote';
-            // Hide percent fields for automotive
+            document.getElementById('customNumberLabel').textContent = 'Quote Number (Optional - Will use auto-generated if blank)';
+            document.getElementById('customNumber').placeholder = 'QUOTE-2025-001';
             document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
                 field.style.display = 'none';
             });
-            // Hide invoice-specific fields
-            document.getElementById('invoiceNumberSection').style.display = 'none';
             document.getElementById('warrantySection').style.display = 'none';
         } else {
             allOptions[1].classList.add('active');
             document.getElementById('mainTitle').textContent = 'BUILD INVOICE';
             document.getElementById('generateBtn').textContent = 'Generate Invoice';
-            // Show percent fields for automotive
+            document.getElementById('customNumberLabel').textContent = 'Invoice Number (Optional - Will use auto-generated if blank)';
+            document.getElementById('customNumber').placeholder = 'INV-2025-001';
             document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
                 field.style.display = 'flex';
             });
-            // Show invoice-specific fields
-            document.getElementById('invoiceNumberSection').style.display = 'block';
             document.getElementById('warrantySection').style.display = 'block';
         }
         
@@ -1018,31 +1031,42 @@
         document.getElementById('totalAmount').textContent = `${total.toFixed(2)}`;
     }
 
-    function generateQuote() {
+    async function generateQuote() {
+        // Capture the logo first
+        const logoBase64 = await getImageAsBase64();
+        
         const docType = document.getElementById('docType').value;
         const serviceType = document.getElementById('serviceType').value;
         
         let counter;
         let displayCounter;
         
+        const customNumber = document.getElementById('customNumber').value.trim();
+        
         if (docType === 'quote') {
-            quoteCounter++;
-            localStorage.setItem('quoteCounter', quoteCounter.toString());
-            counter = quoteCounter;
-            displayCounter = counter;
+            if (customNumber) {
+                displayCounter = customNumber;
+                counter = quoteCounter + 1;
+            } else {
+                quoteCounter++;
+                localStorage.setItem('quoteCounter', quoteCounter.toString());
+                counter = quoteCounter;
+                displayCounter = counter;
+            }
+            if (!customNumber) {
+                localStorage.setItem('quoteCounter', counter.toString());
+            }
         } else {
-            // For invoices, use custom invoice number if provided
-            const customInvoiceNum = document.getElementById('invoiceNumber').value.trim();
-            if (customInvoiceNum) {
-                displayCounter = customInvoiceNum;
-                counter = invoiceCounter + 1; // Still increment for file naming
+            if (customNumber) {
+                displayCounter = customNumber;
+                counter = invoiceCounter + 1;
             } else {
                 invoiceCounter++;
                 localStorage.setItem('invoiceCounter', invoiceCounter.toString());
                 counter = invoiceCounter;
                 displayCounter = counter;
             }
-            if (!customInvoiceNum) {
+            if (!customNumber) {
                 localStorage.setItem('invoiceCounter', counter.toString());
             }
         }
@@ -1133,7 +1157,6 @@
         const vehicleLabel = serviceType === 'automotive' ? 'Vehicle' : 'Property';
         const serviceTypeLabel = serviceType === 'automotive' ? 'Automotive' : 'Residential';
 
-        // Build warranty row for invoices
         const warrantyRow = docType === 'invoice' && warrantyNumber !== 'N/A' 
             ? `<div class="info-label">Warranty:</div><div class="info-value">${warrantyNumber}</div>` 
             : '';
@@ -1159,7 +1182,7 @@
 <body>
 <div class="quote-container">
 <div class="header">
-<div class="brand"><img src="logo1.png" alt="XTint Logo" style="height:60px;width:auto;object-fit:contain;"></div>
+<div class="brand"><img src="${logoBase64}" alt="XTint Logo" style="height:60px;width:auto;object-fit:contain;"></div>
 <div class="tagline">${serviceTypeLabel} Tinting Services • Houston TX</div>
 <div class="quote-number">${docTitle} #${displayCounter}</div>
 </div>
@@ -1211,7 +1234,7 @@ ${notesHTML}
         document.getElementById('customerName').value = '';
         document.getElementById('customerVehicle').value = '';
         document.getElementById('customerPhone').value = '';
-        document.getElementById('invoiceNumber').value = '';
+        document.getElementById('customNumber').value = '';
         document.getElementById('warrantyNumber').value = '';
         document.getElementById('displayName').textContent = '—';
         document.getElementById('displayVehicle').textContent = '—';
@@ -1246,7 +1269,6 @@ ${notesHTML}
 
     updateTotal();
     
-    // Hide percent fields on initial load (starts as Quote)
     document.querySelectorAll('#automotiveServices .percent-field').forEach(field => {
         field.style.display = 'none';
     });
