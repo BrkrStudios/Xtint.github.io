@@ -140,6 +140,10 @@
             overflow: hidden;
         }
 
+        .hero h1 span {
+            overflow: visible;
+        }
+
         .hero-left::before {
             content: '';
             position: absolute;
@@ -314,7 +318,7 @@
         /* Services Grid */
         .services {
             padding: 120px 40px;
-            background: var(--dark);
+            background: linear-gradient(to bottom, var(--black) 0%, var(--dark) 25%, var(--dark) 100%);
         }
 
         .section-header {
@@ -405,7 +409,7 @@
         /* Process Section */
         .process {
             padding: 120px 40px;
-            background: var(--black);
+            background: linear-gradient(to bottom, var(--dark) 0%, var(--black) 25%, var(--black) 100%);
             position: relative;
         }
 
@@ -497,7 +501,47 @@
         /* Gallery Masonry */
         .gallery {
             padding: 120px 40px;
-            background: var(--gray);
+            background: linear-gradient(to bottom, var(--black) 0%, var(--gray) 25%, var(--gray) 100%);
+        }
+
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .gallery-tab {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--medium-gray);
+            color: var(--light-gray);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        }
+
+        .gallery-tab:hover {
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        .gallery-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--black);
+        }
+
+        .gallery-tab span {
+            margin-right: 8px;
+        }
+
+        .gallery-container {
+            position: relative;
         }
 
         .gallery-grid {
@@ -505,7 +549,9 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin-top: 60px;
+            touch-action: pan-y;
         }
+
 
         .gallery-item {
             position: relative;
@@ -521,13 +567,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.5s ease;
-            filter: grayscale(100%);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.1);
-            filter: grayscale(0%);
         }
 
         .gallery-overlay {
@@ -536,14 +575,9 @@
             left: 0;
             right: 0;
             padding: 30px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6) 60%, transparent);
         }
 
-        .gallery-item:hover .gallery-overlay {
-            transform: translateY(0);
-        }
 
         .gallery-overlay h4 {
             font-size: 18px;
@@ -561,7 +595,7 @@
         /* Testimonials */
         .testimonials {
             padding: 120px 40px;
-            background: var(--black);
+            background: linear-gradient(to bottom, var(--gray) 0%, var(--black) 25%, var(--black) 100%);
             position: relative;
         }
 
@@ -691,8 +725,10 @@
         /* Footer */
         footer {
             padding: 60px 40px 40px;
-            background: var(--black);
+                        background: var(--black);
             border-top: 1px solid var(--gray);
+
+            border-top: none;
         }
 
         .footer-content {
@@ -773,7 +809,7 @@
         /* About Section */
 .about {
     padding: 120px 40px;
-    background: var(--dark);
+    background: linear-gradient(to bottom, #001a0d 0%, #001a0d 15%, var(--dark) 35%, var(--dark) 100%);
     position: relative;
 }
 
@@ -894,7 +930,7 @@
 /* Films Section */
 .films {
     padding: 120px 40px;
-    background: #001a0d;
+    background: linear-gradient(to bottom, var(--black) 0%, var(--black) 15%, #001a0d 35%, #001a0d 100%);
     position: relative;
     overflow: hidden;
 }
@@ -1286,14 +1322,27 @@
                 grid-template-columns: 1fr;
             }
 
+            .hero-left {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
             .gallery-item:nth-child(1) {
                 grid-row: span 1;
             }
-            
+
             .gallery-item:nth-child(4) {
                 grid-column: span 1;
             }
-            
+
             .gallery-grid {
                 grid-template-columns: 1fr !important;
             }
@@ -1512,40 +1561,87 @@
             <p class="section-number">03 — PORTFOLIO</p>
             <h2 class="section-title">Recent<br>Projects</h2>
         </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <img src="IMG_2494.JPG" alt="Tesla Model S">
-                <div class="gallery-overlay">
-                    <h4>Honda Civic Sport</h4>
-                    <p>50% windshield, 35% Front, 5% Back</p>
+
+        <!-- Gallery Tabs -->
+        <div class="gallery-tabs">
+            <button class="gallery-tab active" onclick="switchGallery('automotive')">
+                <span>🚗</span> Automotive
+            </button>
+            <button class="gallery-tab" onclick="switchGallery('residential')">
+                <span>🏠</span> Residential
+            </button>
+        </div>
+
+        <!-- Automotive Gallery -->
+        <div class="gallery-container" id="automotive-gallery">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="IMG_7833.JPG" alt="Porsche 911" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Porsche 911</h4>
+                        <p>15% all around</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="IMG_1365.jpeg" alt="Kia K4" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Kia K4</h4>
+                        <p>5% all around</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Honda Civic Sport</h4>
+                        <p>50% windshield, 5% all around</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <img src="IMG_6113.jpeg" alt="Nissan Altima" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Nissan Altima</h4>
+                        <p>70% Windshield, 35% all around</p>
+                    </div>
                 </div>
             </div>
-            <div class="gallery-item">
-                <img src="https://via.placeholder.com/600x400/1c1c1c/666666?text=BMW+M3" alt="Coming Soon">
-                <div class="gallery-overlay">
-                    <h4>Coming Soon</h4>
-                    <p>Coming Soon</p>
+        </div>
+
+        <!-- Residential Gallery -->
+        <div class="gallery-container" id="residential-gallery" style="display: none;">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/600x400/1c1c1c/00ff88?text=Residential+Project+2" alt="Residential Project 1" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Modern Home</h4>
+                        <p>15% Tint</p>
+                    </div>
                 </div>
-            </div>
-            <div class="gallery-item">
-                <img src="IMG_3375.jpeg" alt="Honda Civic">
-                <div class="gallery-overlay">
-                    <h4>Honda Civic</h4>
-                    <p>35% windshield, 5% all around</p>
+
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/600x400/1c1c1c/00ff88?text=Residential+Project+2" alt="Residential Project 2" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Office Building</h4>
+                        <p>20% Heat Reduction</p>
+                    </div>
                 </div>
-            </div>
-            <div class="gallery-item">
-                <img src="IMG_7833.JPG" alt="Porsche 911">
-                <div class="gallery-overlay">
-                    <h4>Porsche 911</h4>
-                    <p>15% all around</p>
+
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/600x400/1c1c1c/00ff88?text=Residential+Project+3" alt="Residential Project 3" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Living Room</h4>
+                        <p>50% UV Protection</p>
+                    </div>
                 </div>
-            </div>
-            <div class="gallery-item">
-                <img src="IMG_1365.jpeg" alt="Range Rover">
-                <div class="gallery-overlay">
-                    <h4>Kia K4</h4>
-                    <p>5% all around</p>
+
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/600x400/1c1c1c/00ff88?text=Residential+Project+4" alt="Residential Project 4" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h4>Home Office</h4>
+                        <p>35% Glare Reduction</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1666,7 +1762,7 @@
         <span class="close-modal" onclick="closeQuoteModal()">&times;</span>
         <section class="formcarry-container">
             <h3>Get Your Quote</h3>
-            <p class="subtitle">All quotes are answered as fast as possible</p>
+            <p class="subtitle">All quotes are answered same buisness day</p>
             <form action="https://formcarry.com/s/lDJki5Kbs4H" method="POST">
                 
                 <div class="formcarry-block">
@@ -1681,17 +1777,17 @@
                 
                 <div class="formcarry-block">
                     <label for="fc-brand">Car Brand</label>
-                    <input type="text" name="brand" id="fc-brand" placeholder="e.g., Toyota, Honda, BMW" required />
+                    <input type="text" name="brand" id="fc-brand" placeholder="Toyota, Honda, BMW" required />
                 </div>
                 
                 <div class="formcarry-block">
                     <label for="fc-year">Year</label>
-                    <input type="text" name="year" id="fc-year" placeholder="e.g., 2023" required />
+                    <input type="text" name="year" id="fc-year" placeholder="2023" required />
                 </div>
                 
                 <div class="formcarry-block">
                     <label for="fc-model">Make/Model</label>
-                    <input type="text" name="model" id="fc-model" placeholder="e.g., Camry, Civic, X5" required />
+                    <input type="text" name="model" id="fc-model" placeholder="Camry, Civic, M3" required />
                 </div>
                 
                 <div class="formcarry-block">  
@@ -1717,7 +1813,7 @@
             <div class="about-text">
                 <div class="founder-badge">Founder & Lead Installer</div>
                 <h3>I'm <span>Xander Angulo</span></h3>
-                <p>As someone who's had <strong>over 20+ tint setups per vehicle</strong>, I've seen it all. I've experienced the overpriced quotes, the mediocre work, and the lack of transparency in this industry. That's when I realized something had to change.</p>
+                <p>As someone who's had <strong>over 15+ tint setups per vehicle</strong>, I've seen it all. I've experienced the overpriced quotes, the mediocre work, and the lack of transparency in this industry. That's when I realized something had to change.</p>
                 
                 <p><strong>Tint shouldn't cost you an arm and a leg.</strong> It's meant to keep you protected from harmful UV rays, reduce heat, enhance privacy, and improve your driving or living experience. But somehow, it became an overpriced luxury instead of an accessible necessity.</p>
                 
@@ -1727,16 +1823,12 @@
                 
                 <div class="about-stats">
                     <div class="stat-item">
-                        <div class="stat-number">20+</div>
+                        <div class="stat-number">15+</div>
                         <div class="stat-label">Setups Per Vehicle</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">100%</div>
                         <div class="stat-label">Quality Guarantee</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">5.0</div>
-                        <div class="stat-label">Customer Rating</div>
                     </div>
                 </div>
             </div>
@@ -1750,7 +1842,7 @@
         <div class="contact-content">
             <div class="contact-left">
                 <h2>Let's<br>Connect</h2>
-                <p>Ready to transform your vehicle? Or home? Schedule your appointment today and experience the difference.</p>
+                <p>Ready to transform your vehicle? Or home? Schedule your appointment today and experience the difference. </p>
                 <div class="hero-cta">
                     <a href="tel:832-776-5717" class="btn-primary" style="background: var(--black); color: var(--white);">
                         Call Or Text Now
@@ -1764,7 +1856,7 @@
             <div class="contact-info">
                 <div class="contact-item">
                     <span>📍</span>
-                    <span>Houston, TX</span>
+                    <span>Cypress, TX (77429)</span>
                 </div>
                 <div class="contact-item">
                     <span>📞</span>
@@ -1918,6 +2010,59 @@
                 closeQuoteModal();
             }
         });
+
+        // Gallery switching function
+        function switchGallery(type) {
+            const automotiveGallery = document.getElementById('automotive-gallery');
+            const residentialGallery = document.getElementById('residential-gallery');
+            const tabs = document.querySelectorAll('.gallery-tab');
+
+            if (type === 'automotive') {
+                automotiveGallery.style.display = 'block';
+                residentialGallery.style.display = 'none';
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                automotiveGallery.style.display = 'none';
+                residentialGallery.style.display = 'block';
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+
+        // Add touch swipe functionality for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.querySelectorAll('.gallery-container').forEach(container => {
+            container.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+
+            container.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+        });
+
+        function handleSwipe() {
+            const automotiveGallery = document.getElementById('automotive-gallery');
+            const swipeThreshold = 50;
+
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swiped left - show residential
+                if (automotiveGallery.style.display !== 'none') {
+                    switchGallery('residential');
+                }
+            }
+
+            if (touchEndX > touchStartX + swipeThreshold) {
+                // Swiped right - show automotive
+                if (automotiveGallery.style.display === 'none') {
+                    switchGallery('automotive');
+                }
+            }
+        }
     </script>
 </body>
 </html>
