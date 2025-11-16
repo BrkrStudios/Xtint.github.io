@@ -47,6 +47,7 @@
             --accent-dim: #00ff8820;
         }
 
+        
         ::selection {
             background: var(--accent);
             color: var(--black);
@@ -204,7 +205,8 @@
 
         .hero h1 span {
             display: block;
-            overflow: hidden;
+            overflow: visible;
+            padding-right: 10px;
         }
 
         .hero h1 span .word {
@@ -1335,6 +1337,14 @@
                 align-items: center;
             }
 
+            .section-header {
+                text-align: center;
+            }
+
+            .section-title {
+                text-align: center;
+            }
+
             .gallery-item:nth-child(1) {
                 grid-row: span 1;
             }
@@ -1361,6 +1371,10 @@
 
             .testimonial-content {
                 grid-template-columns: 1fr;
+            }
+
+            .testimonial-rating {
+                text-align: center;
             }
 
             .contact-content {
@@ -1496,7 +1510,7 @@
         </div>
     </div>
                 <div class="highlight-box">
-                ✓ FREE UBER SERVICE UP TO 5-10 MILES FROM WORK POINT (TO AND FROM)
+                ✓ FREE UBER SERVICE UP TO 5-10 MILES FROM WORK POINT
             </div>
 
     <!-- Services Section -->
