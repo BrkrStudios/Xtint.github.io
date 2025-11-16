@@ -1948,36 +1948,72 @@
             <h3>Get Your Quote</h3>
             <p class="subtitle">All quotes are answered same buisness day</p>
             <form action="https://formcarry.com/s/lDJki5Kbs4H" method="POST">
-                
+
                 <div class="formcarry-block">
                     <label for="fc-name">Full Name</label>
                     <input type="text" name="name" id="fc-name" placeholder="Your full name" required />
                 </div>
-                
+
                 <div class="formcarry-block">
                     <label for="fc-phone">Phone Number</label>
                     <input type="tel" name="phone" id="fc-phone" placeholder="(555) 123-4567" required />
                 </div>
-                
+
                 <div class="formcarry-block">
-                    <label for="fc-brand">Car Brand</label>
-                    <input type="text" name="brand" id="fc-brand" placeholder="Toyota, Honda, BMW" required />
+                    <label for="fc-service-type">Service Type</label>
+                    <select name="serviceType" id="fc-service-type" onchange="toggleQuoteFields()" required>
+                        <option value="">Select a service</option>
+                        <option value="automotive">Automotive Tinting</option>
+                        <option value="residential">Residential Tinting</option>
+                    </select>
                 </div>
-                
+
+                <!-- Automotive Fields -->
+                <div id="automotive-fields" style="display: none; margin-top: 10px;">
+                    <div class="formcarry-block">
+                        <label for="fc-brand">Car Brand</label>
+                        <input type="text" name="brand" id="fc-brand" placeholder="Toyota, Honda, BMW" />
+                    </div>
+
+                    <div class="formcarry-block">
+                        <label for="fc-year">Year</label>
+                        <input type="text" name="year" id="fc-year" placeholder="2023" />
+                    </div>
+
+                    <div class="formcarry-block">
+                        <label for="fc-model">Make/Model</label>
+                        <input type="text" name="model" id="fc-model" placeholder="Camry, Civic, M3" />
+                    </div>
+                </div>
+
+                <!-- Residential Fields -->
+                <div id="residential-fields" style="display: none; margin-top: 10px;">
+                    <div class="formcarry-block">
+                        <label for="fc-address">Address</label>
+                        <input type="text" name="address" id="fc-address" placeholder="123 Main St, Houston, TX 77429" />
+                    </div>
+
+                    <div class="formcarry-block">
+                        <label for="fc-windows">Number of Windows</label>
+                        <input type="number" name="windows" id="fc-windows" placeholder="10" min="1" />
+                    </div>
+
+                    <div class="formcarry-block">
+                        <label for="fc-property-type">Property Type</label>
+                        <select name="propertyType" id="fc-property-type">
+                            <option value="">Select property type</option>
+                            <option value="house">House</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="office">Office</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="formcarry-block">
-                    <label for="fc-year">Year</label>
-                    <input type="text" name="year" id="fc-year" placeholder="2023" required />
-                </div>
-                
-                <div class="formcarry-block">
-                    <label for="fc-model">Make/Model</label>
-                    <input type="text" name="model" id="fc-model" placeholder="Camry, Civic, M3" required />
-                </div>
-                
-                <div class="formcarry-block">  
                     <button type="submit">Submit Quote Request</button>
                 </div>
-            
+
             </form>
         </section>
     </div>
@@ -2293,6 +2329,35 @@
                 residentialGallery.style.display = 'block';
                 tabs[0].classList.remove('active');
                 tabs[1].classList.add('active');
+            }
+        }
+
+        // Quote form field toggle
+        function toggleQuoteFields() {
+            const serviceType = document.getElementById('fc-service-type').value;
+            const automotiveFields = document.getElementById('automotive-fields');
+            const residentialFields = document.getElementById('residential-fields');
+
+            // Hide both sets of fields
+            automotiveFields.style.display = 'none';
+            residentialFields.style.display = 'none';
+
+            // Clear required attributes from all conditional fields
+            document.querySelectorAll('#automotive-fields input, #residential-fields input, #residential-fields select').forEach(field => {
+                field.removeAttribute('required');
+            });
+
+            // Show and require the appropriate fields
+            if (serviceType === 'automotive') {
+                automotiveFields.style.display = 'block';
+                document.getElementById('fc-brand').setAttribute('required', '');
+                document.getElementById('fc-year').setAttribute('required', '');
+                document.getElementById('fc-model').setAttribute('required', '');
+            } else if (serviceType === 'residential') {
+                residentialFields.style.display = 'block';
+                document.getElementById('fc-address').setAttribute('required', '');
+                document.getElementById('fc-windows').setAttribute('required', '');
+                document.getElementById('fc-property-type').setAttribute('required', '');
             }
         }
 
