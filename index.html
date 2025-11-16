@@ -760,10 +760,21 @@
             background: var(--gray);
             cursor: pointer;
             transition: all 0.3s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .dot.active {
             background: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .dot {
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                padding: 4px;
+            }
         }
 
         .testimonial-arrows {
@@ -785,6 +796,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .arrow-btn:hover {
@@ -795,6 +808,12 @@
 
         .arrow-btn:active {
             transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-arrows {
+                display: none;
+            }
         }
 
         /* Contact Section */
@@ -2118,6 +2137,7 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.testimonial-slide');
         const dots = document.querySelectorAll('.dot');
+        let autoPlayInterval;
 
         function changeSlide(index) {
             slides[currentSlide].classList.remove('active');
@@ -2137,6 +2157,56 @@
         function previousSlide() {
             const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
             changeSlide(prevIndex);
+        }
+
+        // Auto-play testimonials on mobile
+        function startAutoPlay() {
+            if (window.innerWidth <= 768) {
+                autoPlayInterval = setInterval(nextSlide, 5000);
+            }
+        }
+
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        // Start auto-play on load
+        startAutoPlay();
+
+        // Restart auto-play on resize
+        window.addEventListener('resize', () => {
+            stopAutoPlay();
+            startAutoPlay();
+        });
+
+        // Add swipe functionality for testimonials
+        let testimonialTouchStartX = 0;
+        let testimonialTouchEndX = 0;
+
+        const testimonialSlider = document.querySelector('.testimonial-slider');
+        if (testimonialSlider) {
+            testimonialSlider.addEventListener('touchstart', e => {
+                testimonialTouchStartX = e.changedTouches[0].screenX;
+                stopAutoPlay();
+            }, false);
+
+            testimonialSlider.addEventListener('touchend', e => {
+                testimonialTouchEndX = e.changedTouches[0].screenX;
+                handleTestimonialSwipe();
+                startAutoPlay();
+            }, false);
+        }
+
+        function handleTestimonialSwipe() {
+            const swipeThreshold = 50;
+
+            if (testimonialTouchEndX < testimonialTouchStartX - swipeThreshold) {
+                nextSlide();
+            }
+
+            if (testimonialTouchEndX > testimonialTouchStartX + swipeThreshold) {
+                previousSlide();
+            }
         }
 
         // Smooth scroll
