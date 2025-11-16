@@ -124,6 +124,73 @@
             width: 100%;
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 28px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            nav {
+                padding: 20px 30px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--black);
+                flex-direction: column;
+                padding: 80px 30px 30px;
+                gap: 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid var(--gray);
+                mix-blend-mode: normal;
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-menu a {
+                font-size: 14px;
+                padding: 10px 0;
+            }
+        }
+
         /* Hero Section - Split Design */
         .hero {
             height: 100vh;
@@ -1430,10 +1497,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .nav-menu {
-                display: none;
-            }
-            
             .about-content {
                  grid-template-columns: 1fr;
                 gap: 40px;
@@ -1520,12 +1583,17 @@
             <div class="logo">
             <img src="logo1.png" alt="XTint Logo">
             </div>
-            <ul class="nav-menu">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#process">Process</a></li>
-                <li><a href="#gallery">Work</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#services" onclick="closeMobileMenu()">Services</a></li>
+                <li><a href="#process" onclick="closeMobileMenu()">Process</a></li>
+                <li><a href="#gallery" onclick="closeMobileMenu()">Work</a></li>
+                <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -1536,8 +1604,8 @@
             <div class="hero-content">
                 <div class="hero-badge">Residential & Automotive Services • Houston TX</div>
                 <h1>
-                    <span><span class="word" style="--i: 0">Window</span></span>
-                    <span><span class="word text-outline" style="--i: 1">Tinting</span></span>
+                    <span><span class="word" style="--i: 0">Window </span></span>
+                    <span><span class="word text-outline" style="--i: 1">Tinting </span></span>
                     <span><span class="word" style="--i: 2">Redefined</span></span>
                 </h1>
                 <div class="hero-cta">
@@ -1985,6 +2053,21 @@
         
 
     <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+
         // Timeline animation
         const observerOptions = {
             threshold: 0.5,
