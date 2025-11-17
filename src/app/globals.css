@@ -1,0 +1,36 @@
+/* Root Variables */
+:root {
+    --black: #000000;
+    --dark: #0a0a0a;
+    --gray: #1c1c1c;
+    --medium-gray: #2a2a2a;
+    --light-gray: #666;
+    --white: #ffffff;
+    --accent: #00ff88;
+    --accent-dim: #00ff8820;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--black);
+}
