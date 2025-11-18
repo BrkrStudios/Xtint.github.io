@@ -1,0 +1,26 @@
+# XTINT - Window Tinting Service
+# robots.txt for search engine crawlers
+
+User-agent: *
+Allow: /
+Allow: /og/
+Disallow: /admin/
+Disallow: /.next/
+
+# Specific rules for Googlebot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Specific rules for Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# Sitemap location
+Sitemap: https://xtintusa.com/sitemap.xml
+
+# Cache rules
+Cache-Control: max-age=2592000
+
+# Comment: Allow all legitimate search engines to crawl the site
