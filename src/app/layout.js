@@ -21,7 +21,7 @@ export const metadata = {
     description: "XTINT | Automotive & Residential Tinting",
     images: [
       {
-        url: "/og/7.4.2023-31.jpg",
+        url: "https://xtintusa.com/og/7.4.2023-31.jpg",
         width: 1200,
         height: 630,
         alt: "XTINT Tinting",
