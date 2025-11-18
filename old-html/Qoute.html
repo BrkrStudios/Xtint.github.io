@@ -984,21 +984,25 @@
             windows.forEach(window => {
                 if (window.totalPrice > 0) {
                     const displayName = window.name || 'Unnamed Window';
-                    const details = docType === 'invoice'
-                        ? `${window.quantity} × ${window.sqft.toFixed(2)} sq ft - ${window.percent}%`
-                        : `${window.quantity} × ${window.sqft.toFixed(2)} sq ft`;
-                    subtotal += window.totalPrice;
-                    services.push({ 
-                        name: `${displayName} (${details})`, 
-                        price: window.totalPrice 
+                    services.push({
+                        name: displayName,
+                        isWindow: true,
+                        quantity: window.quantity,
+                        width: window.width,
+                        height: window.height,
+                        sqft: window.sqft,
+                        pricePerSqft: window.pricePerSqft,
+                        percent: window.percent,
+                        price: window.totalPrice
                     });
+                    subtotal += window.totalPrice;
                 }
             });
 
             if (document.getElementById('residentialRemoval').checked) {
                 const price = parseFloat(document.getElementById('priceResidentialRemoval').value) || 0;
                 subtotal += price;
-                services.push({ name: 'Tint Removal', price: price });
+                services.push({ name: 'Tint Removal', price: price, isWindow: false });
             }
         }
 
@@ -1006,12 +1010,26 @@
         if (services.length === 0) {
             servicesContainer.innerHTML = '<p style="color: #666; text-align: center; padding: 20px;">No services selected</p>';
         } else {
-            servicesContainer.innerHTML = services.map(s => 
-                `<div class="summary-line">
-                    <span class="label">${s.name}</span>
-                    <span class="value">${s.price.toFixed(2)}</span>
-                </div>`
-            ).join('');
+            servicesContainer.innerHTML = services.map(s => {
+                if (s.isWindow) {
+                    return `<div style="background-color: #000; border: 1px solid #222; padding: 12px; margin-bottom: 10px; border-left: 3px solid #00ff88;">
+                        <div style="color: #00ff88; font-weight: bold; margin-bottom: 8px;">${s.name}</div>
+                        <div style="color: #999; font-size: 0.85rem; line-height: 1.5;">
+                            <div>Qty: <span style="color: #fff;">${s.quantity}</span></div>
+                            <div>Dimensions: <span style="color: #fff;">${s.width.toFixed(2)}" × ${s.height.toFixed(2)}'</span></div>
+                            <div>Area: <span style="color: #fff;">${s.sqft.toFixed(2)} sq ft</span></div>
+                            <div>Price/Sq Ft: <span style="color: #fff;">$${s.pricePerSqft.toFixed(2)}</span></div>
+                            ${docType === 'invoice' ? `<div>Tint: <span style="color: #fff;">${s.percent}%</span></div>` : ''}
+                        </div>
+                        <div style="border-top: 1px solid #222; margin-top: 8px; padding-top: 8px; text-align: right; color: #00ff88; font-weight: bold;">$${s.price.toFixed(2)}</div>
+                    </div>`;
+                } else {
+                    return `<div class="summary-line">
+                        <span class="label">${s.name}</span>
+                        <span class="value">$${s.price.toFixed(2)}</span>
+                    </div>`;
+                }
+            }).join('');
         }
 
         const discountPercent = parseFloat(document.getElementById('discountPercent').value) || 0;
@@ -1125,21 +1143,25 @@
             windows.forEach(window => {
                 if (window.totalPrice > 0) {
                     const displayName = window.name || 'Unnamed Window';
-                    const details = docType === 'invoice' 
-                        ? `${window.quantity} windows × ${window.sqft.toFixed(2)} sq ft each - ${window.percent}% Tint`
-                        : `${window.quantity} windows × ${window.sqft.toFixed(2)} sq ft each`;
-                    subtotal += window.totalPrice;
-                    services.push({ 
-                        name: `${displayName} (${details})`, 
-                        price: window.totalPrice 
+                    services.push({
+                        name: displayName,
+                        isWindow: true,
+                        quantity: window.quantity,
+                        width: window.width,
+                        height: window.height,
+                        sqft: window.sqft,
+                        pricePerSqft: window.pricePerSqft,
+                        percent: window.percent,
+                        price: window.totalPrice
                     });
+                    subtotal += window.totalPrice;
                 }
             });
 
             if (document.getElementById('residentialRemoval').checked) {
                 const price = parseFloat(document.getElementById('priceResidentialRemoval').value) || 0;
                 subtotal += price;
-                services.push({ name: 'Tint Removal', price: price });
+                services.push({ name: 'Tint Removal', price: price, isWindow: false });
             }
         }
 
@@ -1148,22 +1170,38 @@
         const total = subtotal - discountAmount;
 
         const today = new Date();
-        const dateString = today.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        const dateString = today.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
 
         const vehicleLabel = serviceType === 'automotive' ? 'Vehicle' : 'Property';
         const serviceTypeLabel = serviceType === 'automotive' ? 'Automotive' : 'Residential';
 
-        const warrantyRow = docType === 'invoice' && warrantyNumber !== 'N/A' 
-            ? `<div class="info-label">Warranty:</div><div class="info-value">${warrantyNumber}</div>` 
+        const warrantyRow = docType === 'invoice' && warrantyNumber !== 'N/A'
+            ? `<div class="info-label">Warranty:</div><div class="info-value">${warrantyNumber}</div>`
             : '';
 
-        const servicesHTML = services.map(s => 
-            `<div class="line-item"><span class="item-name">${s.name}</span><span class="item-price">${s.price.toFixed(2)}</span></div>`
-        ).join('');
+        const servicesHTML = services.map(s => {
+            if (s.isWindow) {
+                return `<div class="line-item" style="flex-direction: column; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid #222;">
+                    <div style="display: flex; justify-content: space-between; width: 100%; margin-bottom: 12px;">
+                        <span class="item-name" style="font-weight: bold; color: #00ff88; font-size: 1.05rem;">${s.name}</span>
+                        <span class="item-price" style="font-size: 1.2rem;">$${s.price.toFixed(2)}</span>
+                    </div>
+                    <div style="color: #999; font-size: 0.9rem; width: 100%; line-height: 1.8;">
+                        <div><strong style="color: #ccc;">Qty:</strong> ${s.quantity}</div>
+                        <div><strong style="color: #ccc;">Dimensions:</strong> ${s.width.toFixed(2)}" × ${s.height.toFixed(2)}'</div>
+                        <div><strong style="color: #ccc;">Area:</strong> ${s.sqft.toFixed(2)} sq ft</div>
+                        <div><strong style="color: #ccc;">Price/Sq Ft:</strong> $${s.pricePerSqft.toFixed(2)}</div>
+                        ${docType === 'invoice' ? `<div><strong style="color: #ccc;">Tint:</strong> ${s.percent}%</div>` : ''}
+                    </div>
+                </div>`;
+            } else {
+                return `<div class="line-item"><span class="item-name">${s.name}</span><span class="item-price">$${s.price.toFixed(2)}</span></div>`;
+            }
+        }).join('');
 
         const discountHTML = discountPercent > 0 ? 
             `<div class="total-line discount"><span>Discount (${discountPercent}%)</span><span>-$${discountAmount.toFixed(2)}</span></div>` : '';
