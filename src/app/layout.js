@@ -13,7 +13,22 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "XTINT | Automotive & Residential Tinting",
-  description: "Automotive & Residential Tinting",
+  description: "XTINT | Automotive & Residential Tinting",
+  openGraph: {
+    type: "website",
+    url: "https://xtintusa.com",
+    title: "XTINT | Automotive & Residential Tinting",
+    description: "XTINT | Automotive & Residential Tinting",
+    images: [
+      {
+        url: "/og/7.4.2023-31.jpg",
+        width: 1200,
+        height: 630,
+        alt: "XTINT Tinting",
+      },
+    ],
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({ children }) {
