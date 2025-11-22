@@ -423,7 +423,7 @@ export default function Home() {
                 <img src="/images/IMG_7833.JPG" alt="Porsche 911" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Porsche 911</h4>
-                  <p>15% all around</p>
+                  <p>15% All Around</p>
                 </div>
               </div>
 
@@ -431,7 +431,7 @@ export default function Home() {
                 <img src="/images/IMG_1365.jpeg" alt="Kia K4" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Kia K4</h4>
-                  <p>5% all around</p>
+                  <p>5% All Around</p>
                 </div>
               </div>
 
@@ -439,7 +439,7 @@ export default function Home() {
                 <img src="/images/IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Honda Civic Sport</h4>
-                  <p>50% windshield, 5% all around</p>
+                  <p>50% Windshield, 5% All around</p>
                 </div>
               </div>
 
@@ -447,7 +447,7 @@ export default function Home() {
                 <img src="/images/IMG_6113.jpeg" alt="Nissan Altima" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Nissan Altima</h4>
-                  <p>70% Windshield, 35% all around</p>
+                  <p>70% Windshield, 35% All around</p>
                 </div>
               </div>
             </div>
@@ -782,7 +782,11 @@ export default function Home() {
           <div className={styles.contactInfo}>
             <div className={styles.contactItem}>
               <span>📍</span>
-              <span>Cypress, TX (77429)</span>
+              <a href="https://maps.app.goo.gl/B8Yy3fcMyFpz7FW66" target="_blank" rel="noopener noreferrer">Cypress, TX (77429)</a>
+            </div>
+            <div className={styles.contactItem}>
+              <span>📍</span>
+              <span>Copperfield, TX - Coming Soon</span>
             </div>
             <div className={styles.contactItem}>
               <span>📞</span>
