@@ -591,7 +591,7 @@ export default function Home() {
               </div>
 
               <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_3375.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_3375.Jpeg" alt="Honda Civic Sport" loading="lazy" />
+                <img src="/images/IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Honda Civic Sport</h4>
                   <p>50% Windshield, 5% All around</p>
