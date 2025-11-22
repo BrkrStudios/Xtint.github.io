@@ -10,7 +10,6 @@ export default function Home() {
 
   // Testimonial Slider State
   const [currentSlide, setCurrentSlide] = useState(0);
-  const testimonialsCount = 3;
 
   // Gallery State
   const [activeGalleryTab, setActiveGalleryTab] = useState('automotive');
@@ -345,8 +344,25 @@ export default function Home() {
       rating: '5.0',
       text: '"Professional, lovely price, lovely work. 11/10."',
       author: '— James Rodriguez, Automotive'
+    },
+    {
+      rating: '5.0',
+      text: '"My car used to be an oven in the Houston heat. After getting my windows tinted, the AC actually keeps up now. Worth every penny."',
+      author: '— Marcus T., Automotive'
+    },
+    {
+      rating: '5.0',
+      text: '"Xander showed up on time, worked efficiently, and my front windows look amazing. No more sun glare on my TV during the afternoon!"',
+      author: '— Sarah Chen, Residential'
+    },
+    {
+      rating: '5.0',
+      text: '"Clean work, attention to detail, and Xander explained everything clearly. My truck looks sharp and stays cooler. Highly recommend."',
+      author: '— Robert M., Automotive'
     }
   ];
+
+  const testimonialsCount = testimonials.length;
 
   return (
     <main>
@@ -558,8 +574,24 @@ export default function Home() {
                 </div>
               </div>
 
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_0025.JPG')} style={{ cursor: 'pointer' }}>
+                <img src="/images/IMG_0025.JPG" alt="Corvette C5" loading="lazy" />
+                <div className={styles.galleryOverlay}>
+                  <h4>Corvette C5</h4>
+                  <p>35% Front, 15% Back</p>
+                </div>
+              </div>
+
+                            <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_6533.jpeg')} style={{ cursor: 'pointer' }}>
+                <img src="/images/IMG_6533.jpeg" alt="Acura TLX" loading="lazy" />
+                <div className={styles.galleryOverlay}>
+                  <h4>Acura TLX</h4>
+                  <p>35% Front, 15% Back</p>
+                </div>
+              </div>
+
               <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_3375.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy" />
+                <img src="/images/IMG_3375.Jpeg" alt="Honda Civic Sport" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Honda Civic Sport</h4>
                   <p>50% Windshield, 5% All around</p>
