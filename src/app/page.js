@@ -27,6 +27,16 @@ export default function Home() {
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
 
+  // Image Viewer State
+  const [imageViewerOpen, setImageViewerOpen] = useState(false);
+  const [viewerImage, setViewerImage] = useState('');
+  const [zoom, setZoom] = useState(1);
+  const [panX, setPanX] = useState(0);
+  const [panY, setPanY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const imageViewerRef = useRef(null);
+
   // Mobile Menu Toggle
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -132,6 +142,97 @@ export default function Home() {
     }
   };
 
+  // Image Viewer Functions
+  const openImageViewer = (imageSrc) => {
+    setViewerImage(imageSrc);
+    setImageViewerOpen(true);
+    setZoom(1);
+    setPanX(0);
+    setPanY(0);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeImageViewer = () => {
+    setImageViewerOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const handleImageViewerBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      closeImageViewer();
+    }
+  };
+
+  const zoomIn = () => {
+    setZoom((prev) => Math.min(prev + 0.5, 5));
+  };
+
+  const zoomOut = () => {
+    setZoom((prev) => Math.max(prev - 0.5, 1));
+  };
+
+  const resetZoom = () => {
+    setZoom(1);
+    setPanX(0);
+    setPanY(0);
+  };
+
+  const handleImageMouseDown = (e) => {
+    if (zoom > 1) {
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - panX, y: e.clientY - panY });
+    }
+  };
+
+  const handleImageMouseMove = (e) => {
+    if (isDragging && zoom > 1 && imageViewerRef.current) {
+      const rect = imageViewerRef.current.getBoundingClientRect();
+      const maxPan = (rect.width * (zoom - 1)) / (2 * zoom);
+      const maxPanY = (rect.height * (zoom - 1)) / (2 * zoom);
+
+      let newPanX = e.clientX - dragStart.x;
+      let newPanY = e.clientY - dragStart.y;
+
+      newPanX = Math.max(-maxPan, Math.min(maxPan, newPanX));
+      newPanY = Math.max(-maxPanY, Math.min(maxPanY, newPanY));
+
+      setPanX(newPanX);
+      setPanY(newPanY);
+    }
+  };
+
+  const handleImageMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleImageTouchStart = (e) => {
+    if (zoom > 1 && e.touches.length === 1) {
+      setIsDragging(true);
+      setDragStart({ x: e.touches[0].clientX - panX, y: e.touches[0].clientY - panY });
+    }
+  };
+
+  const handleImageTouchMove = (e) => {
+    if (isDragging && zoom > 1 && e.touches.length === 1 && imageViewerRef.current) {
+      const rect = imageViewerRef.current.getBoundingClientRect();
+      const maxPan = (rect.width * (zoom - 1)) / (2 * zoom);
+      const maxPanY = (rect.height * (zoom - 1)) / (2 * zoom);
+
+      let newPanX = e.touches[0].clientX - dragStart.x;
+      let newPanY = e.touches[0].clientY - dragStart.y;
+
+      newPanX = Math.max(-maxPan, Math.min(maxPan, newPanX));
+      newPanY = Math.max(-maxPanY, Math.min(maxPanY, newPanY));
+
+      setPanX(newPanX);
+      setPanY(newPanY);
+    }
+  };
+
+  const handleImageTouchEnd = () => {
+    setIsDragging(false);
+  };
+
   // Timeline Animation on Scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -201,11 +302,33 @@ export default function Home() {
       if (e.key === 'Escape' && isModalOpen) {
         closeQuoteModal();
       }
+      if (e.key === 'Escape' && imageViewerOpen) {
+        closeImageViewer();
+      }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen]);
+  }, [isModalOpen, imageViewerOpen]);
+
+  // Mouse wheel zoom handler for image viewer
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (!imageViewerOpen) return;
+
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -0.3 : 0.3;
+      setZoom((prev) => {
+        const newZoom = Math.min(Math.max(prev + delta, 1), 5);
+        return newZoom;
+      });
+    };
+
+    if (imageViewerOpen) {
+      document.addEventListener('wheel', handleWheel, { passive: false });
+      return () => document.removeEventListener('wheel', handleWheel);
+    }
+  }, [imageViewerOpen]);
 
   const testimonials = [
     {
@@ -419,7 +542,7 @@ export default function Home() {
         {activeGalleryTab === 'automotive' && (
           <div className={styles.galleryContainer} id="automotive-gallery">
             <div className={styles.galleryGrid}>
-              <div className={styles.galleryItem}>
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_7833.JPG')} style={{ cursor: 'pointer' }}>
                 <img src="/images/IMG_7833.JPG" alt="Porsche 911" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Porsche 911</h4>
@@ -427,7 +550,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className={styles.galleryItem}>
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_1365.jpeg')} style={{ cursor: 'pointer' }}>
                 <img src="/images/IMG_1365.jpeg" alt="Kia K4" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Kia K4</h4>
@@ -435,7 +558,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className={styles.galleryItem}>
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_3375.jpeg')} style={{ cursor: 'pointer' }}>
                 <img src="/images/IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Honda Civic Sport</h4>
@@ -443,7 +566,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className={styles.galleryItem}>
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_6113.jpeg')} style={{ cursor: 'pointer' }}>
                 <img src="/images/IMG_6113.jpeg" alt="Nissan Altima" loading="lazy" />
                 <div className={styles.galleryOverlay}>
                   <h4>Nissan Altima</h4>
@@ -799,6 +922,182 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Image Viewer Modal */}
+      {imageViewerOpen && (
+        <div
+          className={styles.imageViewerBackdrop}
+          onClick={handleImageViewerBackdropClick}
+          onMouseMove={handleImageMouseMove}
+          onMouseUp={handleImageMouseUp}
+          onMouseLeave={handleImageMouseUp}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}
+        >
+          <button
+            className={styles.closeImageViewer}
+            onClick={closeImageViewer}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              backgroundColor: 'transparent',
+              color: 'white',
+              border: 'none',
+              fontSize: '40px',
+              cursor: 'pointer',
+              zIndex: 1001,
+              width: '50px',
+              height: '50px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            ✕
+          </button>
+
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden'
+            }}
+            ref={imageViewerRef}
+            onMouseDown={handleImageMouseDown}
+            onTouchStart={handleImageTouchStart}
+            onTouchMove={handleImageTouchMove}
+            onTouchEnd={handleImageTouchEnd}
+          >
+            <img
+              src={viewerImage}
+              alt="Zoomed Image"
+              draggable="false"
+              onDragStart={(e) => e.preventDefault()}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '100%',
+                width: 'auto',
+                height: 'auto',
+                transform: `scale(${zoom}) translate(${panX}px, ${panY}px)`,
+                transition: isDragging ? 'none' : 'transform 0.1s ease-out',
+                cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+                userSelect: 'none',
+                WebkitUserDrag: 'none'
+              }}
+            />
+          </div>
+
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: '15px',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              padding: '15px 25px',
+              borderRadius: '50px',
+              zIndex: 1001
+            }}
+          >
+            <button
+              onClick={zoomOut}
+              disabled={zoom <= 1}
+              style={{
+                backgroundColor: zoom <= 1 ? '#666' : '#fff',
+                color: zoom <= 1 ? '#999' : '#000',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                cursor: zoom <= 1 ? 'not-allowed' : 'pointer',
+                fontWeight: 'bold',
+                fontSize: '16px'
+              }}
+            >
+              −
+            </button>
+            <span
+              style={{
+                color: '#fff',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                minWidth: '60px',
+                textAlign: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              {Math.round(zoom * 100)}%
+            </span>
+            <button
+              onClick={zoomIn}
+              disabled={zoom >= 5}
+              style={{
+                backgroundColor: zoom >= 5 ? '#666' : '#fff',
+                color: zoom >= 5 ? '#999' : '#000',
+                border: 'none',
+                padding: '8px 12px',
+                borderRadius: '4px',
+                cursor: zoom >= 5 ? 'not-allowed' : 'pointer',
+                fontWeight: 'bold',
+                fontSize: '16px'
+              }}
+            >
+              +
+            </button>
+            {zoom > 1 && (
+              <button
+                onClick={resetZoom}
+                style={{
+                  backgroundColor: '#fff',
+                  color: '#000',
+                  border: 'none',
+                  padding: '8px 12px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '14px'
+                }}
+              >
+                Reset
+              </button>
+            )}
+          </div>
+
+          <div
+            style={{
+              position: 'absolute',
+              top: '20px',
+              left: '20px',
+              color: '#fff',
+              fontSize: '14px',
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+              padding: '10px 15px',
+              borderRadius: '4px'
+            }}
+          >
+            {zoom > 1 ? 'Drag to pan • Scroll to zoom' : 'Click to zoom in'}
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className={styles.footer}>
