@@ -476,7 +476,7 @@ export default function Home() {
               without compromising visibility.
             </p>
             <div style={{ marginTop: '20px', padding: '15px', backgroundColor: 'rgba(0, 255, 136, 0.1)', borderLeft: '3px solid var(--accent)', borderRadius: '4px' }}>
-              <p style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 'bold', margin: '0 0 5px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>✓ NOTICE</p>
+              <p style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 'bold', margin: '0 0 5px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>✓ NOTICE </p>
               <p style={{ fontSize: '13px', color: 'var(--white)', margin: '0', lineHeight: '1.5' }}>Enjoy a FREE ceramic window coating (6-18 months protection) when you tint the entire vehicle!</p>
             </div>
           </div>
