@@ -602,6 +602,14 @@ export default function Home() {
                 </div>
               </div>
 
+              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_2013.jpeg')} style={{ cursor: 'pointer' }}>
+                <img src="/images/IMG_2013.jpeg" alt="Mazda 3s" loading="lazy" />
+                <div className={styles.galleryOverlay}>
+                  <h4>Mazda 3s</h4>
+                  <p>15% front, 5% Back</p>
+                </div>
+              </div>
+
               <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_6113.jpeg')} style={{ cursor: 'pointer' }}>
                 <img src="/images/IMG_6113.jpeg" alt="Nissan Altima" loading="lazy" />
                 <div className={styles.galleryOverlay}>
