@@ -263,10 +263,6 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
-      const heroBgImg = document.querySelector(`.${styles.heroBg} img`);
-      if (heroBgImg) {
-        heroBgImg.style.transform = `translateY(${scrolled * 0.3}px)`;
-      }
       // Show nav once scrolled past the hero section
       setNavVisible(scrolled > window.innerHeight * 0.85);
     };
@@ -409,7 +405,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBg}>
-          <img src="/images/7.4.2023-31.jpg" alt="" loading="eager" />
+          <video autoPlay muted loop playsInline className={styles.heroBgVideo}>
+            <source src="/images/hero-bg.mp4" type="video/mp4" />
+          </video>
         </div>
         <img src="/images/logo1.png" alt="XTint Logo" className={styles.heroLogo} />
         <div className={styles.heroLeft}>
