@@ -260,9 +260,9 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
-      const heroImage = document.querySelector(`.${styles.heroImage} img`);
-      if (heroImage) {
-        heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
+      const heroBgImg = document.querySelector(`.${styles.heroBg} img`);
+      if (heroBgImg) {
+        heroBgImg.style.transform = `translateY(${scrolled * 0.3}px)`;
       }
     };
 
@@ -403,6 +403,9 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className={styles.hero}>
+        <div className={styles.heroBg}>
+          <img src="/images/7.4.2023-31.jpg" alt="" loading="eager" />
+        </div>
         <div className={styles.heroLeft}>
           <div className={styles.heroContent}>
             <div className={styles.heroBadge}>Residential & Automotive Services • Houston TX</div>
@@ -431,11 +434,6 @@ export default function Home() {
                 Explore
               </a>
             </div>
-          </div>
-        </div>
-        <div className={styles.heroRight}>
-          <div className={styles.heroImage}>
-            <img src="/images/7.4.2023-31.jpg" alt="Premium Car" loading="lazy" />
           </div>
         </div>
       </section>

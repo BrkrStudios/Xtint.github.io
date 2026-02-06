@@ -156,53 +156,66 @@
     }
 }
 
-/* Hero Section - Split Design */
+/* Hero Section - Full Width Background */
 .hero {
     height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     position: relative;
-}
-
-.heroLeft {
-    background: var(--black);
     display: flex;
     align-items: center;
-    padding: 0 60px;
-    position: relative;
+    justify-content: center;
     overflow: hidden;
 }
 
-.hero h1 span {
-    overflow: visible;
+.heroBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
 }
 
-.heroLeft::before {
+.heroBg::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        var(--gray) 2px,
-        var(--gray) 4px
-    );
-    opacity: 0.1;
-    animation: scan 8s linear infinite;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 1;
 }
 
-@keyframes scan {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(20px); }
+.heroBg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    opacity: 0.35;
+}
+
+.heroLeft {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 40px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.hero h1 span {
+    overflow: visible;
 }
 
 .heroContent {
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .heroBadge {
@@ -256,24 +269,7 @@
     -webkit-text-fill-color: transparent;
 }
 
-.heroRight {
-    background: var(--gray);
-    position: relative;
-    overflow: hidden;
-}
-
-.heroImage {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.heroImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.7;
-}
+/* heroRight and heroImage removed — image is now a full-width background */
 
 .heroCta {
     margin-top: 50px;
@@ -1444,21 +1440,8 @@
 }
 
 @media (max-width: 768px) {
-    .hero {
-        grid-template-columns: 1fr;
-    }
-
     .heroLeft {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .heroContent {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        padding: 0 20px;
     }
 
     .sectionHeader {
@@ -1494,9 +1477,7 @@
         grid-template-columns: 1fr !important;
     }
 
-    .heroRight {
-        display: none;
-    }
+    /* heroRight removed — no longer in JSX */
 
     .servicesGrid {
         grid-template-columns: 1fr;
