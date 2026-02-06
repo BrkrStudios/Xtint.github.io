@@ -53,25 +53,25 @@ export const metadata = {
   openGraph: {
     type: "website",
     url: "https://xtintusa.com",
-    siteName: "XTINT - Professional Window Tinting",
-    title: "XTINT | Professional Window Tinting in Houston, TX",
-    description: "Premium automotive & residential window tinting service in Houston with ceramic technology and lifetime warranty",
+    siteName: "XTINT - Auto & Property Services",
+    title: "XTINT | Auto & Property Services in Houston, TX",
+    description: "Premium auto & property services in Houston with ceramic technology and lifetime warranty",
     images: [
       {
-        url: "https://xtintusa.com/og/7.4.2023-31.jpg",
+        url: "https://xtintusa.com/images/buisimage.png",
         width: 1200,
         height: 630,
-        alt: "XTINT Professional Window Tinting Service",
-        type: "image/jpeg",
+        alt: "XTINT Auto & Property Services",
+        type: "image/png",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "XTINT | Professional Window Tinting in Houston, TX",
-    description: "Premium window tinting for vehicles and homes. Ceramic technology, lifetime warranty, same-day service available.",
-    images: ["https://xtintusa.com/og/7.4.2023-31.jpg"],
+    title: "XTINT | Auto & Property Services in Houston, TX",
+    description: "Premium auto & property services for vehicles and homes. Ceramic technology, lifetime warranty, same-day service available.",
+    images: ["https://xtintusa.com/images/buisimage.png"],
   },
   metadataBase: new URL("https://xtintusa.com"),
 };
@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
       "latitude": "29.8833",
       "longitude": "-95.6615"
     },
-    "image": "https://xtintusa.com/og/7.4.2023-31.jpg",
+    "image": "https://xtintusa.com/images/buisimage.png",
     "priceRange": "$$",
     "areaServed": [
       {
