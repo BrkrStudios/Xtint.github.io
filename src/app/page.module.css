@@ -3,9 +3,20 @@
     position: fixed;
     top: 0;
     width: 100%;
-    padding: 30px 40px;
+    padding: 20px 40px;
     z-index: 1000;
-    mix-blend-mode: difference;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.navVisible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .navContainer {
@@ -20,14 +31,14 @@
 }
 
 .logo img {
-    height: 40px;
+    height: 80px;
     width: auto;
     object-fit: contain;
 }
 
 @media (max-width: 768px) {
     .logo img {
-        height: 32px;
+        height: 60px;
     }
 }
 
@@ -216,6 +227,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.heroLogo {
+    position: absolute;
+    top: -10px;
+    left: 30px;
+    height: 220px;
+    width: auto;
+    object-fit: contain;
+    z-index: 3;
+}
+
+@media (max-width: 768px) {
+    .heroLogo {
+        height: 140px;
+        top: 5px;
+        left: 10px;
+    }
 }
 
 .heroBadge {
@@ -1210,6 +1239,68 @@
     content: '→';
     color: var(--accent);
     font-weight: 700;
+}
+
+.filmResidentialOptions {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filmResidentialOptions h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 25px;
+}
+
+.residentialGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.residentialOption {
+    padding: 25px 20px;
+    border: 1px solid rgba(97, 165, 194, 0.15);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.residentialOption:hover {
+    border-color: var(--accent);
+    background: rgba(97, 165, 194, 0.05);
+}
+
+.residentialIcon {
+    font-size: 24px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.residentialOption h5 {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: var(--white);
+}
+
+.residentialOption p {
+    color: var(--light-gray);
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 768px) {
+    .residentialGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
 
 .filmsCta {

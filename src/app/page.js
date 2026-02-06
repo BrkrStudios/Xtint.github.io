@@ -5,6 +5,9 @@ import Image from 'next/image';
 import styles from './page.module.css';
 
 export default function Home() {
+  // Navigation Visibility State
+  const [navVisible, setNavVisible] = useState(false);
+
   // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -256,7 +259,7 @@ export default function Home() {
     };
   }, []);
 
-  // Parallax effect
+  // Parallax effect + nav visibility
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
@@ -264,6 +267,8 @@ export default function Home() {
       if (heroBgImg) {
         heroBgImg.style.transform = `translateY(${scrolled * 0.3}px)`;
       }
+      // Show nav once scrolled past the hero section
+      setNavVisible(scrolled > window.innerHeight * 0.85);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -377,7 +382,7 @@ export default function Home() {
       ></div>
 
       {/* Navigation */}
-      <nav className={styles.nav}>
+      <nav className={`${styles.nav} ${navVisible ? styles.navVisible : ''}`}>
         <div className={styles.navContainer}>
           <div className={styles.logo}>
             <img src="/images/logo1.png" alt="XTint Logo" />
@@ -406,6 +411,7 @@ export default function Home() {
         <div className={styles.heroBg}>
           <img src="/images/7.4.2023-31.jpg" alt="" loading="eager" />
         </div>
+        <img src="/images/logo1.png" alt="XTint Logo" className={styles.heroLogo} />
         <div className={styles.heroLeft}>
           <div className={styles.heroContent}>
             <div className={styles.heroBadge}>Residential & Automotive Services • Houston TX</div>
@@ -473,10 +479,6 @@ export default function Home() {
               Premium ceramic films engineered to reject heat, block UV rays, and enhance privacy
               without compromising visibility.
             </p>
-            <div style={{ marginTop: '20px', padding: '15px', backgroundColor: 'rgba(97, 165, 194, 0.1)', borderLeft: '3px solid var(--accent)', borderRadius: '4px' }}>
-              <p style={{ fontSize: '12px', color: 'var(--accent)', fontWeight: 'bold', margin: '0 0 5px 0', textTransform: 'uppercase', letterSpacing: '1px' }}>✓ NOTICE </p>
-              <p style={{ fontSize: '13px', color: 'var(--white)', margin: '0', lineHeight: '1.5' }}>Enjoy a FREE ceramic window coating (6-18 months protection) when you tint the entire vehicle!</p>
-            </div>
           </div>
           <div className={styles.serviceCard}>
             <span className={styles.serviceNumber}>02</span>
@@ -487,16 +489,34 @@ export default function Home() {
               UV rays, and provide daytime privacy—all while maintaining a clear, natural view.
             </p>
           </div>
+          <div className={styles.serviceCard}>
+            <span className={styles.serviceNumber}>03</span>
+            <div className={styles.serviceIcon}>💡</div>
+            <h3>LED Interior Lighting</h3>
+            <p>
+              Custom LED interior lighting installations to transform your vehicle&apos;s cabin with
+              ambient accent lighting, footwell LEDs, and dashboard illumination.
+            </p>
+          </div>
+          <div className={styles.serviceCard}>
+            <span className={styles.serviceNumber}>04</span>
+            <div className={styles.serviceIcon}>✨</div>
+            <h3>Detailing Services</h3>
+            <p>
+              Full interior and exterior detailing including hand wash, vacuum, interior cleaning,
+              light ceramic coating, and more—everything your vehicle needs to look showroom-fresh.
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* What Sets Us Apart Section */}
       <section className={styles.process} id="process">
         <div className={styles.sectionHeader}>
-          <p className={styles.sectionNumber}>02 — PROCESS</p>
+          <p className={styles.sectionNumber}>02 — WHAT SETS US APART</p>
           <h2 className={styles.sectionTitle}>
-            How It<br />
-            Works
+            What Sets<br />
+            Us Apart
           </h2>
         </div>
         <div className={styles.processTimeline} ref={timelineRef}>
@@ -508,23 +528,23 @@ export default function Home() {
           <div className={styles.processSteps}>
             <div className={styles.processStep}>
               <div className={styles.stepCircle}>01</div>
-              <h4>Book</h4>
-              <p>Schedule your appointment by Texting/Calling/Emailing us directly</p>
+              <h4>Choose Your Style</h4>
+              <p>Personalized protection for your needs. Select your tint darkness, film type, and look — we guide you through every option.</p>
             </div>
             <div className={styles.processStep}>
               <div className={styles.stepCircle}>02</div>
-              <h4>We Arrive or you arrive</h4>
-              <p>Our mobile unit comes to your house, Or you arrive at the shop</p>
+              <h4>Transparent Pricing</h4>
+              <p>Know your cost upfront, no surprises. Flat rate pricing with everything included — lifetime warranty, ceramic coating, full coverage.</p>
             </div>
             <div className={styles.processStep}>
               <div className={styles.stepCircle}>03</div>
-              <h4>Install</h4>
-              <p>installation with precision and care</p>
+              <h4>Stay In The Loop</h4>
+              <p>Real-time updates from start to finish. We keep you posted throughout the process — arrival time, progress, completion.</p>
             </div>
             <div className={styles.processStep}>
               <div className={styles.stepCircle}>04</div>
-              <h4>Enjoy</h4>
-              <p>Smile with premium protection and style</p>
+              <h4>Drive With Confidence</h4>
+              <p>Premium protection that lasts. Enjoy cooler temps, UV protection, and enhanced style backed by our lifetime warranty.</p>
             </div>
           </div>
         </div>
@@ -704,31 +724,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.filmsGrid}>
-            {/* Regular Film */}
-            <div className={styles.filmCard}>
-              <div className={styles.filmType}>Residential Option Only</div>
-              <h3>
-                Regular<br />
-                Film
-              </h3>
-              <div className={styles.filmSpecs}>
-                <div className={styles.specItem}>
-                  <span className={styles.specLabel}>Heat Rejection</span>
-                  <span className={styles.specValue}>54%</span>
-                </div>
-              </div>
-              <div className={styles.filmFeatures}>
-                <ul>
-                  <li>UV Protection</li>
-                  <li>Enhanced Privacy</li>
-                  <li>Fade Reduction</li>
-                  <li>Glare Control</li>
-                  <li>Lifetime Warranty</li>
-                </ul>
-              </div>
-            </div>
-
+          <div className={styles.filmsGrid} style={{ gridTemplateColumns: '1fr' }}>
             {/* Ceramic Film */}
             <div className={styles.filmCard}>
               <div className={styles.premiumBadge}>Recommended</div>
@@ -740,7 +736,7 @@ export default function Home() {
               <div className={styles.filmSpecs}>
                 <div className={styles.specItem}>
                   <span className={styles.specLabel}>Heat Rejection</span>
-                  <span className={styles.specValue}>84%</span>
+                  <span className={styles.specValue}>Up to 90%</span>
                 </div>
               </div>
               <div className={styles.filmFeatures}>
@@ -750,8 +746,29 @@ export default function Home() {
                   <li>99% UV Protection</li>
                   <li>Superior Clarity</li>
                   <li>Lifetime Warranty</li>
-                  <li>Automotive Done in Ceramic Only</li>
+                  <li>All Automotive Tinting Done in Ceramic Only</li>
                 </ul>
+              </div>
+
+              <div className={styles.filmResidentialOptions}>
+                <h4>Residential Film Options</h4>
+                <div className={styles.residentialGrid}>
+                  <div className={styles.residentialOption}>
+                    <span className={styles.residentialIcon}>◈</span>
+                    <h5>Reflective Films</h5>
+                    <p>Dual reflective, sputtered, and specialty options</p>
+                  </div>
+                  <div className={styles.residentialOption}>
+                    <span className={styles.residentialIcon}>◆</span>
+                    <h5>Specialty Films</h5>
+                    <p>Decorative, privacy, and safety films</p>
+                  </div>
+                  <div className={styles.residentialOption}>
+                    <span className={styles.residentialIcon}>▣</span>
+                    <h5>Standard Film</h5>
+                    <p>Basic protection at an affordable price</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1145,7 +1162,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerBrand}>
-            <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '32px', width: 'auto', marginBottom: '20px' }} />
+            <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '70px', width: 'auto', marginBottom: '20px' }} />
             <p>A new start to Houston's premier mobile window tinting service.</p>
           </div>
           <div className={styles.footerColumn}>
@@ -1179,7 +1196,7 @@ export default function Home() {
         </div>
 
         <div className={styles.footerBottom}>
-          <p>© 2025 XTint. All rights reserved.</p>
+          <p>© 2026 XTint. All rights reserved.</p>
           <p>Houston, Texas</p>
         </div>
       </footer>
