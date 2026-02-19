@@ -9,15 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@sanity/client": "^7.14.1",
     "jspdf": "^4.1.0",
     "next": "16.0.7",
-    "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "next-sanity": "^12.1.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "styled-components": "^6.3.9"
   },
   "devDependencies": {
+    "@sanity/vision": "^5.9.0",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
+    "sanity": "^5.9.0",
     "tailwindcss": "^4"
   }
 }
