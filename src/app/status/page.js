@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import styles from './status.module.css'
 
 export default function StatusLookupPage() {
@@ -18,6 +19,12 @@ export default function StatusLookupPage() {
   return (
     <div className={styles.container}>
       <div className={styles.maxWidth}>
+        <Link href="/" className={styles.backLink}>
+          <svg className={styles.backIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </Link>
         <div className={styles.header}>
           <h1 className={styles.title}>Track Your Job Status</h1>
           <p className={styles.subtitle}>
