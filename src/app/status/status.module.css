@@ -315,15 +315,24 @@
   font-weight: 600;
   background: linear-gradient(
     90deg,
-    var(--accent) 0%,
+    #22c55e 0%,
     #ffffff 50%,
-    var(--accent) 100%
+    #22c55e 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: shimmer 3s linear infinite;
+}
+
+.progressDotCurrent {
+  background: #22c55e;
+}
+
+.progressLabelFinished {
+  font-weight: 600;
+  color: #22c55e;
 }
 
 @keyframes shimmer {

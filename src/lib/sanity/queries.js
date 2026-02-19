@@ -64,6 +64,7 @@ export function getStatusLabel(status) {
     'tinting': 'Tinting',
     'curing': 'Curing',
     'ready': 'Ready for Pickup',
+    'completed': 'Completed',
   }
   return statusMap[status] || status
 }
@@ -82,6 +83,7 @@ export function getStatusColor(status) {
     'tinting': '#a855f7',            // Purple
     'curing': '#6366f1',             // Indigo
     'ready': '#22c55e',              // Green
+    'completed': '#16a34a',          // Dark Green
   }
   return colorMap[status] || '#6b7280'  // Gray fallback
 }

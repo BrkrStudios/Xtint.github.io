@@ -37,6 +37,7 @@ export default async function JobStatusPage({ params }) {
     'tinting',
     'curing',
     'ready',
+    'completed',
   ]
 
   // Only show tint-removal if the job needs it
@@ -110,12 +111,18 @@ export default async function JobStatusPage({ params }) {
                   <div key={status} className={styles.progressItem}>
                     <div
                       className={`${styles.progressDot} ${
-                        isCompleted ? styles.progressDotCompleted : styles.progressDotIncomplete
+                        isCurrent
+                          ? styles.progressDotCurrent
+                          : isCompleted
+                          ? styles.progressDotCompleted
+                          : styles.progressDotIncomplete
                       }`}
                     />
                     <span
                       className={`${styles.progressLabel} ${
-                        isCurrent
+                        isCurrent && status === 'completed'
+                          ? styles.progressLabelFinished
+                          : isCurrent
                           ? styles.progressLabelCurrent
                           : isCompleted
                           ? styles.progressLabelCompleted

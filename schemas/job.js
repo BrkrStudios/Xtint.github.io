@@ -118,6 +118,7 @@ export default defineType({
           {title: 'Tinting', value: 'tinting'},
           {title: 'Curing', value: 'curing'},
           {title: 'Ready for Pickup', value: 'ready'},
+          {title: 'Completed', value: 'completed'},
         ],
         layout: 'dropdown',
       },
