@@ -1,0 +1,496 @@
+/* Status Lookup Page Styles */
+.container {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--white);
+  padding: 64px 16px;
+}
+
+.maxWidth {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--light-gray);
+}
+
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 24px;
+}
+
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #d1d5db;
+}
+
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+  color: var(--white);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.input::placeholder {
+  color: var(--light-gray);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.hint {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--light-gray);
+}
+
+.button {
+  width: 100%;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: var(--black);
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background: #5193ad;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.helpBox {
+  margin-top: 32px;
+  padding: 16px;
+  background: var(--gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+}
+
+.helpTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.helpText {
+  font-size: 0.875rem;
+  color: var(--light-gray);
+  line-height: 1.5;
+}
+
+.expirationNotice {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--dark);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.expirationText {
+  font-size: 0.75rem;
+  color: var(--light-gray);
+  margin: 0;
+}
+
+/* Status Display Page */
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #5193ad;
+}
+
+.backIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.card {
+  background: var(--gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardHeader {
+  background: linear-gradient(135deg, var(--dark) 0%, var(--gray) 100%);
+  padding: 32px 24px;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.cardHeaderTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.jobTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.statusBadge {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.lastUpdated {
+  font-size: 0.875rem;
+  color: var(--light-gray);
+}
+
+.cardBody {
+  padding: 24px;
+}
+
+.detailSection {
+  margin-bottom: 24px;
+}
+
+.detailSection:last-child {
+  margin-bottom: 0;
+}
+
+.detailLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--light-gray);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detailValue {
+  font-size: 1.125rem;
+  color: var(--white);
+}
+
+.notes {
+  white-space: pre-wrap;
+  font-size: 1rem;
+  color: #d1d5db;
+  line-height: 1.6;
+}
+
+.progressSection {
+  padding: 24px;
+  background: var(--dark);
+  border-top: 1px solid var(--medium-gray);
+  position: relative;
+}
+
+.delayAlert {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  border: 1px solid #991b1b;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.delayIcon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.delayContent {
+  flex: 1;
+}
+
+.delayTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.delayText {
+  font-size: 0.875rem;
+  color: #fecaca;
+  line-height: 1.5;
+}
+
+.progressTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--light-gray);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.progressList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progressItem {
+  display: flex;
+  align-items: center;
+}
+
+.progressDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.progressDotCompleted {
+  background: var(--accent);
+}
+
+.progressDotIncomplete {
+  background: var(--medium-gray);
+  border: 2px solid var(--light-gray);
+}
+
+.progressLabel {
+  font-size: 0.875rem;
+  color: var(--light-gray);
+}
+
+.progressLabelCurrent {
+  font-weight: 600;
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    #ffffff 50%,
+    var(--accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.progressLabelCompleted {
+  color: var(--white);
+}
+
+/* Documents Section */
+.documentsSection {
+  padding: 24px;
+  background: var(--gray);
+  border-top: 1px solid var(--medium-gray);
+}
+
+.documentsTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--light-gray);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.documentLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--dark);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+  color: var(--white);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.documentLink:hover {
+  border-color: var(--accent);
+  background: var(--gray);
+}
+
+.documentLinkContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.documentIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.documentLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.downloadIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--light-gray);
+  flex-shrink: 0;
+}
+
+.noDocuments {
+  padding: 16px;
+  text-align: center;
+  color: var(--light-gray);
+  font-size: 0.875rem;
+  background: var(--dark);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+}
+
+/* Not Found Page */
+.notFoundContainer {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.notFoundContent {
+  max-width: 500px;
+  text-align: center;
+}
+
+.notFoundIcon {
+  font-size: 4rem;
+  margin-bottom: 32px;
+}
+
+.notFoundTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.notFoundText {
+  color: var(--light-gray);
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.notFoundButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notFoundButton {
+  display: block;
+  width: 100%;
+  padding: 12px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.notFoundButtonPrimary {
+  background: var(--accent);
+  color: var(--black);
+}
+
+.notFoundButtonPrimary:hover {
+  background: #5193ad;
+}
+
+.notFoundButtonSecondary {
+  background: var(--gray);
+  color: var(--white);
+}
+
+.notFoundButtonSecondary:hover {
+  background: var(--medium-gray);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 4rem;
+  }
+
+  .jobTitle {
+    font-size: 2.5rem;
+  }
+}
