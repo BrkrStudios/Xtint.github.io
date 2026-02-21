@@ -315,9 +315,9 @@
   font-weight: 600;
   background: linear-gradient(
     90deg,
-    #3b82f6 0%,
+    #61A5C2 0%,
     #ffffff 50%,
-    #3b82f6 100%
+    #61A5C2 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -342,7 +342,7 @@
 }
 
 .progressDotCurrent {
-  background: #3b82f6;
+  background: #61A5C2;
 }
 
 .progressDotCurrentReady {
