@@ -205,7 +205,7 @@ export default async function JobStatusPage({ params }) {
         <div className={styles.helpBox} style={{ marginTop: '24px' }}>
           <p className={styles.helpText}>
             Have questions? Contact us at{' '}
-            <a href="tel:+18327765717" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+            <a href="tel:+18327765717" style={{ color: 'var(--accent)', textDecoration: 'none', whiteSpace: 'nowrap' }}>
               (832) 776-5717
             </a>
           </p>
@@ -213,7 +213,7 @@ export default async function JobStatusPage({ params }) {
 
         <div className={styles.expirationNotice}>
           <p className={styles.expirationText}>
-            ⏱️ This tracking code will expire in 30 days from job creation
+            ⏱️ This tracking code expires
             {daysRemaining > 0 && ` (${daysRemaining} day${daysRemaining === 1 ? '' : 's'} remaining)`}
           </p>
         </div>
