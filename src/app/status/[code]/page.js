@@ -23,6 +23,7 @@ export default async function JobStatusPage({ params }) {
       year: 'numeric',
       hour: 'numeric',
       minute: '2-digit',
+      timeZone: 'America/Chicago',
     })
   }
 
@@ -111,7 +112,11 @@ export default async function JobStatusPage({ params }) {
                   <div key={status} className={styles.progressItem}>
                     <div
                       className={`${styles.progressDot} ${
-                        isCurrent
+                        isCurrent && status === 'completed'
+                          ? styles.progressDotFinished
+                          : isCurrent && status === 'ready'
+                          ? styles.progressDotCurrentReady
+                          : isCurrent
                           ? styles.progressDotCurrent
                           : isCompleted
                           ? styles.progressDotCompleted
@@ -122,6 +127,8 @@ export default async function JobStatusPage({ params }) {
                       className={`${styles.progressLabel} ${
                         isCurrent && status === 'completed'
                           ? styles.progressLabelFinished
+                          : isCurrent && status === 'ready'
+                          ? styles.progressLabelCurrentReady
                           : isCurrent
                           ? styles.progressLabelCurrent
                           : isCompleted
