@@ -70,7 +70,7 @@ export default async function JobStatusPage({ params }) {
             <div className={styles.cardHeaderTop}>
               <h1 className={styles.jobTitle}>{job.vehicle.make} {job.vehicle.model}</h1>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div className={styles.statusBadge} style={{ background: statusColor }}>
+                <div className={styles.statusBadge} style={{ background: statusColor, whiteSpace: 'nowrap' }}>
                   {getStatusLabel(job.status)}
                 </div>
                 <RefreshButton />
