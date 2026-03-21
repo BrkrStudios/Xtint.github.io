@@ -1,0 +1,140 @@
+/* Privacy Policy Page Styles */
+.container {
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--white);
+  padding: 64px 16px;
+}
+
+.maxWidth {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  text-decoration: none;
+  margin-bottom: 32px;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #5193ad;
+}
+
+.backIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: var(--light-gray);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--medium-gray);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.text {
+  font-size: 0.9375rem;
+  color: #d1d5db;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.text:last-child {
+  margin-bottom: 0;
+}
+
+.text strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.listItem {
+  font-size: 0.9375rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  padding-left: 20px;
+  position: relative;
+}
+
+.listItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.listLabel {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.contactBox {
+  margin-top: 12px;
+  padding: 16px;
+  background: var(--gray);
+  border: 1px solid var(--medium-gray);
+  border-radius: 8px;
+}
+
+.contactText {
+  font-size: 0.9375rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 4rem;
+  }
+}
