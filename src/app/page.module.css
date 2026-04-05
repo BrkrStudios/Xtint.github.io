@@ -371,8 +371,8 @@
 .btnSecondaryDark {
     padding: 16px 40px;
     background: transparent;
-    color: var(--black);
-    border: 1px solid var(--black);
+    color: var(--white);
+    border: 1px solid var(--white);
     text-decoration: none;
     font-size: 12px;
     font-weight: 700;
@@ -383,8 +383,8 @@
 }
 
 .btnSecondaryDark:hover {
-    background: var(--black);
-    color: var(--white);
+    background: var(--white);
+    color: var(--accent);
 }
 
 /* Stats Ticker */
@@ -826,8 +826,8 @@
 /* Contact Section */
 .contact {
     padding: 120px 40px;
-    background: var(--accent);
-    color: var(--black);
+    background: #2C7DA0;
+    color: var(--white);
 }
 
 .contactContent {
@@ -871,7 +871,7 @@
 }
 
 .contactItem a {
-    color: var(--black);
+    color: var(--white);
     text-decoration: none;
 }
 
