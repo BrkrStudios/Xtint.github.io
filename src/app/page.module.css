@@ -982,11 +982,22 @@
 }
 
 .footerQuote {
-    color: var(--light-gray);
     font-size: 11px;
     line-height: 1.6;
     font-style: italic;
+    background: linear-gradient(to bottom, #aaa 0%, #fff 50%, #aaa 100%);
+    background-size: 100% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: quoteShimmer 5s ease-in-out infinite alternate;
 }
+
+@keyframes quoteShimmer {
+    from { background-position: 0 100%; }
+    to   { background-position: 0 0%; }
+}
+
 
 .footerSideImg {
     height: 75px;

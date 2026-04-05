@@ -787,7 +787,7 @@ export default function Home() {
               Let's<br />
               Connect
             </h2>
-            <p>Ready to transform your vehicle? Or home? Schedule your appointment today and experience the difference.</p>
+            <p>Ready to transform your vehicle? Or home? Schedule your appointment today and experience the difference. Reach out 24/7!</p>
             <div className={styles.heroCta}>
               <a href="tel:832-776-5717" className={styles.btnPrimaryDark}>
                 Call Or Text Now
@@ -816,7 +816,7 @@ export default function Home() {
             </div>
             <div className={styles.contactItem}>
               <span>📞</span>
-              <span>Reachable at <a href="tel:832-776-5717">832-776-5717</a> 24/7</span>
+              <span><a href="tel:832-776-5717">832-776-5717</a></span>
             </div>
             <div className={styles.contactItem}>
               <span>🕐</span>
@@ -835,11 +835,13 @@ export default function Home() {
 
         <div className={styles.mapContainer}>
           <iframe
-            src="https://storage.googleapis.com/maps-solutions-aig2pbkme8/locator-plus/881q/locator-plus.html"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13826.755239567436!2d-95.59323995!3d29.95962845!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640d37cfb0dd86f%3A0xf37e437076a87281!2sXTint%20%7C%20Residential%20%26%20Automotive%20Films!5e0!3m2!1sen!2sus!4v1775364157168!5m2!1sen!2sus"
             width="100%"
             height="100%"
             style={{ border: 0 }}
             loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
             title="XTint Location"
           ></iframe>
         </div>
