@@ -917,7 +917,7 @@
     max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
     gap: 60px;
 }
 
@@ -973,6 +973,28 @@
 .footerBottom p {
     color: var(--light-gray);
     font-size: 12px;
+}
+
+.footerBottomLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footerQuote {
+    color: var(--light-gray);
+    font-size: 11px;
+    line-height: 1.6;
+    font-style: italic;
+}
+
+.footerSideImg {
+    height: 75px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.9;
+    border-radius: 4px;
+    flex-shrink: 0;
 }
 
 /* Noise Texture Overlay */
@@ -1620,6 +1642,15 @@
 
     .footerContent {
         grid-template-columns: 1fr;
+    }
+
+    .footerBottom {
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .footerSideImg {
+        height: 55px;
     }
 
     .about {

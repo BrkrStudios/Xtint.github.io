@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 
@@ -19,8 +19,6 @@ export default function Home() {
   const [serviceType, setServiceType] = useState('');
 
   // Timeline Animation State
-  const [isTimelineAnimated, setIsTimelineAnimated] = useState(false);
-  const timelineRef = useRef(null);
 
   // Touch tracking for swipe
   const [touchStartX, setTouchStartX] = useState(0);
@@ -127,29 +125,6 @@ export default function Home() {
   };
 
   // Timeline Animation on Scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsTimelineAnimated(true);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (timelineRef.current) {
-      observer.observe(timelineRef.current);
-    }
-
-    return () => {
-      if (timelineRef.current) {
-        observer.unobserve(timelineRef.current);
-      }
-    };
-  }, []);
-
   // Parallax effect + nav visibility
   useEffect(() => {
     const handleScroll = () => {
@@ -263,7 +238,6 @@ export default function Home() {
           </button>
           <ul className={`${styles.navMenu} ${isMobileMenuOpen ? styles.active : ''}`} id="navMenu">
             <li><a href="#services" onClick={smoothScroll}>Services</a></li>
-            <li><a href="#process" onClick={smoothScroll}>Process</a></li>
             <li><a href="#gallery" onClick={smoothScroll}>Work</a></li>
             <li><a href="#about" onClick={smoothScroll}>About</a></li>
             <li><a href="#contact" onClick={smoothScroll}>Contact</a></li>
@@ -453,50 +427,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What Sets Us Apart Section */}
-      <section className={styles.process} id="process">
-        <div className={styles.sectionHeader}>
-          <p className={styles.sectionNumber}>02 — WHAT SETS US APART</p>
-          <h2 className={styles.sectionTitle}>
-            What Sets<br />
-            Us Apart
-          </h2>
-        </div>
-        <div className={styles.processTimeline} ref={timelineRef}>
-          <div className={styles.timelineLine}></div>
-          <div
-            className={`${styles.timelineProgress} ${isTimelineAnimated ? styles.animate : ''}`}
-            id="timelineProgress"
-          ></div>
-          <div className={styles.processSteps}>
-            <div className={styles.processStep}>
-              <div className={styles.stepCircle}>01</div>
-              <h4>Choose Your Style</h4>
-              <p>Personalized protection for your needs. Select your tint darkness, film type, and look — we guide you through every option.</p>
-            </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepCircle}>02</div>
-              <h4>Transparent Pricing</h4>
-              <p>Know your cost upfront, no surprises. Flat rate pricing with everything included — lifetime warranty, ceramic coating, full coverage.</p>
-            </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepCircle}>03</div>
-              <h4>Stay In The Loop</h4>
-              <p>Real-time updates from start to finish. We keep you posted throughout the process — arrival time, progress, completion.</p>
-            </div>
-            <div className={styles.processStep}>
-              <div className={styles.stepCircle}>04</div>
-              <h4>Drive With Confidence</h4>
-              <p>Premium protection that lasts. Enjoy cooler temps, UV protection, and enhanced style backed by our lifetime warranty.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Recent Projects Section */}
       <section className={styles.gallery} id="gallery">
         <div className={styles.sectionHeader}>
-          <p className={styles.sectionNumber}>03 — PORTFOLIO</p>
+          <p className={styles.sectionNumber}>02 — PORTFOLIO</p>
           <h2 className={styles.sectionTitle}>
             Recent<br />
             Projects
@@ -563,7 +497,7 @@ export default function Home() {
       <section className={styles.testimonials} id="testimonials">
         <div className={styles.testimonialsContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>04 — TESTIMONIALS</p>
+            <p className={styles.sectionNumber}>03 — TESTIMONIALS</p>
             <h2 className={styles.sectionTitle}>
               Client<br />
               Reviews
@@ -613,7 +547,7 @@ export default function Home() {
       <section className={styles.films} id="films">
         <div className={styles.filmsContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>05 — FILMS</p>
+            <p className={styles.sectionNumber}>04 — FILMS</p>
             <h2 className={styles.sectionTitle}>
               Premium<br />
               Protection
@@ -788,7 +722,7 @@ export default function Home() {
       <section className={styles.about} id="about">
         <div className={styles.aboutContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>06 — ABOUT</p>
+            <p className={styles.sectionNumber}>05 — ABOUT</p>
             <h2 className={styles.sectionTitle}>
               The<br />
               Story
@@ -916,41 +850,52 @@ export default function Home() {
         <div className={styles.footerContent}>
           <div className={styles.footerBrand}>
             <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '70px', width: 'auto', marginBottom: '20px' }} />
-            <p>A new start to Houston's premier mobile window tinting service.</p>
+            <p>Premium automotive &amp; residential window tinting — Houston, TX.</p>
           </div>
           <div className={styles.footerColumn}>
             <h4>Services</h4>
             <ul>
-              <li>
-                <a href="#services">Automotive Tinting</a>
-              </li>
-              <li>
-                <a href="#services">Residential Tinting</a>
-              </li>
+              <li><a href="#services">Automotive Window Tint</a></li>
+              <li><a href="#services">Residential Window Tint</a></li>
+              <li><a href="#services">Commercial Window Tint</a></li>
+              <li><a href="#services">PPF Installation</a></li>
+              <li><a href="#services">LED Interior Lighting</a></li>
+              <li><a href="#services">Auto Interior Detailing</a></li>
+              <li><a href="#services">Window Cleaning</a></li>
             </ul>
           </div>
           <div className={styles.footerColumn}>
             <h4>Company</h4>
             <ul>
-              <li>
-                <a href="#gallery">Portfolio</a>
-              </li>
-              <li>
-                <a href="#testimonials">Reviews</a>
-              </li>
-              <li>
-                <a href="#process">Process</a>
-              </li>
-              <li>
-                <a href="#contact">Contact</a>
-              </li>
+              <li><a href="#gallery">Portfolio</a></li>
+              <li><a href="#testimonials">Reviews</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div className={styles.footerColumn}>
+            <h4>Policy Information</h4>
+            <ul>
+              <li><a href="/policy#terms-of-use">Terms of Use</a></li>
+              <li><a href="/policy#terms-and-conditions">Terms and Conditions</a></li>
+              <li><a href="/policy#privacy-policy">Privacy</a></li>
             </ul>
           </div>
         </div>
 
         <div className={styles.footerBottom}>
-          <p>© 2026 XTint. All rights reserved.</p>
-          <p>Houston, Texas</p>
+          <div className={styles.footerBottomLeft}>
+            <p>© 2026 XTINTUSA LLC · Houston, Texas · All rights reserved.</p>
+            <p className={styles.footerQuote}>
+              No matter your age, you&apos;ll always wish you started younger.<br />
+              <u>But today is the youngest you&apos;ll ever be.</u>
+            </p>
+          </div>
+          <img
+            src="/images/IMG_5457.WEBP"
+            alt="XTint"
+            className={styles.footerSideImg}
+          />
         </div>
       </footer>
     </main>
