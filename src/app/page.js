@@ -258,17 +258,12 @@ export default function Home() {
             <div className={styles.heroBadge}>Residential & Automotive Services • Houston TX</div>
             <h1 className={styles.heroH1}>
               <span>
-                <span className={styles.word} style={{ animationDelay: '0s' }}>
-                  Window{' '}
+                <span className={`${styles.word} ${styles.textOutline}`} style={{ animationDelay: '0s' }}>
+                  Service{' '}
                 </span>
               </span>
               <span>
-                <span className={`${styles.word} ${styles.textOutline}`} style={{ animationDelay: '0.1s' }}>
-                  Tinting{' '}
-                </span>
-              </span>
-              <span>
-                <span className={styles.word} style={{ animationDelay: '0.2s' }}>
+                <span className={styles.word} style={{ animationDelay: '0.1s' }}>
                   Redefined
                 </span>
               </span>
@@ -292,14 +287,14 @@ export default function Home() {
             <React.Fragment key={i}>
               <span className={styles.tickerItem}>★ LIFETIME WARRANTY</span>
               <span className={styles.tickerItem}>★ SAME DAY SERVICE</span>
-              <span className={styles.tickerItem}>★ BUISNESS INSTALLATION</span>
+              <span className={styles.tickerItem}>★ BUSINESS INSTALLATION</span>
               <span className={styles.tickerItem}>★ CERAMIC TECHNOLOGY</span>
             </React.Fragment>
           ))}
         </div>
       </div>
       <div className={styles.highlightBox}>
-        ✓ FREE UBER SERVICE UP TO 5-10 MILES FROM WORK POINT
+        ✓ FREE SHUTTLE SERVICE UP TO 5 MILES*
       </div>
 
       {/* Services Section */}
