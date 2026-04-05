@@ -14,9 +14,6 @@ export default function Home() {
   // Testimonial Slider State
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Gallery State
-  const [activeGalleryTab, setActiveGalleryTab] = useState('automotive');
-
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceType, setServiceType] = useState('');
@@ -28,16 +25,6 @@ export default function Home() {
   // Touch tracking for swipe
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
-
-  // Image Viewer State
-  const [imageViewerOpen, setImageViewerOpen] = useState(false);
-  const [viewerImage, setViewerImage] = useState('');
-  const [zoom, setZoom] = useState(1);
-  const [panX, setPanX] = useState(0);
-  const [panY, setPanY] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const imageViewerRef = useRef(null);
 
   // Mobile Menu Toggle
   const toggleMobileMenu = () => {
@@ -117,11 +104,6 @@ export default function Home() {
     }
   };
 
-  // Gallery switching
-  const switchGallery = (type) => {
-    setActiveGalleryTab(type);
-  };
-
   // Toggle quote form fields
   const toggleQuoteFields = (value) => {
     setServiceType(value);
@@ -142,97 +124,6 @@ export default function Home() {
     if (e.target === e.currentTarget) {
       closeQuoteModal();
     }
-  };
-
-  // Image Viewer Functions
-  const openImageViewer = (imageSrc) => {
-    setViewerImage(imageSrc);
-    setImageViewerOpen(true);
-    setZoom(1);
-    setPanX(0);
-    setPanY(0);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeImageViewer = () => {
-    setImageViewerOpen(false);
-    document.body.style.overflow = 'auto';
-  };
-
-  const handleImageViewerBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      closeImageViewer();
-    }
-  };
-
-  const zoomIn = () => {
-    setZoom((prev) => Math.min(prev + 0.5, 5));
-  };
-
-  const zoomOut = () => {
-    setZoom((prev) => Math.max(prev - 0.5, 1));
-  };
-
-  const resetZoom = () => {
-    setZoom(1);
-    setPanX(0);
-    setPanY(0);
-  };
-
-  const handleImageMouseDown = (e) => {
-    if (zoom > 1) {
-      setIsDragging(true);
-      setDragStart({ x: e.clientX - panX, y: e.clientY - panY });
-    }
-  };
-
-  const handleImageMouseMove = (e) => {
-    if (isDragging && zoom > 1 && imageViewerRef.current) {
-      const rect = imageViewerRef.current.getBoundingClientRect();
-      const maxPan = (rect.width * (zoom - 1)) / (2 * zoom);
-      const maxPanY = (rect.height * (zoom - 1)) / (2 * zoom);
-
-      let newPanX = e.clientX - dragStart.x;
-      let newPanY = e.clientY - dragStart.y;
-
-      newPanX = Math.max(-maxPan, Math.min(maxPan, newPanX));
-      newPanY = Math.max(-maxPanY, Math.min(maxPanY, newPanY));
-
-      setPanX(newPanX);
-      setPanY(newPanY);
-    }
-  };
-
-  const handleImageMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleImageTouchStart = (e) => {
-    if (zoom > 1 && e.touches.length === 1) {
-      setIsDragging(true);
-      setDragStart({ x: e.touches[0].clientX - panX, y: e.touches[0].clientY - panY });
-    }
-  };
-
-  const handleImageTouchMove = (e) => {
-    if (isDragging && zoom > 1 && e.touches.length === 1 && imageViewerRef.current) {
-      const rect = imageViewerRef.current.getBoundingClientRect();
-      const maxPan = (rect.width * (zoom - 1)) / (2 * zoom);
-      const maxPanY = (rect.height * (zoom - 1)) / (2 * zoom);
-
-      let newPanX = e.touches[0].clientX - dragStart.x;
-      let newPanY = e.touches[0].clientY - dragStart.y;
-
-      newPanX = Math.max(-maxPan, Math.min(maxPan, newPanX));
-      newPanY = Math.max(-maxPanY, Math.min(maxPanY, newPanY));
-
-      setPanX(newPanX);
-      setPanY(newPanY);
-    }
-  };
-
-  const handleImageTouchEnd = () => {
-    setIsDragging(false);
   };
 
   // Timeline Animation on Scroll
@@ -302,33 +193,11 @@ export default function Home() {
       if (e.key === 'Escape' && isModalOpen) {
         closeQuoteModal();
       }
-      if (e.key === 'Escape' && imageViewerOpen) {
-        closeImageViewer();
-      }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen, imageViewerOpen]);
-
-  // Mouse wheel zoom handler for image viewer
-  useEffect(() => {
-    const handleWheel = (e) => {
-      if (!imageViewerOpen) return;
-
-      e.preventDefault();
-      const delta = e.deltaY > 0 ? -0.3 : 0.3;
-      setZoom((prev) => {
-        const newZoom = Math.min(Math.max(prev + delta, 1), 5);
-        return newZoom;
-      });
-    };
-
-    if (imageViewerOpen) {
-      document.addEventListener('wheel', handleWheel, { passive: false });
-      return () => document.removeEventListener('wheel', handleWheel);
-    }
-  }, [imageViewerOpen]);
+  }, [isModalOpen]);
 
   const testimonials = [
     {
@@ -470,8 +339,13 @@ export default function Home() {
         </div>
         <div className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <span className={styles.serviceNumber}>01</span>
-            <div className={styles.serviceIcon}>🎨</div>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="3" width="22" height="18" rx="2" ry="2"/>
+                <line x1="1" y1="9" x2="23" y2="9"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>01</span>
             <h3>Automotive Window Tint</h3>
             <p>
               Premium ceramic films engineered to reject heat, block UV rays, and enhance privacy
@@ -479,17 +353,56 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.serviceCard}>
-            <span className={styles.serviceNumber}>02</span>
-            <div className={styles.serviceIcon}>🛡️</div>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>02</span>
             <h3>Residential Window Tint</h3>
             <p>
               Premium ceramic films designed to keep your home cooler, protect interiors from harmful
-              UV rays, and provide daytime privacy—all while maintaining a clear, natural view.
+              UV rays, and provide daytime privacy — all while maintaining a clear, natural view.
             </p>
           </div>
           <div className={styles.serviceCard}>
-            <span className={styles.serviceNumber}>03</span>
-            <div className={styles.serviceIcon}>💡</div>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 4H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+                <path d="M1 10h22"/>
+                <rect x="6" y="14" width="4" height="4" rx="1"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>03</span>
+            <h3>Commercial Window Tint</h3>
+            <p>
+              Professional window tinting for storefronts, offices, and commercial buildings — reducing
+              glare, cutting energy costs, and adding a sleek, uniform look.
+            </p>
+          </div>
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>04</span>
+            <h3>PPF Installation</h3>
+            <p>
+              Paint protection film applied with precision to guard your vehicle&apos;s finish against
+              rock chips, scratches, and road debris — keeping it looking factory-fresh.
+            </p>
+          </div>
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="9" y1="18" x2="15" y2="18"/>
+                <line x1="10" y1="22" x2="14" y2="22"/>
+                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>05</span>
             <h3>LED Interior Lighting</h3>
             <p>
               Custom LED interior lighting installations to transform your vehicle&apos;s cabin with
@@ -497,12 +410,44 @@ export default function Home() {
             </p>
           </div>
           <div className={styles.serviceCard}>
-            <span className={styles.serviceNumber}>04</span>
-            <div className={styles.serviceIcon}>✨</div>
-            <h3>Detailing Services</h3>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>06</span>
+            <h3>Auto Interior Detailing</h3>
             <p>
-              Full interior and exterior detailing including hand wash, vacuum, interior cleaning,
-              light ceramic coating, and more—everything your vehicle needs to look showroom-fresh.
+              Full interior detailing including hand wash, deep vacuum, interior cleaning,
+              light ceramic coating, and more — everything your vehicle needs to look showroom-fresh.
+            </p>
+          </div>
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>07</span>
+            <h3>Window Cleaning</h3>
+            <p>
+              Professional window cleaning for residential and commercial properties — streak-free
+              results that let the light in and keep your space looking sharp.
+            </p>
+          </div>
+          <div className={styles.serviceCard}>
+            <div className={styles.serviceIconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+              </svg>
+            </div>
+            <span className={styles.serviceLabel}>08</span>
+            <h3>Customer Status Tracker</h3>
+            <p>
+              Real-time updates on your vehicle&apos;s service progress — know exactly what stage your
+              car is at, from drop-off to completion, all from your phone.
             </p>
           </div>
         </div>
@@ -548,7 +493,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Recent Projects Section */}
       <section className={styles.gallery} id="gallery">
         <div className={styles.sectionHeader}>
           <p className={styles.sectionNumber}>03 — PORTFOLIO</p>
@@ -558,98 +503,60 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Gallery Tabs */}
-        <div className={styles.galleryTabs}>
-          <button
-            className={`${styles.galleryTab} ${activeGalleryTab === 'automotive' ? styles.active : ''}`}
-            onClick={() => switchGallery('automotive')}
-          >
-            <span>🚗</span> Automotive
-          </button>
-          <button
-            className={`${styles.galleryTab} ${activeGalleryTab === 'residential' ? styles.active : ''}`}
-            onClick={() => switchGallery('residential')}
-          >
-            <span>🏠</span> Residential
-          </button>
+        <div className={styles.socialFeeds}>
+          <div className={styles.socialFeed}>
+            <h3 className={styles.socialFeedTitle}>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              @Xtintusallc
+            </h3>
+            <div className={styles.socialEmbedContainer}>
+              <iframe
+                src="https://www.instagram.com/Xtintusallc/embed"
+                width="100%"
+                height="500"
+                frameBorder="0"
+                scrolling="no"
+                loading="lazy"
+                title="XTint Instagram Feed"
+              ></iframe>
+            </div>
+            <a
+              href="https://www.instagram.com/Xtintusallc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialFollowBtn}
+            >
+              Follow on Instagram
+            </a>
+          </div>
+
+          <div className={styles.socialFeed}>
+            <h3 className={styles.socialFeedTitle}>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V9.48a8.18 8.18 0 004.76 1.52V7.56a4.83 4.83 0 01-1-.87z"/></svg>
+              @xtintusa
+            </h3>
+            <div className={styles.socialEmbedContainer}>
+              <iframe
+                src="https://www.tiktok.com/embed/@xtintusa"
+                width="100%"
+                height="500"
+                frameBorder="0"
+                allow="autoplay; encrypted-media"
+                allowFullScreen
+                loading="lazy"
+                title="XTint TikTok Feed"
+              ></iframe>
+            </div>
+            <a
+              href="https://www.tiktok.com/@xtintusa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.socialFollowBtn}
+            >
+              Follow on TikTok
+            </a>
+          </div>
         </div>
-
-        {/* Automotive Gallery */}
-        {activeGalleryTab === 'automotive' && (
-          <div className={styles.galleryContainer} id="automotive-gallery">
-            <div className={styles.galleryGrid}>
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_7833.JPG')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_7833.JPG" alt="Porsche 911" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Porsche 911</h4>
-                  <p>15% All Around</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_1365.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_1365.jpeg" alt="Kia K4" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Kia K4</h4>
-                  <p>5% All Around</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_0025.JPG')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_0025.JPG" alt="Corvette C5" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Corvette C5</h4>
-                  <p>35% Front, 15% Back</p>
-                </div>
-              </div>
-
-                            <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_6533.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_6533.jpeg" alt="Acura TLX" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Acura TLX</h4>
-                  <p>35% Front, 15% Back</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_3375.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_3375.jpeg" alt="Honda Civic Sport" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Honda Civic Sport</h4>
-                  <p>50% Windshield, 5% All around</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_2013.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_2013.jpeg" alt="Mazda 3s" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Mazda 3s</h4>
-                  <p>15% front, 5% Back</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem} onClick={() => openImageViewer('/images/IMG_6113.jpeg')} style={{ cursor: 'pointer' }}>
-                <img src="/images/IMG_6113.jpeg" alt="Nissan Altima" loading="lazy" />
-                <div className={styles.galleryOverlay}>
-                  <h4>Nissan Altima</h4>
-                  <p>70% Windshield, 35% All around</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Residential Gallery */}
-        {activeGalleryTab === 'residential' && (
-          <div className={styles.galleryContainer} id="residential-gallery">
-            <div style={{ textAlign: 'center', padding: '100px 40px' }}>
-              <h3 style={{ fontSize: '48px', fontWeight: 900, textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '20px' }}>
-                Coming Soon
-              </h3>
-              <p style={{ fontSize: '18px', color: 'var(--light-gray)' }}>
-                Residential project gallery will be updated shortly
-              </p>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* Testimonials */}
@@ -889,47 +796,48 @@ export default function Home() {
           </div>
           <div className={styles.aboutContent}>
             <div className={styles.aboutImageContainer}>
-              <img src="/images/IMG_1559.jpeg" alt="Xander Angulo" className={styles.aboutImage} />
+              <img src="/images/IMG_3664.JPG" alt="XTint USA" className={styles.aboutImage} />
             </div>
             <div className={styles.aboutText}>
-              <div className={styles.founderBadge}>Founder & Lead Installer</div>
+              <div className={styles.founderBadge}>Est. Houston, TX</div>
               <h3>
-                I'm <span>Xander Angulo</span>
+                Built From <span>Frustration</span>
               </h3>
               <p>
-                As someone who's had <strong>over 15+ tint setups per vehicle</strong>, I've seen it
-                all. I've experienced the overpriced quotes, the mediocre work, and the lack of
-                transparency in this industry. That's when I realized something had to change.
+                XTint was born out of a simple realization: <strong>the tint industry was broken.</strong>{' '}
+                Overpriced quotes, mediocre installs, and zero transparency had become the norm.
+                After experiencing it firsthand — over 15 setups on a single vehicle just trying
+                to get it right — enough was enough.
               </p>
 
               <p>
-                <strong>Tint shouldn't cost you an arm and a leg.</strong> It's meant to keep you
-                protected from harmful UV rays, reduce heat, enhance privacy, and improve your
-                driving or living experience. But somehow, it became an overpriced luxury instead of
-                an accessible necessity.
+                <strong>Tint shouldn&apos;t cost you an arm and a leg.</strong> It exists to protect you
+                from harmful UV rays, reduce heat, enhance privacy, and improve your daily
+                driving or living experience. But somewhere along the way, it became an
+                overpriced luxury instead of an accessible necessity.
               </p>
 
               <p>
-                Here at <strong>XTint</strong>, I stand by my work. Every installation is done with
-                precision, care, and the highest quality materials.{' '}
-                <strong>No one else will do it as good for our prices.</strong> That's not arrogance,
-                that's a promise.
+                That&apos;s why XTint exists — to prove that <strong>premium quality and fair pricing
+                can coexist.</strong> Every installation is done with precision, care, and the
+                highest quality ceramic films. No shortcuts. No inflated markups.{' '}
+                <strong>No one else will match this quality at these prices.</strong> That&apos;s not a
+                slogan — it&apos;s a standard.
               </p>
 
               <p>
-                Whether it's your daily driver, your dream car, or your home, you deserve premium
-                protection without the premium price tag. Let me show you what real quality looks
-                like.
+                Whether it&apos;s your daily driver, your dream car, or your home windows — you
+                deserve premium protection without the premium price tag.
               </p>
 
               <div className={styles.aboutStats}>
                 <div className={styles.statItem}>
-                  <div className={styles.statNumber}>15+</div>
-                  <div className={styles.statLabel}>Setups Per Vehicle</div>
-                </div>
-                <div className={styles.statItem}>
                   <div className={styles.statNumber}>100%</div>
                   <div className={styles.statLabel}>Quality Guarantee</div>
+                </div>
+                <div className={styles.statItem}>
+                  <div className={styles.statNumber}>Fair</div>
+                  <div className={styles.statLabel}>Transparent Pricing</div>
                 </div>
               </div>
             </div>
@@ -950,6 +858,14 @@ export default function Home() {
               <a href="tel:832-776-5717" className={styles.btnPrimaryDark}>
                 Call Or Text Now
               </a>
+              <a
+                href="https://app.squareup.com/appointments/buyer/widget/ccpqrsorn0nhf5/LXB9A50T845XB"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.btnBookNow}
+              >
+                Book Now
+              </a>
               <button
                 className={styles.btnSecondaryDark}
                 onClick={openQuoteModal}
@@ -962,199 +878,38 @@ export default function Home() {
           <div className={styles.contactInfo}>
             <div className={styles.contactItem}>
               <span>📍</span>
-              <a href="https://maps.app.goo.gl/B8Yy3fcMyFpz7FW66" target="_blank" rel="noopener noreferrer">Cypress, TX (77429)</a>
-            </div>
-            <div className={styles.contactItem}>
-              <span>📍</span>
-              <span>Copperfield, TX - Coming Soon</span>
+              <a href="https://maps.app.goo.gl/B8Yy3fcMyFpz7FW66" target="_blank" rel="noopener noreferrer">Houston, TX (77066)</a>
             </div>
             <div className={styles.contactItem}>
               <span>📞</span>
-              <a href="tel:832-776-5717">832-776-5717</a>
+              <span>Reachable at <a href="tel:832-776-5717">832-776-5717</a> 24/7</span>
             </div>
             <div className={styles.contactItem}>
               <span>🕐</span>
-              <span>Mon-Sun 7AM-8:30PM</span>
+              <span>Mon & Wed 8AM–4PM</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span>🕐</span>
+              <span>Tue & Thu Closed</span>
+            </div>
+            <div className={styles.contactItem}>
+              <span>🕐</span>
+              <span>Fri–Sun 7AM–6PM</span>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Image Viewer Modal */}
-      {imageViewerOpen && (
-        <div
-          className={styles.imageViewerBackdrop}
-          onClick={handleImageViewerBackdropClick}
-          onMouseMove={handleImageMouseMove}
-          onMouseUp={handleImageMouseUp}
-          onMouseLeave={handleImageMouseUp}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.95)',
-            zIndex: 1000,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden'
-          }}
-        >
-          <button
-            className={styles.closeImageViewer}
-            onClick={closeImageViewer}
-            style={{
-              position: 'absolute',
-              top: '20px',
-              right: '20px',
-              backgroundColor: 'transparent',
-              color: 'white',
-              border: 'none',
-              fontSize: '40px',
-              cursor: 'pointer',
-              zIndex: 1001,
-              width: '50px',
-              height: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            ✕
-          </button>
-
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              overflow: 'hidden'
-            }}
-            ref={imageViewerRef}
-            onMouseDown={handleImageMouseDown}
-            onTouchStart={handleImageTouchStart}
-            onTouchMove={handleImageTouchMove}
-            onTouchEnd={handleImageTouchEnd}
-          >
-            <img
-              src={viewerImage}
-              alt="Zoomed Image"
-              draggable="false"
-              onDragStart={(e) => e.preventDefault()}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '100%',
-                width: 'auto',
-                height: 'auto',
-                transform: `scale(${zoom}) translate(${panX}px, ${panY}px)`,
-                transition: isDragging ? 'none' : 'transform 0.1s ease-out',
-                cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-                userSelect: 'none',
-                WebkitUserDrag: 'none'
-              }}
-            />
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '30px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              display: 'flex',
-              gap: '15px',
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              padding: '15px 25px',
-              borderRadius: '50px',
-              zIndex: 1001
-            }}
-          >
-            <button
-              onClick={zoomOut}
-              disabled={zoom <= 1}
-              style={{
-                backgroundColor: zoom <= 1 ? '#666' : '#fff',
-                color: zoom <= 1 ? '#999' : '#000',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                cursor: zoom <= 1 ? 'not-allowed' : 'pointer',
-                fontWeight: 'bold',
-                fontSize: '16px'
-              }}
-            >
-              −
-            </button>
-            <span
-              style={{
-                color: '#fff',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                minWidth: '60px',
-                textAlign: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              {Math.round(zoom * 100)}%
-            </span>
-            <button
-              onClick={zoomIn}
-              disabled={zoom >= 5}
-              style={{
-                backgroundColor: zoom >= 5 ? '#666' : '#fff',
-                color: zoom >= 5 ? '#999' : '#000',
-                border: 'none',
-                padding: '8px 12px',
-                borderRadius: '4px',
-                cursor: zoom >= 5 ? 'not-allowed' : 'pointer',
-                fontWeight: 'bold',
-                fontSize: '16px'
-              }}
-            >
-              +
-            </button>
-            {zoom > 1 && (
-              <button
-                onClick={resetZoom}
-                style={{
-                  backgroundColor: '#fff',
-                  color: '#000',
-                  border: 'none',
-                  padding: '8px 12px',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  fontSize: '14px'
-                }}
-              >
-                Reset
-              </button>
-            )}
-          </div>
-
-          <div
-            style={{
-              position: 'absolute',
-              top: '20px',
-              left: '20px',
-              color: '#fff',
-              fontSize: '14px',
-              backgroundColor: 'rgba(0, 0, 0, 0.7)',
-              padding: '10px 15px',
-              borderRadius: '4px'
-            }}
-          >
-            {zoom > 1 ? 'Drag to pan • Scroll to zoom' : 'Click to zoom in'}
-          </div>
+        <div className={styles.mapContainer}>
+          <iframe
+            src="https://storage.googleapis.com/maps-solutions-aig2pbkme8/locator-plus/881q/locator-plus.html"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            loading="lazy"
+            title="XTint Location"
+          ></iframe>
         </div>
-      )}
+      </section>
 
       {/* Footer */}
       <footer className={styles.footer}>

@@ -528,7 +528,7 @@ export default function QuoteGenerator() {
       { label: 'Contact:', value: '(832) 776-5717' },
       { label: 'Email:', value: 'xanderanguloINQ@gmail.com' },
       { label: 'Location:', value: 'Houston, TX' },
-      { label: 'Hours:', value: 'Mon-Sun 7AM-8:30PM' },
+      { label: 'Hours:', value: 'Mon & Wed 8AM-4PM | Fri-Sun 7AM-6PM' },
     ];
 
     footerLines.forEach((line) => {

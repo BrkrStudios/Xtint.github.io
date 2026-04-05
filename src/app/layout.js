@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "XTINT | Professional Window Tinting in Houston, TX | Automotive & Residential",
-  description: "Premium window tinting service in Houston & Cypress, TX. Automotive & residential tinting with ceramic technology, lifetime warranty. Get a free quote today!",
-  keywords: "window tinting Houston, automotive tinting Texas, residential window tint, ceramic tint, UV protection, heat rejection, car tinting Cypress TX",
+  description: "Premium window tinting service in Houston, TX. Automotive & residential tinting with ceramic technology, lifetime warranty. Get a free quote today!",
+  keywords: "window tinting Houston, automotive tinting Texas, residential window tint, ceramic tint, UV protection, heat rejection, car tinting Houston TX",
   authors: [{ name: "Xander Angulo", url: "https://xtintusa.com" }],
   creator: "XTINT",
   publisher: "XTINT",
@@ -87,10 +87,10 @@ export default function RootLayout({ children }) {
     "email": "info@xtintusa.com",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Cypress, TX",
-      "addressLocality": "Cypress",
+      "streetAddress": "Houston, TX",
+      "addressLocality": "Houston",
       "addressRegion": "TX",
-      "postalCode": "77429",
+      "postalCode": "77066",
       "addressCountry": "US"
     },
     "geo": {
@@ -108,7 +108,7 @@ export default function RootLayout({ children }) {
       },
       {
         "@type": "City",
-        "name": "Cypress",
+        "name": "Houston",
         "addressRegion": "TX"
       }
     ],
