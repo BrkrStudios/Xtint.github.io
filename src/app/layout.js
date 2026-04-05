@@ -58,7 +58,7 @@ export const metadata = {
     description: "Premium auto & property services in Houston with ceramic technology and lifetime warranty",
     images: [
       {
-        url: "https://xtintusa.com/images/buisimage.png",
+        url: "https://xtintusa.com/images/xtintpreviewimage.png",
         width: 1200,
         height: 630,
         alt: "XTINT Auto & Property Services",
@@ -71,7 +71,7 @@ export const metadata = {
     card: "summary_large_image",
     title: "XTINT | Auto & Property Services in Houston, TX",
     description: "Premium auto & property services for vehicles and homes. Ceramic technology, lifetime warranty, same-day service available.",
-    images: ["https://xtintusa.com/images/buisimage.png"],
+    images: ["https://xtintusa.com/images/xtintpreviewimage.png"],
   },
   metadataBase: new URL("https://xtintusa.com"),
 };
@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
       "latitude": "29.8833",
       "longitude": "-95.6615"
     },
-    "image": "https://xtintusa.com/images/buisimage.png",
+    "image": "https://xtintusa.com/images/xtintpreviewimage.png",
     "priceRange": "$$",
     "areaServed": [
       {
