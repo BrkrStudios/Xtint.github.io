@@ -1097,25 +1097,56 @@ export default function Home() {
           </div>
 
           <div className={styles.contactInfo}>
-            <div className={styles.contactItem}>
-              <span>📍</span>
-              <a href="https://maps.app.goo.gl/B8Yy3fcMyFpz7FW66" target="_blank" rel="noopener noreferrer">Houston, TX (77066)</a>
+            <div className={styles.contactDetail}>
+              <div className={styles.contactDetailIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div className={styles.contactDetailText}>
+                <span className={styles.contactDetailLabel}>Location</span>
+                <a href="https://maps.app.goo.gl/B8Yy3fcMyFpz7FW66" target="_blank" rel="noopener noreferrer" className={styles.contactDetailValue}>Houston, TX (77066)</a>
+              </div>
             </div>
-            <div className={styles.contactItem}>
-              <span>📞</span>
-              <span><a href="tel:832-776-5717">832-776-5717</a></span>
+
+            <div className={styles.contactDetail}>
+              <div className={styles.contactDetailIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.53 2 2 0 0 1 3.6 1.37h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <div className={styles.contactDetailText}>
+                <span className={styles.contactDetailLabel}>Phone</span>
+                <a href="tel:832-776-5717" className={styles.contactDetailValue}>832-776-5717</a>
+              </div>
             </div>
-            <div className={styles.contactItem}>
-              <span>🕐</span>
-              <span>Mon & Wed 8AM–4PM</span>
+
+            <div className={styles.contactDetail}>
+              <div className={styles.contactDetailIcon}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <div className={styles.contactDetailText}>
+                <span className={styles.contactDetailLabel}>Email</span>
+                <a href="mailto:Xander@Xtintusa.com" className={styles.contactDetailValue}>Xander@Xtintusa.com</a>
+              </div>
             </div>
-            <div className={styles.contactItem}>
-              <span>🕐</span>
-              <span>Tue & Thu Closed</span>
+
+            <div className={styles.contactHoursDivider}>
+              <span>Hours</span>
             </div>
-            <div className={styles.contactItem}>
-              <span>🕐</span>
-              <span>Fri–Sun 7AM–6PM</span>
+
+            <div className={styles.contactHoursGrid}>
+              <div className={styles.contactHoursRow}>
+                <span>Mon &amp; Wed</span><span>8AM – 4PM</span>
+              </div>
+              <div className={styles.contactHoursRow}>
+                <span>Tue &amp; Thu</span><span className={styles.contactHoursClosed}>Closed</span>
+              </div>
+              <div className={styles.contactHoursRow}>
+                <span>Fri – Sun</span><span>7AM – 6PM</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1140,6 +1171,7 @@ export default function Home() {
           <div className={styles.footerBrand}>
             <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '70px', width: 'auto', marginBottom: '20px' }} />
             <p>Premium automotive &amp; residential window tinting — Houston, TX.</p>
+            <p className={styles.footerHiring}>Interested in working for us? <a href="tel:832-776-5717">Call now!</a> Fast turnaround, competitive rates.</p>
           </div>
           <div className={styles.footerColumn}>
             <h4>Services</h4>

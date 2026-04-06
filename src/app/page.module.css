@@ -857,7 +857,97 @@
 .contactInfo {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
+}
+
+.contactDetail {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.contactDetailIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--white);
+}
+
+.contactDetailText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.contactDetailLabel {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.contactDetailValue {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: opacity 0.2s ease;
+}
+
+.contactDetailValue:hover {
+    opacity: 0.75;
+}
+
+.contactHoursDivider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 12px;
+}
+
+.contactHoursDivider span {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.5);
+    font-family: 'SF Mono', 'Monaco', monospace;
+    white-space: nowrap;
+}
+
+.contactHoursDivider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+}
+
+.contactHoursGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.contactHoursRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: rgba(255,255,255,0.85);
+}
+
+.contactHoursClosed {
+    color: rgba(255,255,255,0.35) !important;
+    font-style: italic;
 }
 
 .contactItem {
@@ -932,6 +1022,23 @@
     font-size: 14px;
     line-height: 1.8;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.footerHiring {
+    margin-top: 16px !important;
+    font-size: 12px !important;
+    color: rgba(255,255,255,0.35) !important;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 14px;
+}
+
+.footerHiring a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.footerHiring a:hover {
+    text-decoration: underline;
 }
 
 .footerColumn h4 {
