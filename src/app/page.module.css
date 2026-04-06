@@ -1269,8 +1269,7 @@
 
 .filmFeatures {
     margin-top: 30px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0;
 }
 
 .filmFeatures ul {
@@ -1355,6 +1354,396 @@
         grid-template-columns: 1fr;
         gap: 15px;
     }
+}
+
+.resComSection {
+    margin-top: 40px;
+}
+
+.resComIntro {
+    font-size: 14px;
+    color: var(--light-gray);
+    line-height: 1.8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 600px;
+    border-left: 2px solid var(--accent);
+    padding-left: 16px;
+    margin-bottom: 40px;
+}
+
+.resFilmsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.resFilmModels {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.resVltGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.resVltWindow {
+    aspect-ratio: 3 / 4;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    position: relative;
+}
+
+.resVltWindow::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+}
+
+.resComGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.resComCard {
+    background: var(--gray);
+    border: 1px solid rgba(97, 165, 194, 0.15);
+    padding: 32px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.resComCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.resComCard:hover {
+    border-color: rgba(97, 165, 194, 0.4);
+    transform: translateY(-4px);
+}
+
+.resComCard:hover::before {
+    opacity: 1;
+}
+
+.resComCard h5 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 10px;
+}
+
+.resComCard p {
+    font-size: 13px;
+    color: var(--light-gray);
+    line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.resComIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(97, 165, 194, 0.1);
+    border: 1px solid rgba(97, 165, 194, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.resComNumber {
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(97, 165, 194, 0.06);
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: -2px;
+}
+
+.resComCta {
+    margin-top: 40px;
+    padding: 28px 32px;
+    background: rgba(97, 165, 194, 0.05);
+    border: 1px solid rgba(97, 165, 194, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.resComCta p {
+    font-size: 13px;
+    color: var(--light-gray);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    flex: 1;
+    min-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .resComGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .resFilmsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .resVltGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .resComCta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Film Nav */
+.filmNav {
+    display: flex;
+    gap: 12px;
+    margin: 40px 0 0;
+    flex-wrap: wrap;
+}
+
+.filmNavBtn {
+    padding: 10px 22px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid rgba(97, 165, 194, 0.3);
+    color: var(--light-gray);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.filmNavBtn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.filmNavBtnActive {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(97, 165, 194, 0.08);
+}
+
+/* VLT */
+.vltOptions {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.vltOptions h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 14px;
+}
+
+.vltGrid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Car window shape */
+.vltWindow {
+    width: 62px;
+    height: 46px;
+    clip-path: polygon(18% 100%, 3% 68%, 3% 22%, 20% 2%, 100% 0%, 100% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    transition: opacity 0.2s ease;
+    border: none;
+}
+
+.vltWindow:hover {
+    opacity: 0.85;
+}
+
+/* Learn More Button */
+.filmLearnMoreBtn {
+    margin-top: 24px;
+    background: transparent;
+    border: 1px solid rgba(97, 165, 194, 0.4);
+    color: var(--accent);
+    padding: 10px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.filmLearnMoreBtn:hover {
+    background: rgba(97, 165, 194, 0.08);
+    border-color: var(--accent);
+}
+
+/* Learn More Overlay */
+.filmOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.filmPanel {
+    background: #0a0f1a;
+    border: 1px solid rgba(97, 165, 194, 0.2);
+    max-width: 560px;
+    width: 100%;
+    padding: 48px 40px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.filmPanelClose {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--light-gray);
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.filmPanelClose:hover {
+    color: var(--white);
+}
+
+.filmPanelType {
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.filmPanelTitle {
+    font-size: 36px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+}
+
+.filmPanelDesc {
+    color: var(--light-gray);
+    font-size: 14px;
+    line-height: 1.8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin-bottom: 30px;
+}
+
+.filmPanelSpecs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 30px;
+    padding: 24px;
+    background: rgba(97, 165, 194, 0.05);
+    border: 1px solid rgba(97, 165, 194, 0.1);
+}
+
+.filmPanelSpecs div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.filmPanelSpecs span {
+    font-size: 10px;
+    color: var(--light-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.filmPanelSpecs strong {
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.filmPanelList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filmPanelList li {
+    color: var(--light-gray);
+    font-size: 14px;
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.filmPanelList li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 700;
 }
 
 .filmsCta {

@@ -18,6 +18,10 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceType, setServiceType] = useState('');
 
+  // Film Learn More State
+  const [learnMoreFilm, setLearnMoreFilm] = useState(null);
+  const [activeFilmTab, setActiveFilmTab] = useState('automotive');
+
   // Timeline Animation State
 
   // Touch tracking for swipe
@@ -550,62 +554,230 @@ export default function Home() {
           </div>
 
           <div className={styles.filmsIntro}>
-            <div className={styles.brandBadge}>Trusted Partner: GeoShield</div>
+            <div className={styles.brandBadge}>Official Dealer of GeoShield Films</div>
             <p>
-              For our Ceramic Film, we exclusively use GeoShield films—industry-leading technology
+              For our Ceramic Film, we exclusively use GeoShield films — industry-leading technology
               that delivers unmatched performance, durability, and clarity. Quality matters, and we
               stand by every installation.
             </p>
           </div>
 
-          <div className={styles.filmsGrid} style={{ gridTemplateColumns: '1fr' }}>
-            {/* Ceramic Film */}
+          {/* Film Type Nav */}
+          <div className={styles.filmNav}>
+            <button
+              className={`${styles.filmNavBtn} ${activeFilmTab === 'automotive' ? styles.filmNavBtnActive : ''}`}
+              onClick={() => setActiveFilmTab('automotive')}
+            >Automotive Films</button>
+            <button
+              className={`${styles.filmNavBtn} ${activeFilmTab === 'rescom' ? styles.filmNavBtnActive : ''}`}
+              onClick={() => setActiveFilmTab('rescom')}
+            >Residential &amp; Commercial Films</button>
+          </div>
+
+          {activeFilmTab === 'rescom' && (
+            <div className={styles.resComSection}>
+              <p className={styles.resComIntro}>
+                We offer a range of residential and commercial films — from high-performance reflective options to decorative and safety solutions. Every install is backed by our quality guarantee.
+              </p>
+              <div className={styles.resFilmsGrid}>
+
+                {/* Dual Reflective & Sputtered */}
+                <div className={styles.filmCard}>
+                  <div className={styles.filmType}>Reflective Series</div>
+                  <h3>Dual Reflective<br />&amp; Sputtered</h3>
+                  <p className={styles.resFilmModels}>Super Alloy · Geo · Astro · 20/20</p>
+                  <div className={styles.filmSpecs}>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>Solar Rejection</span>
+                      <span className={styles.specValue}>Up to 79%</span>
+                    </div>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>UV Rejection</span>
+                      <span className={styles.specValue}>99%</span>
+                    </div>
+                  </div>
+                  <div className={styles.filmFeatures}>
+                    <ul>
+                      <li>Maximum solar heat rejection</li>
+                      <li>Sleek mirrored exterior finish</li>
+                      <li>Significant glare reduction</li>
+                      <li>UV ray protection</li>
+                      <li>Interior &amp; exterior options</li>
+                    </ul>
+                  </div>
+                  <div className={styles.vltOptions}>
+                    <h4>Available VLT</h4>
+                    <div className={styles.resVltGrid}>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(10,10,10,0.96)', color: '#555' }}>5%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(20,20,20,0.85)', color: '#777' }}>15%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(35,35,35,0.72)', color: '#999' }}>20%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(50,50,50,0.60)', color: '#aaa' }}>25%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(65,65,65,0.50)', color: '#bbb' }}>30%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(80,80,80,0.42)', color: '#bbb' }}>35%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(95,95,95,0.34)', color: '#ccc' }}>40%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(115,115,115,0.24)', color: '#ddd' }}>50%</div>
+                    </div>
+                  </div>
+                  <button className={styles.filmLearnMoreBtn} onClick={() => setLearnMoreFilm('reflective')}>Learn More</button>
+                </div>
+
+                {/* Specialty Films */}
+                <div className={styles.filmCard}>
+                  <div className={styles.filmType}>Specialty Series</div>
+                  <h3>Specialty<br />Films</h3>
+                  <p className={styles.resFilmModels}>Lunar · Ultra · White Frost · Blackout · Solar Bronze</p>
+                  <div className={styles.filmSpecs}>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>Applications</span>
+                      <span className={styles.specValue}>5 Types</span>
+                    </div>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>UV Rejection</span>
+                      <span className={styles.specValue}>99%</span>
+                    </div>
+                  </div>
+                  <div className={styles.filmFeatures}>
+                    <ul>
+                      <li>Decorative &amp; privacy options</li>
+                      <li>Dual pane compatible (Lunar)</li>
+                      <li>Ceramic specialty (Ultra)</li>
+                      <li>Complete blackout available</li>
+                      <li>Custom aesthetic finishes</li>
+                    </ul>
+                  </div>
+                  <div className={styles.vltOptions}>
+                    <h4>Available VLT</h4>
+                    <div className={styles.resVltGrid}>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(0,0,0,1)', color: '#333' }}>0%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(35,35,35,0.72)', color: '#999' }}>20%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(110,110,110,0.26)', color: '#ccc' }}>55%</div>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(130,130,130,0.18)', color: '#ddd' }}>70%</div>
+                    </div>
+                  </div>
+                  <button className={styles.filmLearnMoreBtn} onClick={() => setLearnMoreFilm('specialty')}>Learn More</button>
+                </div>
+
+                {/* Safety Film */}
+                <div className={styles.filmCard}>
+                  <div className={styles.filmType}>Safety Film</div>
+                  <h3>8 Mil<br />Safety Film</h3>
+                  <p className={styles.resFilmModels}>8 Ply · PS Adhesive · Clear</p>
+                  <div className={styles.filmSpecs}>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>UV Rejection</span>
+                      <span className={styles.specValue}>99%</span>
+                    </div>
+                    <div className={styles.specItem}>
+                      <span className={styles.specLabel}>VLT</span>
+                      <span className={styles.specValue}>72%</span>
+                    </div>
+                  </div>
+                  <div className={styles.filmFeatures}>
+                    <ul>
+                      <li>Shatter &amp; impact resistant</li>
+                      <li>CPSC CFR 1201 certified</li>
+                      <li>GSA security criteria met</li>
+                      <li>Holds glass together on impact</li>
+                      <li>Clear — preserves natural light</li>
+                    </ul>
+                  </div>
+                  <div className={styles.vltOptions}>
+                    <h4>Available VLT</h4>
+                    <div className={styles.resVltGrid}>
+                      <div className={styles.resVltWindow} style={{ background: 'rgba(140,140,140,0.16)', color: '#ddd' }}>72%</div>
+                    </div>
+                  </div>
+                  <button className={styles.filmLearnMoreBtn} onClick={() => setLearnMoreFilm('safety')}>Learn More</button>
+                </div>
+
+              </div>
+            </div>
+          )}
+
+          {activeFilmTab === 'automotive' && <div className={styles.filmsGrid}>
+
+            {/* X1 Carbon */}
             <div className={styles.filmCard}>
-              <div className={styles.premiumBadge}>Recommended</div>
-              <div className={styles.filmType}>Elite Protection</div>
-              <h3>
-                Ceramic<br />
-                Film
-              </h3>
+              <div className={styles.filmType}>Carbon Film</div>
+              <h3>X1<br />Carbon</h3>
+
               <div className={styles.filmSpecs}>
                 <div className={styles.specItem}>
                   <span className={styles.specLabel}>Heat Rejection</span>
-                  <span className={styles.specValue}>Up to 90%</span>
+                  <span className={styles.specValue}>51%</span>
+                </div>
+                <div className={styles.specItem}>
+                  <span className={styles.specLabel}>UV Rejection</span>
+                  <span className={styles.specValue}>99%</span>
                 </div>
               </div>
+
               <div className={styles.filmFeatures}>
                 <ul>
-                  <li>Advanced Ceramic Technology</li>
-                  <li>Maximum Heat Reduction</li>
-                  <li>99% UV Protection</li>
-                  <li>Superior Clarity</li>
-                  <li>Lifetime Warranty</li>
-                  <li>All Automotive Tinting Done in Ceramic Only</li>
+                  <li>Keeps You Comfortable</li>
+                  <li>Reduces Glare</li>
+                  <li>UV Ray Protection</li>
+                  <li>Crystal Clear Signal</li>
+                  <li>Looks Great</li>
                 </ul>
               </div>
 
-              <div className={styles.filmResidentialOptions}>
-                <h4>Residential Film Options</h4>
-                <div className={styles.residentialGrid}>
-                  <div className={styles.residentialOption}>
-                    <span className={styles.residentialIcon}>◈</span>
-                    <h5>Reflective Films</h5>
-                    <p>Dual reflective, sputtered, and specialty options</p>
-                  </div>
-                  <div className={styles.residentialOption}>
-                    <span className={styles.residentialIcon}>◆</span>
-                    <h5>Specialty Films</h5>
-                    <p>Decorative, privacy, and safety films</p>
-                  </div>
-                  <div className={styles.residentialOption}>
-                    <span className={styles.residentialIcon}>▣</span>
-                    <h5>Standard Film</h5>
-                    <p>Basic protection at an affordable price</p>
-                  </div>
+              <div className={styles.vltOptions}>
+                <h4>Available VLT</h4>
+                <div className={styles.vltGrid}>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(10,10,10,0.96)', color: '#555' }}>5%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(20,20,20,0.85)', color: '#777' }}>15%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(40,40,40,0.65)', color: '#aaa' }}>35%</div>
                 </div>
               </div>
+
+              <button className={styles.filmLearnMoreBtn} onClick={() => setLearnMoreFilm('x1')}>Learn More</button>
             </div>
-          </div>
+
+            {/* X2 Pro */}
+            <div className={styles.filmCard}>
+              <div className={styles.premiumBadge}>Recommended</div>
+              <div className={styles.filmType}>Ceramic Film</div>
+              <h3>X2<br />Pro</h3>
+
+              <div className={styles.filmSpecs}>
+                <div className={styles.specItem}>
+                  <span className={styles.specLabel}>Heat Rejection</span>
+                  <span className={styles.specValue}>85%</span>
+                </div>
+                <div className={styles.specItem}>
+                  <span className={styles.specLabel}>UV Rejection</span>
+                  <span className={styles.specValue}>99%</span>
+                </div>
+              </div>
+
+              <div className={styles.filmFeatures}>
+                <ul>
+                  <li>Keeps You Comfortable</li>
+                  <li>Reduces Glare</li>
+                  <li>UV Ray Protection</li>
+                  <li>Crystal Clear Signal</li>
+                  <li>Looks Great</li>
+                  <li>Near-Zero Haze</li>
+                </ul>
+              </div>
+
+              <div className={styles.vltOptions}>
+                <h4>Available VLT</h4>
+                <div className={styles.vltGrid}>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(10,10,10,0.96)', color: '#555' }}>5%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(20,20,20,0.85)', color: '#777' }}>15%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(40,40,40,0.65)', color: '#aaa' }}>35%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(60,60,60,0.50)', color: '#bbb' }}>40%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(80,80,80,0.40)', color: '#bbb' }}>50%</div>
+                  <div className={styles.vltWindow} style={{ background: 'rgba(110,110,110,0.28)', color: '#ccc' }}>70%</div>
+                </div>
+              </div>
+
+              <button className={styles.filmLearnMoreBtn} onClick={() => setLearnMoreFilm('x2')}>Learn More</button>
+            </div>
+
+          </div>}
 
           <div className={styles.filmsCta}>
             <button className={styles.btnPrimary} onClick={openQuoteModal}>
@@ -613,6 +785,126 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        {/* Learn More Overlay */}
+        {learnMoreFilm && (
+          <div className={styles.filmOverlay} onClick={() => setLearnMoreFilm(null)}>
+            <div className={styles.filmPanel} onClick={e => e.stopPropagation()}>
+              <button className={styles.filmPanelClose} onClick={() => setLearnMoreFilm(null)}>✕</button>
+
+              {learnMoreFilm === 'x1' && (
+                <>
+                  <p className={styles.filmPanelType}>Carbon Film</p>
+                  <h3 className={styles.filmPanelTitle}>X1 Carbon</h3>
+                  <p className={styles.filmPanelDesc}>The X1 Carbon is our entry-level carbon film — a solid performer that delivers real heat and UV protection at a great value. Built for drivers who want quality without overpaying.</p>
+                  <div className={styles.filmPanelSpecs}>
+                    <div><span>Heat Rejection</span><strong>51%</strong></div>
+                    <div><span>UV Rejection</span><strong>99%</strong></div>
+                    <div><span>Signal Block</span><strong>None</strong></div>
+                    <div><span>Available Shades</span><strong>5% · 15% · 35%</strong></div>
+                  </div>
+                  <ul className={styles.filmPanelList}>
+                    <li>Noticeably cooler interior on hot days</li>
+                    <li>Reduces eye strain and glare while driving</li>
+                    <li>Blocks 99% of harmful UV rays — protects skin &amp; interior</li>
+                    <li>Won&apos;t interfere with GPS, Apple CarPlay, or cell signal</li>
+                    <li>Clean, professional finish that enhances your vehicle&apos;s look</li>
+                  </ul>
+                </>
+              )}
+
+              {learnMoreFilm === 'x2' && (
+                <>
+                  <p className={styles.filmPanelType}>Ceramic Film</p>
+                  <h3 className={styles.filmPanelTitle}>X2 Pro</h3>
+                  <p className={styles.filmPanelDesc}>The X2 Pro is our top-tier ceramic film — engineered for maximum heat rejection, near-zero haze, and crystal clarity. If you want the best, this is it.</p>
+                  <div className={styles.filmPanelSpecs}>
+                    <div><span>Heat Rejection</span><strong>85%</strong></div>
+                    <div><span>UV Rejection</span><strong>99%</strong></div>
+                    <div><span>Signal Block</span><strong>None</strong></div>
+                    <div><span>Available Shades</span><strong>5% · 15% · 35% · 40% · 50% · 70%</strong></div>
+                  </div>
+                  <ul className={styles.filmPanelList}>
+                    <li>Dramatically cooler interior — 85% heat rejection speaks for itself</li>
+                    <li>Near-zero haze — exceptional optical clarity</li>
+                    <li>Blocks 99% of UV rays — the gold standard for protection</li>
+                    <li>Zero signal interference — GPS, phone, CarPlay all work perfectly</li>
+                    <li>More shade options including 40%, 50% &amp; 70% for lighter coverage</li>
+                    <li>Premium look with a flawless, professional finish</li>
+                  </ul>
+                </>
+              )}
+
+              {learnMoreFilm === 'reflective' && (
+                <>
+                  <p className={styles.filmPanelType}>Reflective Series</p>
+                  <h3 className={styles.filmPanelTitle}>Dual Reflective &amp; Sputtered</h3>
+                  <p className={styles.filmPanelDesc}>Our reflective line includes Super Alloy, Geo, Astro, and 20/20 — each engineered to maximize solar rejection while maintaining a clean, professional appearance for homes and commercial spaces.</p>
+                  <div className={styles.filmPanelSpecs}>
+                    <div><span>Solar Rejection</span><strong>Up to 79%</strong></div>
+                    <div><span>UV Rejection</span><strong>99%</strong></div>
+                    <div><span>Interior Reflectance</span><strong>Varies</strong></div>
+                    <div><span>Available Shades</span><strong>5% · 15% · 20% · 25% · 30% · 35% · 40% · 50%</strong></div>
+                  </div>
+                  <ul className={styles.filmPanelList}>
+                    <li>Super Alloy — dual reflective, available in 5%, 15%, 25%, 35%</li>
+                    <li>Geo — sputtered film, available in 30%, 40%, 50%</li>
+                    <li>Astro — silver reflective, available in 15%</li>
+                    <li>20/20 — silver reflective interior &amp; exterior film, available in 20%</li>
+                    <li>Blocks 99% UV rays — protects furniture, flooring &amp; artwork</li>
+                    <li>Significantly reduces cooling costs in Houston&apos;s heat</li>
+                  </ul>
+                </>
+              )}
+
+              {learnMoreFilm === 'specialty' && (
+                <>
+                  <p className={styles.filmPanelType}>Specialty Series</p>
+                  <h3 className={styles.filmPanelTitle}>Specialty Films</h3>
+                  <p className={styles.filmPanelDesc}>Five distinct specialty films covering dual pane, ceramic, decorative, privacy, and complete blackout applications — for spaces where standard films won&apos;t cut it.</p>
+                  <div className={styles.filmPanelSpecs}>
+                    <div><span>Film Options</span><strong>5 Types</strong></div>
+                    <div><span>UV Rejection</span><strong>99%</strong></div>
+                    <div><span>VLT Range</span><strong>0% – 70%</strong></div>
+                    <div><span>Dual Pane Safe</span><strong>Lunar Series</strong></div>
+                  </div>
+                  <ul className={styles.filmPanelList}>
+                    <li>Lunar — specialty dual pane compatible film, 20% VLT</li>
+                    <li>Ultra — specialty ceramic film, 70% VLT, maximum clarity</li>
+                    <li>White Frost — decorative frosted privacy film, 55% VLT</li>
+                    <li>Blackout — complete privacy, 0% VLT, total light block</li>
+                    <li>Solar Bronze — decorative bronze tint with solar benefits, 20% VLT</li>
+                    <li>All options block 99% UV rays and reduce heat gain</li>
+                  </ul>
+                </>
+              )}
+
+              {learnMoreFilm === 'safety' && (
+                <>
+                  <p className={styles.filmPanelType}>Safety Film</p>
+                  <h3 className={styles.filmPanelTitle}>8 Mil Clear Safety Film</h3>
+                  <p className={styles.filmPanelDesc}>Our 8-ply safety film is engineered to hold shattered glass in place on impact — protecting your home or business from break-ins, accidents, and severe weather without changing how your windows look.</p>
+                  <div className={styles.filmPanelSpecs}>
+                    <div><span>Thickness</span><strong>8 Mil</strong></div>
+                    <div><span>UV Rejection</span><strong>99%</strong></div>
+                    <div><span>VLT</span><strong>72% (Clear)</strong></div>
+                    <div><span>Tensile Strength</span><strong>30,000 psi</strong></div>
+                  </div>
+                  <ul className={styles.filmPanelList}>
+                    <li>Holds glass in place on impact — reduces injury risk dramatically</li>
+                    <li>CPSC CFR 1201 Category II certified for safety glazing</li>
+                    <li>Meets GSA security criteria — used in government buildings</li>
+                    <li>Tensile strength: 30,000 psi · Puncture strength: 3,325 gm/in</li>
+                    <li>Blocks 99% UV rays while maintaining natural light at 72% VLT</li>
+                    <li>Clear finish — virtually invisible once applied</li>
+                  </ul>
+                </>
+              )}
+
+              <button className={styles.btnPrimary} onClick={() => { setLearnMoreFilm(null); openQuoteModal(); }} style={{ marginTop: '30px' }}>Get a Quote</button>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Quote Modal */}
