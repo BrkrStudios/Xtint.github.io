@@ -387,48 +387,73 @@
     color: var(--accent);
 }
 
-/* Stats Ticker */
-.ticker {
-    background: var(--accent);
-    color: var(--black);
-    padding: 20px 0;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    max-width: 100vw;
-}
-
-.tickerContent {
+/* Trust Bar */
+.trustBar {
+    background: var(--gray);
+    border-top: 1px solid rgba(97, 165, 194, 0.2);
+    border-bottom: 1px solid rgba(97, 165, 194, 0.2);
     display: flex;
-    animation: ticker 60s linear infinite;
-    white-space: nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+    flex-wrap: wrap;
 }
 
-@keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-
-@media (max-width: 768px) {
-    .tickerContent {
-        animation: ticker 30s linear infinite;
-    }
-}
-
-.tickerItem {
-    padding: 0 50px;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.trustItem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 32px;
     flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-    .tickerItem {
-        padding: 0 30px;
-        font-size: 12px;
-        letter-spacing: 1px;
+.trustIcon {
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.trustText {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.trustLabel {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    line-height: 1;
+}
+
+.trustSub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.trustDivider {
+    width: 1px;
+    height: 28px;
+    background: rgba(255,255,255,0.1);
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .trustBar {
+        padding: 0 16px;
+        justify-content: flex-start;
+        gap: 0;
+    }
+
+    .trustItem {
+        padding: 16px 18px;
+        gap: 10px;
+    }
+
+    .trustDivider {
+        display: none;
     }
 }
 
@@ -2062,15 +2087,6 @@
     transform: translateY(0);
 }
 
-.highlightBox {
-    background-color: #61A5C2;
-    color: #000000;
-    padding: 25px;
-    margin-top: 30px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 1rem;
-}
 
 /* Mobile Responsive */
 @media (max-width: 1024px) {
