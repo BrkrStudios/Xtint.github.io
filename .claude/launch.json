@@ -4,8 +4,9 @@
     {
       "name": "Next.js Dev Server",
       "runtimeExecutable": "/bin/sh",
-      "runtimeArgs": ["-c", "PATH=/opt/homebrew/bin:$PATH npm run dev"],
-      "port": 3000
+      "runtimeArgs": ["-c", "PATH=/opt/homebrew/bin:$PATH npm run dev -- -p $PORT"],
+      "port": 3000,
+      "autoPort": true
     },
     {
       "name": "Sanity Studio",

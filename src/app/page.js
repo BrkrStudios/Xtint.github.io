@@ -17,10 +17,14 @@ export default function Home() {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serviceType, setServiceType] = useState('');
+  const [selectedAutoServices, setSelectedAutoServices] = useState([]);
 
   // Film Learn More State
   const [learnMoreFilm, setLearnMoreFilm] = useState(null);
   const [activeFilmTab, setActiveFilmTab] = useState('automotive');
+
+  // FAQ Accordion State
+  const [openFaq, setOpenFaq] = useState(null);
 
   // Timeline Animation State
 
@@ -111,6 +115,12 @@ export default function Home() {
     setServiceType(value);
   };
 
+  const toggleAutoService = (value) => {
+    setSelectedAutoServices((prev) =>
+      prev.includes(value) ? prev.filter((s) => s !== value) : [...prev, value]
+    );
+  };
+
   // Modal Functions
   const openQuoteModal = () => {
     setIsModalOpen(true);
@@ -186,7 +196,7 @@ export default function Home() {
     },
     {
       rating: '5.0',
-      text: '"I made a home theater, wanted a darker experience during the day, the added privacy of my neighboors not snooping is a big jump."',
+      text: '"I made a home theater, wanted a darker experience during the day, the added privacy of my neighbors not snooping is a big jump."',
       author: '— Darrian, Residential'
     },
     {
@@ -244,6 +254,7 @@ export default function Home() {
             <li><a href="#services" onClick={smoothScroll}>Services</a></li>
             <li><a href="#gallery" onClick={smoothScroll}>Work</a></li>
             <li><a href="#about" onClick={smoothScroll}>About</a></li>
+            <li><a href="#faq" onClick={smoothScroll}>FAQ</a></li>
             <li><a href="#contact" onClick={smoothScroll}>Contact</a></li>
           </ul>
         </div>
@@ -353,7 +364,25 @@ export default function Home() {
             <span className={styles.trustSub}>Installation</span>
           </div>
         </div>
+
+        <div className={styles.trustDivider} />
+
+        <div className={styles.trustItem}>
+          <div className={styles.trustIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/><path d="M6 14h4"/>
+            </svg>
+          </div>
+          <div className={styles.trustText}>
+            <span className={styles.trustLabel}>Live Status</span>
+            <span className={styles.trustSub}>Tracking</span>
+          </div>
+        </div>
       </div>
+
+      <p className={styles.trustFootnote}>
+        *Free one-way shuttle service up to 5 miles from our Houston location. Extended to 8 miles for veterans, active military &amp; first responders. Subject to availability.
+      </p>
 
       {/* Services Section */}
       <section className={styles.services} id="services">
@@ -408,7 +437,8 @@ export default function Home() {
               glare, cutting energy costs, and adding a sleek, uniform look.
             </p>
           </div>
-          <div className={styles.serviceCard}>
+          <div className={`${styles.serviceCard} ${styles.serviceCardComingSoon}`}>
+            <span className={styles.comingSoonBadge}>Coming Soon</span>
             <div className={styles.serviceIconWrap}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -418,7 +448,8 @@ export default function Home() {
             <h3>PPF Installation</h3>
             <p>
               Paint protection film applied with precision to guard your vehicle&apos;s finish against
-              rock chips, scratches, and road debris — keeping it looking factory-fresh.
+              rock chips, scratches, and road debris. We&apos;re currently sourcing a higher-grade film
+              — back online soon.
             </p>
           </div>
           <div className={styles.serviceCard}>
@@ -464,17 +495,20 @@ export default function Home() {
               results that let the light in and keep your space looking sharp.
             </p>
           </div>
-          <div className={styles.serviceCard}>
+          <div className={`${styles.serviceCard} ${styles.serviceCardFeatured}`}>
+            <span className={styles.exclusiveBadge}>XTint Exclusive</span>
             <div className={styles.serviceIconWrap}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
               </svg>
             </div>
             <span className={styles.serviceLabel}>08</span>
-            <h3>Customer Status Tracker</h3>
+            <h3>Protection Plan</h3>
             <p>
-              Real-time updates on your vehicle&apos;s service progress — know exactly what stage your
-              car is at, from drop-off to completion, all from your phone.
+              <strong>18 months of accidental damage protection.</strong> Scratched or damaged?
+              We replace it — free. 1 replacement included. Available for Front Windows, Back
+              Windows, Windshield, or Full Vehicle. Must be purchased the same day as install.
             </p>
           </div>
         </div>
@@ -973,7 +1007,7 @@ export default function Home() {
           </button>
           <section className={styles.formcarryContainer}>
             <h3>Get Your Quote</h3>
-            <p className={styles.subtitle}>All quotes are answered same buisness day</p>
+            <p className={styles.subtitle}>All quotes are answered same business day</p>
             <form action="https://formcarry.com/s/lDJki5Kbs4H" method="POST">
               <div className={styles.formcarryBlock}>
                 <label htmlFor="fc-name">Full Name</label>
@@ -983,6 +1017,11 @@ export default function Home() {
               <div className={styles.formcarryBlock}>
                 <label htmlFor="fc-phone">Phone Number</label>
                 <input type="tel" name="phone" id="fc-phone" placeholder="(555) 123-4567" required />
+              </div>
+
+              <div className={styles.formcarryBlock}>
+                <label htmlFor="fc-email">Email</label>
+                <input type="email" name="email" id="fc-email" placeholder="you@example.com" required />
               </div>
 
               <div className={styles.formcarryBlock}>
@@ -1001,7 +1040,7 @@ export default function Home() {
 
               {/* Automotive Fields */}
               {serviceType === 'automotive' && (
-                <div id="automotive-fields">
+                <>
                   <div className={styles.formcarryBlock}>
                     <label htmlFor="fc-brand">Car Brand</label>
                     <input type="text" name="brand" id="fc-brand" placeholder="Toyota, Honda, BMW" required />
@@ -1016,12 +1055,41 @@ export default function Home() {
                     <label htmlFor="fc-model">Make/Model</label>
                     <input type="text" name="model" id="fc-model" placeholder="Camry, Civic, M3" required />
                   </div>
-                </div>
+
+                  <div className={styles.formcarryBlock}>
+                    <label>What would you like done?</label>
+                    <p className={styles.checkboxHint}>Select all that apply</p>
+                    <div className={styles.checkboxGroup}>
+                      {[
+                        { value: '2-front-windows', label: '2 Front Windows' },
+                        { value: '2-back-windows', label: '2 Back Windows' },
+                        { value: '4-doors-back-glass', label: '4 Doors + Back Glass' },
+                        { value: 'windshield', label: 'Windshield' },
+                        { value: 'sunroof', label: 'Sunroof' },
+                        { value: 'tint-removal', label: 'Tint Removal' },
+                      ].map((opt) => (
+                        <label
+                          key={opt.value}
+                          className={`${styles.checkboxItem} ${selectedAutoServices.includes(opt.value) ? styles.checkboxItemActive : ''}`}
+                        >
+                          <input
+                            type="checkbox"
+                            name="services"
+                            value={opt.value}
+                            checked={selectedAutoServices.includes(opt.value)}
+                            onChange={() => toggleAutoService(opt.value)}
+                          />
+                          <span>{opt.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </>
               )}
 
               {/* Residential Fields */}
               {serviceType === 'residential' && (
-                <div id="residential-fields">
+                <>
                   <div className={styles.formcarryBlock}>
                     <label htmlFor="fc-address">Address</label>
                     <input
@@ -1048,7 +1116,19 @@ export default function Home() {
                       <option value="other">Other</option>
                     </select>
                   </div>
-                </div>
+
+                  <div className={styles.formcarryBlock}>
+                    <label htmlFor="fc-res-shade">Film Preference</label>
+                    <select name="filmPreference" id="fc-res-shade" required>
+                      <option value="">Select a film type</option>
+                      <option value="reflective">Reflective / Dual Reflective</option>
+                      <option value="specialty">Specialty (Privacy, Decorative)</option>
+                      <option value="safety">Safety / Security Film</option>
+                      <option value="ceramic">Ceramic (Maximum Clarity)</option>
+                      <option value="not-sure">Not sure — recommend one</option>
+                    </select>
+                  </div>
+                </>
               )}
 
               <div className={styles.formcarryBlock}>
@@ -1116,6 +1196,77 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className={styles.faq} id="faq">
+        <div className={styles.faqContainer}>
+          <div className={styles.sectionHeader}>
+            <p className={styles.sectionNumber}>06 — FAQ</p>
+            <h2 className={styles.sectionTitle}>
+              Common<br />
+              Questions
+            </h2>
+          </div>
+
+          <div className={styles.faqList}>
+            {[
+              {
+                q: "What tint is legal in Texas?",
+                a: "Texas law allows window tint with at least 25% VLT on front side windows. Rear side and back windows can be any darkness. Windshields allow a 5-inch non-reflective strip at the top. We install legally and advise on anything borderline — you won't get a ticket because of us."
+              },
+              {
+                q: "How long does window tint last?",
+                a: "Our premium ceramic films (X2 Pro / GeoShield) are rated to last the lifetime of your vehicle — 10+ years without fading, bubbling, or purpling. Cheaper films can fail in 2–3 years. We only install films we stand behind."
+              },
+              {
+                q: "What does the lifetime warranty actually cover?",
+                a: "Manufacturer defects, bubbling, peeling, cracking, fading, and color change — for as long as you own the vehicle or property. Transferable to a new owner in many cases. Doesn't cover accidental damage — but that's what our Protection Plan is for."
+              },
+              {
+                q: "What's the Protection Plan?",
+                a: "XTint exclusive: 18 months of accidental damage protection for your tint. Scratched or damaged? We replace it free — 1 replacement included. Available for Front Windows, Back Windows, Windshield, or Full Vehicle. Must be purchased the same day as install. This is separate from your warranty (which covers install defects only) — the Protection Plan covers user / accidental damage after install."
+              },
+              {
+                q: "How long until I can roll my windows down?",
+                a: "You can roll your windows up and down right away — unless we specifically tell you otherwise at pickup. You'll notice some moisture or water bubbles for 3–7 days after install. That's totally normal as the film dries out and will fully clear on its own. For windshield tint, don't apply stickers to the film during that same 3–7 day window."
+              },
+              {
+                q: "Ceramic vs. carbon — what's the difference?",
+                a: "Carbon (X1) blocks UV and some heat, looks great, and is a solid value pick. Ceramic (X2 Pro) uses nano-ceramic particles to reject up to 85% of heat with near-zero signal interference and better long-term clarity. If you drive daily in Houston heat, ceramic pays for itself in comfort."
+              },
+              {
+                q: "Do you offer a free shuttle?",
+                a: "Yes — free one-way shuttle service up to 5 miles from our Houston location during business hours. Veterans, active military, and first responders: we extend that to 8 miles as a thank-you for your service. Most jobs are same-day, so you won't be without a ride for long."
+              },
+              {
+                q: "How do I track my job status?",
+                a: "We send real-time updates on your vehicle or project — from drop-off to completion — right to your phone. You'll always know exactly where things stand without needing to call."
+              }
+            ].map((item, idx) => (
+              <div key={idx} className={`${styles.faqItem} ${openFaq === idx ? styles.faqItemOpen : ''}`}>
+                <button
+                  className={styles.faqQuestion}
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  aria-expanded={openFaq === idx}
+                >
+                  <span>{item.q}</span>
+                  <span className={styles.faqToggle}>{openFaq === idx ? '−' : '+'}</span>
+                </button>
+                {openFaq === idx && (
+                  <div className={styles.faqAnswer}>
+                    <p>{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.faqCta}>
+            <p>Still have questions? We&apos;re happy to help.</p>
+            <button className={styles.btnPrimary} onClick={openQuoteModal}>Get in Touch</button>
           </div>
         </div>
       </section>
@@ -1225,7 +1376,7 @@ export default function Home() {
           <div className={styles.footerBrand}>
             <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '70px', width: 'auto', marginBottom: '20px' }} />
             <p>Premium automotive &amp; residential window tinting — Houston, TX.</p>
-            <p className={styles.footerHiring}>Interested in working for us? <a href="tel:832-776-5717">Call now!</a> Fast turnaround, competitive rates.</p>
+            <p className={styles.footerHiring}><strong>Hiring:</strong> Experienced tint installers wanted. <a href="tel:832-776-5717">Call to apply</a> — competitive pay, fast turnaround work.</p>
           </div>
           <div className={styles.footerColumn}>
             <h4>Services</h4>
@@ -1233,10 +1384,11 @@ export default function Home() {
               <li><a href="#services">Automotive Window Tint</a></li>
               <li><a href="#services">Residential Window Tint</a></li>
               <li><a href="#services">Commercial Window Tint</a></li>
-              <li><a href="#services">PPF Installation</a></li>
+              <li><a href="#services">PPF Installation <span style={{opacity: 0.5, fontSize: '11px'}}>(Soon)</span></a></li>
               <li><a href="#services">LED Interior Lighting</a></li>
               <li><a href="#services">Auto Interior Detailing</a></li>
               <li><a href="#services">Window Cleaning</a></li>
+              <li><a href="#services">Protection Plan</a></li>
             </ul>
           </div>
           <div className={styles.footerColumn}>
@@ -1262,8 +1414,8 @@ export default function Home() {
           <div className={styles.footerBottomLeft}>
             <p>© 2026 XTINTUSA LLC · Houston, Texas · All rights reserved.</p>
             <p className={styles.footerQuote}>
-              No matter your age, you&apos;ll always wish you started younger.<br />
-              <u>But today is the youngest you&apos;ll ever be.</u>
+              The sun doesn&apos;t wait. Neither should your windows.<br />
+              <u>Protect what matters — today is the best day to start.</u>
             </p>
           </div>
           <img

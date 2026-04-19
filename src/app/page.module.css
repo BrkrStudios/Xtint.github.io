@@ -2087,6 +2087,83 @@
     transform: translateY(0);
 }
 
+.checkboxHint {
+    color: var(--light-gray);
+    font-size: 12px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: 0.02em;
+}
+
+.checkboxGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.checkboxItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--gray);
+    border-radius: 6px;
+    background: var(--dark);
+    cursor: pointer;
+    transition: 125ms all;
+    font-size: 13px;
+    color: var(--white);
+    user-select: none;
+}
+
+.checkboxItem:hover {
+    border-color: var(--medium-gray);
+    background: var(--black);
+}
+
+.checkboxItem input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    margin: 0;
+    padding: 0;
+    border: 1.5px solid var(--medium-gray);
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: 125ms all;
+    flex-shrink: 0;
+}
+
+.checkboxItem input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.checkboxItem input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--black);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkboxItemActive {
+    border-color: var(--accent);
+    background: rgba(97, 165, 194, 0.08);
+}
+
+.checkboxItemActive:hover {
+    background: rgba(97, 165, 194, 0.12);
+}
 
 /* Mobile Responsive */
 @media (max-width: 1024px) {
@@ -2228,6 +2305,37 @@
     .formcarryContainer {
         padding: 40px 20px 30px;
     }
+
+    .formcarryContainer h3 {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        margin-bottom: 20px;
+    }
+
+    .formcarryBlock {
+        margin-top: 14px;
+    }
+
+    .formcarryContainer input,
+    .formcarryContainer select {
+        margin-top: 6px;
+    }
+
+    .checkboxHint {
+        margin-bottom: 8px;
+    }
+
+    .checkboxGroup {
+        gap: 6px;
+    }
+
+    .checkboxItem {
+        padding: 9px 12px;
+        font-size: 12.5px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -2242,4 +2350,187 @@
         text-align: center;
     }
 
+}
+
+/* ===== Service Card Badges ===== */
+.comingSoonBadge,
+.exclusiveBadge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 5px 10px;
+    border-radius: 2px;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    z-index: 2;
+}
+
+.comingSoonBadge {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.exclusiveBadge {
+    background: var(--accent);
+    color: var(--black);
+    box-shadow: 0 0 0 1px rgba(97,165,194,0.3), 0 4px 12px rgba(97,165,194,0.25);
+}
+
+.serviceCardComingSoon {
+    opacity: 0.75;
+}
+
+.serviceCardFeatured {
+    border: 1px solid rgba(97,165,194,0.35);
+    background: linear-gradient(180deg, var(--dark) 0%, rgba(97,165,194,0.04) 100%);
+}
+
+.serviceCardFeatured .serviceIconWrap {
+    background: rgba(97,165,194,0.1);
+}
+
+.serviceCardFeatured p,
+.serviceCardComingSoon p {
+    max-height: 200px;
+    opacity: 1;
+    margin-top: 14px;
+}
+
+/* ===== Trust Bar Footnote ===== */
+.trustFootnote {
+    background: var(--gray);
+    color: rgba(255,255,255,0.35);
+    font-size: 10px;
+    text-align: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid rgba(97,165,194,0.2);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 0;
+    font-style: italic;
+}
+
+/* ===== FAQ Section ===== */
+.faq {
+    padding: 120px 40px;
+    background: var(--dark);
+}
+
+.faqContainer {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faqList {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.faqItem {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.3s ease;
+}
+
+.faqItem:first-child {
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.faqItemOpen {
+    background: rgba(97,165,194,0.04);
+}
+
+.faqQuestion {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 24px 8px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    letter-spacing: 0.2px;
+    transition: color 0.2s ease;
+}
+
+.faqQuestion:hover {
+    color: var(--accent);
+}
+
+.faqItemOpen .faqQuestion {
+    color: var(--accent);
+}
+
+.faqToggle {
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+    line-height: 1;
+}
+
+.faqAnswer {
+    padding: 0 8px 24px;
+    animation: faqFadeIn 0.3s ease;
+}
+
+.faqAnswer p {
+    color: var(--light-gray);
+    font-size: 14px;
+    line-height: 1.8;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    max-width: 780px;
+}
+
+@keyframes faqFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.faqCta {
+    margin-top: 50px;
+    padding: 32px;
+    background: rgba(97,165,194,0.05);
+    border: 1px solid rgba(97,165,194,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.faqCta p {
+    font-size: 14px;
+    color: var(--light-gray);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .faq {
+        padding: 80px 20px;
+    }
+
+    .faqQuestion {
+        font-size: 14px;
+        padding: 18px 4px;
+    }
+
+    .faqCta {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
 }
