@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 
@@ -26,11 +26,8 @@ export default function Home() {
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
 
-  // Timeline Animation State
-
   // Touch tracking for swipe
-  const [touchStartX, setTouchStartX] = useState(0);
-  const [touchEndX, setTouchEndX] = useState(0);
+  const touchStartXRef = useRef(0);
 
   // Mobile Menu Toggle
   const toggleMobileMenu = () => {
@@ -95,19 +92,14 @@ export default function Home() {
 
   // Testimonial touch handlers
   const handleTestimonialTouchStart = (e) => {
-    setTouchStartX(e.changedTouches[0].screenX);
+    touchStartXRef.current = e.changedTouches[0].screenX;
   };
 
   const handleTestimonialTouchEnd = (e) => {
-    setTouchEndX(e.changedTouches[0].screenX);
+    const endX = e.changedTouches[0].screenX;
     const swipeThreshold = 50;
-
-    if (e.changedTouches[0].screenX < touchStartX - swipeThreshold) {
-      nextSlide();
-    }
-    if (e.changedTouches[0].screenX > touchStartX + swipeThreshold) {
-      previousSlide();
-    }
+    if (endX < touchStartXRef.current - swipeThreshold) nextSlide();
+    if (endX > touchStartXRef.current + swipeThreshold) previousSlide();
   };
 
   // Toggle quote form fields
@@ -138,16 +130,18 @@ export default function Home() {
     }
   };
 
-  // Timeline Animation on Scroll
-  // Parallax effect + nav visibility
+  // Show nav once scrolled past the hero — only flips state on change
   useEffect(() => {
+    let lastVisible = false;
     const handleScroll = () => {
-      const scrolled = window.pageYOffset;
-      // Show nav once scrolled past the hero section
-      setNavVisible(scrolled > window.innerHeight * 0.85);
+      const visible = window.pageYOffset > window.innerHeight * 0.85;
+      if (visible !== lastVisible) {
+        lastVisible = visible;
+        setNavVisible(visible);
+      }
     };
-
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -239,7 +233,7 @@ export default function Home() {
       <nav className={`${styles.nav} ${navVisible ? styles.navVisible : ''}`}>
         <div className={styles.navContainer}>
           <div className={styles.logo}>
-            <img src="/images/logo1.png" alt="XTint Logo" />
+            <Image src="/images/logo1.png" alt="XTint Logo" width={120} height={120} priority />
           </div>
           <button
             className={`${styles.mobileMenuToggle} ${isMobileMenuOpen ? styles.active : ''}`}
@@ -263,11 +257,18 @@ export default function Home() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBg}>
-          <video autoPlay muted loop playsInline className={styles.heroBgVideo}>
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className={styles.heroBgVideo}
+          >
             <source src="/images/hero-bg.mp4" type="video/mp4" />
           </video>
         </div>
-        <img src="/images/logo1.png" alt="XTint Logo" className={styles.heroLogo} />
+        <Image src="/images/logo1.png" alt="XTint Logo" width={200} height={200} priority className={styles.heroLogo} />
         <div className={styles.heroLeft}>
           <div className={styles.heroContent}>
             <div className={styles.heroBadge}>Residential & Automotive Services • Houston TX</div>
@@ -1011,17 +1012,17 @@ export default function Home() {
             <form action="https://formcarry.com/s/lDJki5Kbs4H" method="POST">
               <div className={styles.formcarryBlock}>
                 <label htmlFor="fc-name">Full Name</label>
-                <input type="text" name="name" id="fc-name" placeholder="Your full name" required />
+                <input type="text" name="name" id="fc-name" placeholder="Your full name" autoComplete="name" required />
               </div>
 
               <div className={styles.formcarryBlock}>
                 <label htmlFor="fc-phone">Phone Number</label>
-                <input type="tel" name="phone" id="fc-phone" placeholder="(555) 123-4567" required />
+                <input type="tel" name="phone" id="fc-phone" placeholder="(555) 123-4567" autoComplete="tel" required />
               </div>
 
               <div className={styles.formcarryBlock}>
                 <label htmlFor="fc-email">Email</label>
-                <input type="email" name="email" id="fc-email" placeholder="you@example.com" required />
+                <input type="email" name="email" id="fc-email" placeholder="you@example.com" autoComplete="email" inputMode="email" required />
               </div>
 
               <div className={styles.formcarryBlock}>
@@ -1048,7 +1049,7 @@ export default function Home() {
 
                   <div className={styles.formcarryBlock}>
                     <label htmlFor="fc-year">Year</label>
-                    <input type="text" name="year" id="fc-year" placeholder="2023" required />
+                    <input type="text" name="year" id="fc-year" placeholder="2023" inputMode="numeric" pattern="[0-9]*" maxLength={4} required />
                   </div>
 
                   <div className={styles.formcarryBlock}>
@@ -1097,13 +1098,14 @@ export default function Home() {
                       name="address"
                       id="fc-address"
                       placeholder="123 Main St, Houston, TX 77429"
+                      autoComplete="street-address"
                       required
                     />
                   </div>
 
                   <div className={styles.formcarryBlock}>
                     <label htmlFor="fc-windows">Number of Windows</label>
-                    <input type="number" name="windows" id="fc-windows" placeholder="10" min="1" required />
+                    <input type="number" name="windows" id="fc-windows" placeholder="10" min="1" inputMode="numeric" required />
                   </div>
 
                   <div className={styles.formcarryBlock}>
@@ -1151,7 +1153,14 @@ export default function Home() {
           </div>
           <div className={styles.aboutContent}>
             <div className={styles.aboutImageContainer}>
-              <img src="/images/IMG_3664.JPG" alt="XTint USA" className={styles.aboutImage} />
+              <Image
+                src="/images/IMG_3664.JPG"
+                alt="XTint USA"
+                width={1600}
+                height={1200}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className={styles.aboutImage}
+              />
             </div>
             <div className={styles.aboutText}>
               <div className={styles.founderBadge}>Est. Houston, TX</div>
@@ -1374,7 +1383,7 @@ export default function Home() {
       <footer className={styles.footer}>
         <div className={styles.footerContent}>
           <div className={styles.footerBrand}>
-            <img src="/images/logo1.png" alt="XTint Logo" style={{ height: '70px', width: 'auto', marginBottom: '20px' }} />
+            <Image src="/images/logo1.png" alt="XTint Logo" width={70} height={70} style={{ marginBottom: '20px' }} />
             <p>Premium automotive &amp; residential window tinting — Houston, TX.</p>
             <p className={styles.footerHiring}><strong>Hiring:</strong> Experienced tint installers wanted. <a href="tel:832-776-5717">Call to apply</a> — competitive pay, fast turnaround work.</p>
           </div>
@@ -1418,9 +1427,12 @@ export default function Home() {
               <u>Protect what matters — today is the best day to start.</u>
             </p>
           </div>
-          <img
+          <Image
             src="/images/IMG_5457.WEBP"
             alt="XTint"
+            width={1600}
+            height={2000}
+            sizes="(max-width: 768px) 100vw, 400px"
             className={styles.footerSideImg}
           />
         </div>

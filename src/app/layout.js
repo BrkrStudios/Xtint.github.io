@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ChatbaseWidget from "@/components/ChatbaseWidget";
@@ -6,11 +6,7 @@ import ChatbaseWidget from "@/components/ChatbaseWidget";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -35,12 +31,6 @@ export const metadata = {
   alternates: {
     canonical: "https://xtintusa.com",
   },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  themeColor: "#1a1a1a",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -76,6 +66,13 @@ export const metadata = {
   metadataBase: new URL("https://xtintusa.com"),
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#1a1a1a",
+};
+
 export default function RootLayout({ children }) {
   const schemaData = {
     "@context": "https://schema.org",
@@ -105,11 +102,6 @@ export default function RootLayout({ children }) {
         "@type": "City",
         "name": "Houston",
         "addressRegion": "TX"
-      },
-      {
-        "@type": "City",
-        "name": "Houston",
-        "addressRegion": "TX"
       }
     ],
     "service": [
@@ -129,7 +121,8 @@ export default function RootLayout({ children }) {
       "name": "Xander Angulo"
     },
     "sameAs": [
-      "https://xtintusa.com"
+      "https://www.instagram.com/Xtintusallc/",
+      "https://www.tiktok.com/@xtintusa"
     ]
   };
 
@@ -144,7 +137,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} antialiased`}
       >
         <ChatbaseWidget />
         {children}

@@ -81,9 +81,11 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 12px;
+    margin: -12px;
     z-index: 10001;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobileMenuToggle span {
@@ -141,6 +143,7 @@
         width: 70%;
         max-width: 300px;
         height: 100vh;
+        height: 100dvh;
         flex-direction: column;
         padding: 80px 30px 30px;
         gap: 30px;
@@ -149,6 +152,7 @@
         mix-blend-mode: normal;
         box-shadow: -4px 0 20px rgba(97, 165, 194, 0.3);
         z-index: 10000;
+        overflow-y: auto;
     }
 
     .navMenu.active {
@@ -170,6 +174,7 @@
 /* Hero Section - Full Width Background */
 .hero {
     height: 100vh;
+    height: 100dvh;
     position: relative;
     display: flex;
     align-items: center;
@@ -700,6 +705,14 @@
     width: 100%;
     min-height: 500px;
     border: none;
+}
+
+@media (max-width: 768px) {
+    .socialEmbedContainer,
+    .socialEmbedContainer iframe {
+        min-height: 420px;
+        height: 420px;
+    }
 }
 
 .socialFollowBtn {
@@ -2322,6 +2335,8 @@
     .formcarryContainer input,
     .formcarryContainer select {
         margin-top: 6px;
+        font-size: 16px;
+        height: 46px;
     }
 
     .checkboxHint {
