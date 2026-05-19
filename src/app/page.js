@@ -1335,6 +1335,7 @@ export default function Home() {
               </div>
             </div>
 
+            {/* Email contact temporarily hidden — re-enable when email is ready
             <div className={styles.contactDetail}>
               <div className={styles.contactDetailIcon}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1346,6 +1347,7 @@ export default function Home() {
                 <a href="mailto:Xander@Xtintusa.com" className={styles.contactDetailValue}>Xander@Xtintusa.com</a>
               </div>
             </div>
+            */}
 
             <div className={styles.contactHoursDivider}>
               <span>Hours</span>
