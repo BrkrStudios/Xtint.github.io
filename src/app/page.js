@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 
@@ -10,9 +10,6 @@ export default function Home() {
 
   // Mobile Menu State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // Testimonial Slider State
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,9 +22,6 @@ export default function Home() {
 
   // FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(null);
-
-  // Touch tracking for swipe
-  const touchStartXRef = useRef(0);
 
   // Mobile Menu Toggle
   const toggleMobileMenu = () => {
@@ -51,55 +45,6 @@ export default function Home() {
         closeMobileMenu();
       }
     }
-  };
-
-  // Testimonial Slider Functions
-  const changeSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % testimonialsCount);
-  };
-
-  const previousSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + testimonialsCount) % testimonialsCount);
-  };
-
-  // Auto-play testimonials
-  useEffect(() => {
-    if (window.innerWidth > 768) {
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % testimonialsCount);
-    }, 5000);
-
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        clearInterval(interval);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      clearInterval(interval);
-    };
-  }, []);
-
-  // Testimonial touch handlers
-  const handleTestimonialTouchStart = (e) => {
-    touchStartXRef.current = e.changedTouches[0].screenX;
-  };
-
-  const handleTestimonialTouchEnd = (e) => {
-    const endX = e.changedTouches[0].screenX;
-    const swipeThreshold = 50;
-    if (endX < touchStartXRef.current - swipeThreshold) nextSlide();
-    if (endX > touchStartXRef.current + swipeThreshold) previousSlide();
   };
 
   // Toggle quote form fields
@@ -181,41 +126,6 @@ export default function Home() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isModalOpen]);
-
-  const testimonials = [
-    {
-      rating: '5.0',
-      text: '"Exceptional service from start to finish. A new house is being built next to mine, the darkness is so nice."',
-      author: '— Danni, Residential'
-    },
-    {
-      rating: '5.0',
-      text: '"I made a home theater, wanted a darker experience during the day, the added privacy of my neighbors not snooping is a big jump."',
-      author: '— Darrian, Residential'
-    },
-    {
-      rating: '5.0',
-      text: '"Professional, lovely price, lovely work. 11/10."',
-      author: '— James Rodriguez, Automotive'
-    },
-    {
-      rating: '5.0',
-      text: '"My car used to be an oven in the Houston heat. After getting my windows tinted, the AC actually keeps up now. Worth every penny."',
-      author: '— Marcus T., Automotive'
-    },
-    {
-      rating: '5.0',
-      text: '"Xander showed up on time, worked efficiently, and my front windows look amazing. No more sun glare on my TV during the afternoon!"',
-      author: '— Sarah Chen, Residential'
-    },
-    {
-      rating: '5.0',
-      text: '"Clean work, attention to detail, and Xander explained everything clearly. My truck looks sharp and stays cooler. Highly recommend."',
-      author: '— Robert M., Automotive'
-    }
-  ];
-
-  const testimonialsCount = testimonials.length;
 
   return (
     <main>
@@ -581,61 +491,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className={styles.testimonials} id="testimonials">
-        <div className={styles.testimonialsContainer}>
-          <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>03 — TESTIMONIALS</p>
-            <h2 className={styles.sectionTitle}>
-              Client<br />
-              Reviews
-            </h2>
-          </div>
-          <div
-            className={styles.testimonialSlider}
-            onTouchStart={handleTestimonialTouchStart}
-            onTouchEnd={handleTestimonialTouchEnd}
-          >
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className={`${styles.testimonialSlide} ${currentSlide === index ? styles.active : ''}`}
-              >
-                <div className={styles.testimonialContent}>
-                  <div className={styles.testimonialRating}>{testimonial.rating}</div>
-                  <div>
-                    <p className={styles.testimonialText}>{testimonial.text}</p>
-                    <p className={styles.testimonialAuthor}>{testimonial.author}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={styles.testimonialArrows}>
-            <button className={styles.arrowBtn} onClick={previousSlide}>
-              ←
-            </button>
-            <button className={styles.arrowBtn} onClick={nextSlide}>
-              →
-            </button>
-          </div>
-          <div className={styles.testimonialDots}>
-            {testimonials.map((_, index) => (
-              <div
-                key={index}
-                className={`${styles.dot} ${currentSlide === index ? styles.active : ''}`}
-                onClick={() => changeSlide(index)}
-              ></div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Testimonials section removed — re-enable when reviews are ready */}
 
       {/* Films Section */}
       <section className={styles.films} id="films">
         <div className={styles.filmsContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>04 — FILMS</p>
+            <p className={styles.sectionNumber}>03 — FILMS</p>
             <h2 className={styles.sectionTitle}>
               Premium<br />
               Protection
@@ -1145,7 +1007,7 @@ export default function Home() {
       <section className={styles.about} id="about">
         <div className={styles.aboutContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>05 — ABOUT</p>
+            <p className={styles.sectionNumber}>04 — ABOUT</p>
             <h2 className={styles.sectionTitle}>
               The<br />
               Story
@@ -1213,7 +1075,7 @@ export default function Home() {
       <section className={styles.faq} id="faq">
         <div className={styles.faqContainer}>
           <div className={styles.sectionHeader}>
-            <p className={styles.sectionNumber}>06 — FAQ</p>
+            <p className={styles.sectionNumber}>05 — FAQ</p>
             <h2 className={styles.sectionTitle}>
               Common<br />
               Questions
@@ -1406,7 +1268,6 @@ export default function Home() {
             <h4>Company</h4>
             <ul>
               <li><a href="#gallery">Portfolio</a></li>
-              <li><a href="#testimonials">Reviews</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
